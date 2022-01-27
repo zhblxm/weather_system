@@ -1,0 +1,10 @@
+﻿#set($page_title="")
+ #set($layout = "/layout/layout.vm")  
+ #set($customePathlist=["/leaflet/leaflet.css","/leaflet/leaflet-search.min.css"])
+ #set($csslist=["share.css","map.css"])
+<div id="map" class="map"><img title="" src="/resources/images/center.png" class="location"/></div>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/leaflet/leaflet.js"></script> 
+<script type="text/javascript" src="/leaflet/leaflet-search.min.js"></script>
+<script type="text/javascript">var host='$!{MapImgHost}';</script>
+<script type="text/javascript" src="/script/map.js"></script>

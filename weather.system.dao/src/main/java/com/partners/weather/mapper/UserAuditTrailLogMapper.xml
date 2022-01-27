@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IUserAuditTrailLogDAO">
+	<insert id="insertAuditTratilLog" parameterType="com.partners.entity.AuditTrailLog">
+		<selectKey resultType="long" keyProperty="userAuditTrailLogId"
+			order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as userAuditTrailLogId]]>
+		</selectKey>
+		insert into UserAuditTrailLog(UserName,Description,ClientIP,UserActionId,UserActionName,RequestDetail,RequestDate) values (#{userName},#{description},#{clientIP},#{userActionId},#{userActionName},#{requestDetail},now());
+	</insert>
+	<select id="getAuditTratilLogs" parameterType="com.partners.view.entity.VAuditTrailLog" resultType="com.partners.entity.AuditTrailLog">
+		SELECT UserAuditTrailLogId,UserName,Description,ClientIP,UserActionId,UserActionName,RequestDetail,RequestDate FROM UserAuditTrailLog WHERE 1 = 1
+		<if test="name != null and name !=''">
+			AND UserName like '${name}%'
+		</if>
+		<choose>
+			<when test="orderField =='DATE'">
+				ORDER BY RequestDate ${orderType}
+			</when>
+			<otherwise>
+				ORDER BY UserName ${orderType}
+			</otherwise>
+		</choose>
+		LIMIT #{startIndex,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+	<select id="getAuditTratilLogCount" parameterType="com.partners.view.entity.VAuditTrailLog" resultType="int">
+		SELECT   IFNULL(count(0),0)  FROM UserAuditTrailLog WHERE 1 = 1
+	 <if test="name != null and name !=''">
+			AND UserName like '${name}%'
+		</if>
+	</select>
+	<select id="getAuditTratilLog" parameterType="int" resultType="com.partners.entity.AuditTrailLog">
+		SELECT UserName,Description,ClientIP,UserActionId,UserActionName,RequestDetail,RequestDate FROM UserAuditTrailLog WHERE UserAuditTrailLogId = #{userAuditTrailLogId};
+	</select>
+	<delete id="delAuditTrailLog" >
+		 DELETE FROM UserAuditTrailLog WHERE (TO_DAYS(CURDATE()) - TO_DAYS(RequestDate)) > 90;
+	</delete>
+</mapper>

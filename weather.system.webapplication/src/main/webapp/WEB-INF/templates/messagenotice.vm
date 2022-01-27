@@ -1,0 +1,27 @@
+﻿ #set($page_title="气象平台-通知管理")
+   #set($csslist=["messagenotice.css?v=2.6"])
+<form id="js-messagenoticeform">
+  <div class="min_header">
+  	<div class="title">通知设置</div>
+  </div>
+    <div class="messagenotice">
+        <ul>
+            <li>通知名称：</li>
+            <li><input type="text" name="MessageNoticeDesc" id="MessageNoticeDesc" class="textbox" maxlength="40" placeholder="请输入通知名称" value="$!{MessageNotice.messageNoticeDesc}" /><span class="star">*</span></li>
+        </ul>
+        <hr class="line" />
+        <ul>
+            <li>通知信息：</li>
+            <li style="width:600px"><input type="text" name="Message" id="Message" class="textbox580" placeholder="请输入通知信息" value="$!{MessageNotice.message}" /><span class="star">*</span></li>
+        </ul>
+        <hr class="line" />
+        <ul>
+        	<li>&nbsp;</li>
+            <li><input type="button" value="保存" id="btnSave" class="button" /></li>
+            <li><input type="button" value="返回列表" id="btnBack" class="button" /></li>
+        </ul>
+    </div>
+    <input type="hidden" name="MessageNoticeId" id="MessageNoticeId" value="$!{MessageNotice.uniqueMessageNoticeId}" />
+</form>
+#parse('default/common-js.vm')
+<script src="/script/messagenotice.js"></script>

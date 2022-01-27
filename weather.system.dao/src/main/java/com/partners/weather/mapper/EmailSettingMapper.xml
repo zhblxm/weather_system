@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IEmailSettingsDAO">
+	<select id="getEmalilandsmssetting" resultType="Emalilandsmssettings">
+		select EmalilSettingsId,SMTPServer,SMTPUserName,SMTPUserPwd,ReceiveEmail,SMSURL,SMSUserName,SMSUserPwd,SMSPhone,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser
+		 from EmalilandsmsSettings limit 1;		
+	</select>
+	<insert id="insertOrUpdateEmailSettings" parameterType="Adminuser">
+		<selectKey resultType="int" keyProperty="emalilSettingsId" order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as emalilSettingsId]]>
+		</selectKey>
+		insert into EmalilandsmsSettings(EmalilSettingsId,SMTPServer,SMTPUserName,SMTPUserPwd,ReceiveEmail,SMSURL,SMSUserName,SMSUserPwd,SMSPhone,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser) 
+		values (#{emalilSettingsId},#{smtpserver},#{smtpuserName},#{smtpuserPwd},#{receiveEmail},#{smsurl},#{smsuserName},#{smsuserPwd},#{smsphone},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser})
+		ON DUPLICATE KEY UPDATE
+		 SMTPServer=#{smtpserver},SMTPUserName=#{smtpuserName},SMTPUserPwd=#{smtpuserPwd},ReceiveEmail=#{receiveEmail},SMSURL=#{smsurl},SMSUserName=#{smsuserName},SMSUserPwd=#{smsuserPwd},SMSPhone=#{smsphone},LastUpdateDate=#{lastUpdateDate},LastUpdateUser=#{lastUpdateUser}
+	</insert>
+</mapper>

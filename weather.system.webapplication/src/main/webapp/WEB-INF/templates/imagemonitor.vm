@@ -1,0 +1,80 @@
+#set($page_title="气象平台-图像监控")
+#set($csslist=["imagemonitor.css","hwslider.css"])
+#macro(findStationImage $Id)
+	#foreach($station in $Stations)
+		#if($station.weatherStationCategoryId == $Id)
+		 	<tr class="js-station" data-wscategoryid="$!{station.weatherStationCategoryId}" data-wsid="$!{station.WeatherStationId}" data-wsnumber="$!{station.WeatherStationNumber}">
+			<td class="cate1td4dva2a2td1">$!{station.weatherStationName}</td>
+			<td class="cate1td4dva2a2td2">$!{station.weatherStationNumber}</td>
+			</tr>
+		#end 	     
+	#end
+#end
+ <div class="category4">
+ 	<div class="cate4b">
+	    <table class="cate4tab">
+	        <tbody>
+	            <tr>
+	                <td class="cate4td1">
+	                    <div class="cate4td1dv">
+	                        <div class="cate4td1d1">
+	                        	<div class="cate4td1d1ia"><a href="#" class="cate4td1d1iaio1 on"></a></div>
+								<div class="cate4td1d1ib"><a href="#" class="cate4td1d1iaio2"></a></div>
+								<div class="cate4td1d1ic"><a href="#" class="cate4td1d1iaio3"></a></div>
+	                        </div>
+	                        <div id="divImageInfo">
+	                    	
+							</div>
+						</div>
+	                </td>
+	                <td class="cate4td2">
+	                    <div class="cate1td4dv">
+	                        <div class="cate1td4dva">
+	                            <div class="cate1td4dva1"><span class="cate1td4dva1sp">站点</span></div>
+	                            <div class="cate1td4dva2" tabindex="0" style="overflow: hidden; outline: none;">
+	                                <div class="cate1td2dva2s">
+	                                    #foreach($rootCatgory in $Categories)
+	                                    <div class="cate1td4dva2a">
+	                                        <div class="cate1td2dva2a1">
+	                                            <div class="cate1td2dva2a1a on"></div>
+	                                            <div class="cate1td4dva2a1b" data-wscategoryid="$!{rootCatgory.weatherStationCategoryId}">$!{rootCatgory.weatherStationCategoryName}</div>
+	                                        </div>
+	                                        <div class="cate1td2dva2a2" style="display:block;">
+	                                        	<table class="cate1td4dva2a2tab">
+	                                        		<tbody>
+	                                        			#findStationImage(${rootCatgory.weatherStationCategoryId})
+	                                        		</tbody>
+	                                        	</table>
+	                                        </div>
+	                                    </div>
+	                                    #end
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+</div>
+<div class="photoxs">
+	
+	<div class="touming"></div>
+	
+	<div class="gundong">
+		<div class="guanbi"><img src="resources/images/category4tb15.png" alt="" class="guanbimg" /></div>
+		<div id="hwslider" class="hwslider">
+			<ul id="ulImages">
+
+			</ul>
+		</div>
+	</div>
+</div>
+#parse('default/common-js.vm')
+<script type="text/javascript">
+	var StationCategoryId = $Categories[0].weatherStationCategoryId;
+</script>
+
+<script type="text/javascript" src="/script/jquery.hwSlider.min.js?v=1.0"></script>
+<script type="text/javascript" src="/script/imagemonitor.js?v=1.0"></script> 

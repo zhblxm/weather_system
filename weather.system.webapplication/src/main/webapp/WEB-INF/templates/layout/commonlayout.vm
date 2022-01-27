@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>$!page_title</title>
+ 	#include("default/header.vm")
+ 	  <link href="/resources/css/toastr.css" rel="stylesheet" />
+ 	  <link rel="stylesheet" href="/resources/css/jquery.mloading.css" />
+ 	  <link rel="stylesheet" href="/resources/css/jquery-ui.css" />
+    <link  type="text/css" rel="stylesheet" href="/resources/css/navigation.css"/>
+	<link rel="stylesheet" href="/resources/css/category.css" />
+	<link rel="stylesheet" href="/resources/css/share.css" />
+</head>
+<body>
+${screen_content}
+<script type="text/javascript" src ="/script/jquery-1.11.1.min.js" ></script>
+<script type="text/javascript" src="/script/toastr.js"></script>
+<script type="text/javascript" src="/script/jquery.nicescroll.min.js "></script>
+<script type="text/javascript" src="/script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/script/nav_header.js"></script>
+<script type="text/javascript" src="/script/common.js"></script>
+</body>
+</html>

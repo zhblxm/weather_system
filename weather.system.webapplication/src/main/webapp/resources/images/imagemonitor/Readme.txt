@@ -1,0 +1,1 @@
+Image monitor folder, cannot be delete it!

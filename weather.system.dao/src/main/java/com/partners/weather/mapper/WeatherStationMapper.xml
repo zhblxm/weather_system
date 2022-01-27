@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IWeatherStationDAO">
+	<select id="getAllPorts" resultType="int">
+		SELECT DISTINCT GRPSPORT FROM WeatherStation;
+	</select>
+	<select id="getWeatherStationTerminals" resultType="com.partners.entity.WeatherStationTerminal">
+		SELECT WeatherStationTerminalId,TerminalModel,TeminalParameterCategoryId,WeatherStationId,AcquisitionFrequencyUnit,AcquisitionFrequency,TerminalParameters,BatteryType
+		FROM WeatherStationTerminal;
+	</select>
+	<select id="getWeatherStationTerminalByModel" parameterType="string" resultType="com.partners.entity.WeatherStationTerminal">
+		SELECT WeatherStationTerminalId,TerminalModel,TeminalParameterCategoryId,WeatherStationId,AcquisitionFrequencyUnit,AcquisitionFrequency,TerminalParameters,BatteryType
+		FROM WeatherStationTerminal WHERE TerminalModel=#{terminalModel};
+	</select>
+		<select id="getWeatherStationTerminalById" parameterType="int" resultType="com.partners.entity.WeatherStationTerminal">
+		SELECT WeatherStationTerminalId,TerminalModel,TeminalParameterCategoryId,WeatherStationId,AcquisitionFrequencyUnit,AcquisitionFrequency,TerminalParameters,BatteryType
+		FROM WeatherStationTerminal WHERE WeatherStationId=#{weatherStationId};
+	</select>
+	<select id="getTerminalsByStationId"  resultType="com.partners.entity.WeatherStationTerminal">
+		SELECT WeatherStationTerminalId,TerminalModel,TeminalParameterCategoryId,WeatherStationId,AcquisitionFrequencyUnit,AcquisitionFrequency,TerminalParameters,BatteryType
+		FROM WeatherStationTerminal WHERE WeatherStationId IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+	 		 #{item}  
+	   	   </foreach>  
+	</select>
+	<select id="getWeatherStationTerminalCount" resultType="int">
+		SELECT  IFNULL(count(0),0)  FROM WeatherStationTerminal;
+	</select>
+	<!--*****************************************Weather Station Category****************************************************** -->
+	<select id="getAllWeatherStationCategory"  resultType="Weatherstationcategory">
+		SELECT WeatherStationCategoryId,WeatherStationCategoryName,ParentCategoryId,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,Latitude,Longitude,ParentCategoryName FROM WeatherStationCategory;
+	</select>
+	<select id="getWeatherStationCategorys" parameterType="VWeatherstationcategory" resultType="Weatherstationcategory">
+		SELECT WeatherStationCategoryId,WeatherStationCategoryName,ParentCategoryId,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,Latitude,Longitude,ParentCategoryName
+		FROM WeatherStationCategory
+		WHERE 1 = 1
+		<if test="name != null and name !=''">
+			AND WeatherStationCategoryName like  '${name}%'
+		</if>
+		<if test="categories!=null and categories.size()>0">
+			AND WeatherStationCategoryId IN
+			<foreach item="item" index="index" collection="categories" open="(" separator="," close=")">  
+	 		 #{item}  
+	   	   </foreach>  
+		</if>
+		<choose>
+			<when test="orderField =='DATE'">
+				ORDER BY CreateDate ${orderType}
+			</when>
+			<otherwise>
+				ORDER BY WeatherStationCategoryName ${orderType}
+			</otherwise>
+		</choose>
+		LIMIT #{startIndex,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+	<select id="getWeatherStationCategoryCount" parameterType="VWeatherstationcategory" resultType="int">
+		SELECT IFNULL(count(0),0)  FROM WeatherStationCategory WHERE 1 = 1
+		<if test="name != null and name !=''">
+			AND WeatherStationCategoryName like  '${name}%'
+		</if>
+		<if test="categories!=null and categories.size()>0">
+			AND WeatherStationCategoryId IN
+			<foreach item="item" index="index" collection="categories" open="(" separator="," close=")">  
+	 		 #{item}  
+	   	   </foreach>  
+		</if>
+	</select>
+	<select id="getAllWeatherCatsExcludeCategory" parameterType="int" resultType="Weatherstationcategory">
+		SELECT WeatherStationCategoryId,WeatherStationCategoryName,ParentCategoryId,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,Latitude,Longitude,ParentCategoryName
+		FROM WeatherStationCategory WHERE WeatherStationCategoryId!=#{categoryId};
+	</select>
+	<select id="getWeatherStationCategory" parameterType="int" resultType="Weatherstationcategory">
+		SELECT WeatherStationCategoryId,WeatherStationCategoryName,ParentCategoryId,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,Latitude,Longitude,ParentCategoryName
+		FROM WeatherStationCategory WHERE WeatherStationCategoryId = #{categoryId}
+	</select>
+	<select id="getWeatherStationCategoryByName" parameterType="string" resultType="Weatherstationcategory">
+		SELECT WeatherStationCategoryId,WeatherStationCategoryName,ParentCategoryId,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,Latitude,Longitude,ParentCategoryName
+		FROM WeatherStationCategory where WeatherStationCategoryName = #{weatherStationCategoryName}
+	</select>
+	<delete id="delWeatherStationCategory" parameterType="int">
+		DELETE FROM WeatherStationCategory WHERE WeatherStationCategoryId = #{categoryId};
+	</delete>
+	<select id="checkCategoryExists" resultType="int">
+		SELECT count(0) FROM WeatherStationCategory where WeatherStationCategoryId!=#{0} and WeatherStationCategoryName=#{1};
+	</select>
+	<select id="checkWeatherStationExists" parameterType="int" resultType="int">
+		SELECT count(0) FROM WeatherStation where WeatherStationCategoryId=#{categoryId};
+	</select>
+	<select id="getWeatherCategoryMaxId" resultType="int">
+		SELECT IFNULL(MAX(WeatherStationCategoryId),0)+1 FROM WeatherStationCategory;
+	</select>
+	<insert id="insertWeatherStationCategory" parameterType="Weatherstationcategory">
+		insert into WeatherStationCategory(WeatherStationCategoryId,WeatherStationCategoryName,ParentCategoryId,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,Latitude,Longitude,ParentCategoryName)
+		values
+		(#{weatherStationCategoryId},#{weatherStationCategoryName},#{parentCategoryId},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser},#{latitude},#{longitude},#{parentCategoryName})
+		ON DUPLICATE KEY UPDATE
+		WeatherStationCategoryName=#{weatherStationCategoryName},ParentCategoryId=#{parentCategoryId},LastUpdateDate=#{lastUpdateDate},LastUpdateUser=#{lastUpdateUser},Latitude=#{latitude},Longitude=#{longitude},ParentCategoryName=#{parentCategoryName};
+	</insert>
+	<update id="updateStationCategoryName" parameterType="Weatherstationcategory">
+		update WeatherStationCategory set ParentCategoryName=#{weatherStationCategoryName} WHERE ParentCategoryId=#{weatherStationCategoryId} ;
+		update WeatherStation set WeatherStationCategoryName=#{weatherStationCategoryName} WHERE WeatherStationCategoryId=#{weatherStationCategoryId} ;
+	</update>
+	<!--**********************************************Weather Station**************************************************** -->
+		<select id="getAllWeatherStation" resultType="Weatherstation">
+		SELECT WeatherStationId,WeatherStationCategoryId,WeatherStationName,Longitude,Latitude,WeatherStationNumber,Altitude,ContactUserName,ContactPhone,EmergencyPhone,GRPSPort,IsAutoSynTerminal,AutoSynFrequency,AutoSynFrequencyUnit,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationCategoryName  FROM WeatherStation ;
+	</select>
+	<select id="getWeatherStationCountByPort" resultType="int">
+		SELECT IFNULL(count(0),0)  FROM WeatherStation WHERE GRPSPort=#{gRPSPort} ;
+	</select>
+	<select id="getWeatherStations" parameterType="VWeatherStation" resultType="Weatherstation">
+		SELECT WeatherStationId,WeatherStationCategoryId,WeatherStationName,Longitude,Latitude,WeatherStationNumber,Altitude,ContactUserName,ContactPhone,EmergencyPhone,GRPSPort,IsAutoSynTerminal,AutoSynFrequency,AutoSynFrequencyUnit,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationCategoryName FROM WeatherStation WHERE 1 = 1
+		<if test="name != null and name !=''">
+			AND WeatherStationName like '${name}%'
+		</if>
+		<if test="stations!=null and stations.size()>0">
+			AND WeatherStationId IN
+			<foreach item="item" index="index" collection="stations" open="(" separator="," close=")">  
+	 		 #{item}  
+	   	   </foreach>  
+		</if>
+		<choose>
+			<when test="orderField =='DATE'">
+				ORDER BY CreateDate ${orderType}
+			</when>
+			<otherwise>
+				ORDER BY  WeatherStationName ${orderType}
+			</otherwise>
+		</choose>
+		LIMIT #{startIndex,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+	<select id="getWeatherStationsByCategory" resultType="Weatherstation">
+		SELECT WeatherStationId,WeatherStationCategoryId,WeatherStationName,Longitude,Latitude,WeatherStationNumber,Altitude,ContactUserName,ContactPhone,EmergencyPhone,GRPSPort,IsAutoSynTerminal,AutoSynFrequency,AutoSynFrequencyUnit,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationCategoryName FROM WeatherStation 
+		WHERE WeatherStationCategoryId IN
+	     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+	 		 #{item}  
+	   </foreach>  
+	</select>
+	<select id="getWeatherStationCount" parameterType="VWeatherStation" resultType="int">
+		SELECT IFNULL(count(0),0)  FROM WeatherStation WHERE 1 = 1
+		<if test="name != null and name !=''">
+			AND WeatherStationName like  '${name}%'
+		</if>
+		<if test="stations!=null and stations.size()>0">
+			AND WeatherStationId IN
+			<foreach item="item" index="index" collection="stations" open="(" separator="," close=")">  
+	 		 #{item}  
+	   	   </foreach>  
+		</if>
+	</select>
+	<select id="getWeatherStation" parameterType="int" resultType="Weatherstation">
+		SELECT WeatherStationId,WeatherStationCategoryId,WeatherStationName,Longitude,Latitude,WeatherStationNumber,Altitude,ContactUserName,ContactPhone,EmergencyPhone,GRPSPort,IsAutoSynTerminal,AutoSynFrequency,AutoSynFrequencyUnit,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationCategoryName
+		FROM WeatherStation  WHERE WeatherStationId =#{weatherStationId}
+	</select>
+	<select id="getMutliWeatherStation" parameterType="java.util.List" resultType="Weatherstation">  
+		SELECT WeatherStationId,WeatherStationCategoryId,WeatherStationName,Longitude,Latitude,WeatherStationNumber,Altitude,ContactUserName,ContactPhone,EmergencyPhone,GRPSPort,IsAutoSynTerminal,AutoSynFrequency,AutoSynFrequencyUnit,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationCategoryName
+		FROM WeatherStation  WHERE WeatherStationId IN
+	 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+	  #{item}  
+	 </foreach>  
+</select>  
+	<select id="getWeatherStationByName" parameterType="string" resultType="Weatherstation">
+		SELECT WeatherStationId,WeatherStationCategoryId,WeatherStationName,Longitude,Latitude,WeatherStationNumber,Altitude,ContactUserName,ContactPhone,EmergencyPhone,GRPSPort,IsAutoSynTerminal,AutoSynFrequency,AutoSynFrequencyUnit,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationCategoryName 
+		FROM WeatherStation where WeatherStationName =#{weatherStationName}
+	</select>
+	<select id="checkWeatherStationByNameExists" resultType="int">
+		SELECT count(0) FROM WeatherStation where WeatherStationId!=#{0} and WeatherStationName=#{1};
+	</select>	
+	<delete id="delWeatherStation" parameterType="int">
+		DELETE FROM WeatherStationTerminal WHERE WeatherStationId = #{weatherStationId};
+		DELETE FROM WeatherStation WHERE WeatherStationId = #{weatherStationId};
+	</delete>
+	<delete id="delWeatherStationTerminal" parameterType="int">
+		DELETE FROM WeatherStationTerminal WHERE WeatherStationId = #{weatherStationId};
+	</delete>
+	<insert id="insertWeatherStation" parameterType="Weatherstation">
+			<selectKey resultType="int" keyProperty="weatherStationId"  order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as weatherStationId]]>
+		</selectKey>
+		insert into WeatherStation(WeatherStationCategoryId,WeatherStationName,Longitude,Latitude,WeatherStationNumber,Altitude,ContactUserName,ContactPhone,EmergencyPhone,GRPSPort,IsAutoSynTerminal,AutoSynFrequency,AutoSynFrequencyUnit,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationCategoryName) values
+		(#{weatherStationCategoryId},#{weatherStationName},#{longitude},#{latitude},#{weatherStationNumber},#{altitude},#{contactUserName},#{contactPhone},#{emergencyPhone},#{gRPSPort},#{isAutoSynTerminal},#{autoSynFrequency},#{autoSynFrequencyUnit},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser},#{weatherStationCategoryName})
+	</insert>
+	<update id="updateWeatherStation" parameterType="Weatherstationcategory">
+		update WeatherStation set  WeatherStationCategoryId=#{weatherStationCategoryId},WeatherStationName=#{weatherStationName},Longitude=#{longitude},Latitude=#{latitude},WeatherStationNumber=#{weatherStationNumber},Altitude=#{altitude},ContactUserName=#{contactUserName},ContactPhone=#{contactPhone},EmergencyPhone=#{emergencyPhone},GRPSPort=#{gRPSPort},IsAutoSynTerminal=#{isAutoSynTerminal},AutoSynFrequency=#{autoSynFrequency},AutoSynFrequencyUnit=#{autoSynFrequencyUnit},LastUpdateDate=#{lastUpdateDate},LastUpdateUser=#{lastUpdateUser},WeatherStationCategoryName=#{weatherStationCategoryName}
+ 		WHERE WeatherStationId=#{weatherStationId} ;
+	</update>
+	<insert id="insertAutoFrequencyHistory" parameterType="Autofrequencyhistory">
+			<selectKey resultType="int" keyProperty="autofrequencyid"  order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as autofrequencyid]]>
+		</selectKey>
+		insert into AutoFrequencyHistory(WeatherStationId,WeatherStaionTerminalId,AutoFrequency,AutoFrequencyUnit,CreateDate) values
+		 (#{weatherStationId},#{weatherstionTerminalId},#{autoFrequency},#{autoFrequencyUnit},#{createDate})
+	</insert>
+		<insert id="batchInsertAutoFrequencyHistory" useGeneratedKeys="true" parameterType="java.util.List">
+	    <selectKey resultType="int" keyProperty="autofrequencyid" order="AFTER">
+       			  <![CDATA[SELECT LAST_INSERT_ID() as autofrequencyid]]>
+	    </selectKey>  
+		insert into AutoFrequencyHistory(WeatherStationId,WeatherStaionTerminalId,AutoFrequency,AutoFrequencyUnit,CreateDate)  values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.weatherStationId},#{item.weatherStaionTerminalId},#{item.autoFrequency} ,#{item.autoFrequencyUnit},#{item.createDate}) 
+	    </foreach> 
+	</insert>
+	<update id="batchUpdateAutoFrequencyHistory"  parameterType="java.util.List">          
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+                UPDATE AutoFrequencyHistory  
+                 <set>
+                WeatherStaionTerminalId= ${item.weatherStationTerminalId}  
+            	</set>
+                WHERE WeatherStationId = ${item.weatherStationId}  and WeatherStaionTerminalId=${item.originalStationTerminalId}  
+         </foreach>            
+    </update>  
+	<select id="getAutoFrequencyHistories" resultType="Autofrequencyhistory">
+		SELECT AutoFrequencyId,WeatherStationId,WeatherStaionTerminalId,AutoFrequency,AutoFrequencyUnit,CreateDate  FROM AutoFrequencyHistory;
+	</select>
+	<select id="getAutoFrequencyHistory" parameterType="VStatistics" resultType="Autofrequencyhistory">
+		SELECT AutoFrequencyId,WeatherStationId,WeatherStaionTerminalId,AutoFrequency,AutoFrequencyUnit,CreateDate  FROM AutoFrequencyHistory 
+		where 1=1  AND WeatherStationId IN
+	     <foreach item="item" index="index" collection="weatherStations" open="(" separator="," close=")">  
+	 		 #{item}  
+	   </foreach>  
+		AND CreateDate BETWEEN  #{startDate} AND #{endDate}
+		ORDER BY WeatherStationId,CreateDate
+	</select>
+		<select id="getWeatherStationTerminalMaxId" resultType="int">
+		SELECT IFNULL(MAX(WeatherStationTerminalId),0)+1 FROM WeatherStationTerminal;
+	</select>
+	<insert id="batchInsertWeatherStationTerminal" useGeneratedKeys="true" keyProperty="weatherStationTerminalId" parameterType="java.util.List">
+			insert into WeatherStationTerminal (WeatherStationTerminalId,TerminalModel, TeminalParameterCategoryId,WeatherStationId,AcquisitionFrequency,AcquisitionFrequencyUnit,AcquisitionFrequencyDesc,TerminalParameters,BatteryType)
+			values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.weatherStationTerminalId,jdbcType=INTEGER} ,#{item.terminalModel,jdbcType=VARCHAR},#{item.teminalParameterCategoryId,jdbcType=INTEGER},#{item.weatherStationId,jdbcType=INTEGER} ,#{item.acquisitionFrequency,jdbcType=TINYINT},#{item.acquisitionFrequencyUnit,jdbcType=VARCHAR},#{item.acquisitionFrequencyDesc,jdbcType=VARCHAR} ,#{item.terminalParameters,jdbcType=VARCHAR},#{item.batteryType} )
+	    </foreach> 
+	    <!-- ON DUPLICATE KEY UPDATE TerminalModel=VALUES(TerminalModel),TeminalParameterCategoryId=VALUES(TeminalParameterCategoryId),
+	    WeatherStationId=VALUES(WeatherStationId),AcquisitionFrequency=VALUES(AcquisitionFrequency),
+	    AcquisitionFrequencyUnit=VALUES(AcquisitionFrequencyUnit),AcquisitionFrequencyDesc=VALUES(AcquisitionFrequencyDesc),TerminalParameters=VALUES(TerminalParameters)-->
+	</insert>
+	
+	<select id="getWeatherStationClients" resultType="WeatherstationClient">
+		SELECT wt.WeatherStationTerminalId, wt.TerminalModel, wt.TeminalParameterCategoryId, wt.WeatherStationId,
+				wt.AcquisitionFrequencyUnit, wt.AcquisitionFrequency, w.WeatherStationNumber, c.ClientId, 
+		        c.ClientIP, c.Port
+		FROM WeatherStationTerminal wt left outer join weatherstation w on wt.WeatherStationId = w.WeatherStationId
+								left outer join clientinfo c on w.WeatherStationNumber = c.WeatherStationNumber
+	</select>
+	<select id="getWSClientsByStationId" resultType="WeatherstationClient" parameterType="java.util.List">
+		SELECT wt.WeatherStationTerminalId, wt.TerminalModel, wt.TeminalParameterCategoryId, wt.WeatherStationId,
+				wt.AcquisitionFrequencyUnit, wt.AcquisitionFrequency, w.WeatherStationNumber, c.ClientId, 
+		        c.ClientIP, c.Port
+		FROM WeatherStationTerminal wt left outer join weatherstation w on wt.WeatherStationId = w.WeatherStationId
+								left outer join clientinfo c on w.WeatherStationNumber = c.WeatherStationNumber
+		WHERE wt.WeatherStationId in 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach>  
+	</select>
+</mapper>

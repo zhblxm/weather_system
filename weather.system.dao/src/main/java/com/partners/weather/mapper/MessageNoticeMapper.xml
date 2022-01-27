@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IMessageNoticeDAO">
+	<select id="getMessageNotices" parameterType="com.partners.view.entity.VMessageNotice" resultType="MessageNotice">
+		select MessageNoticeId,MessageNoticeType,MessageNoticeDesc,Message,IsChecked, CreateDate,CreateUser,LastUpdateDate,LastUpdateUser 
+		from MessageNotice
+		where 1=1
+			<if test="name != null and name !=''">
+				and MessageNoticeDesc like '${name}%'
+			</if>
+		ORDER BY IsChecked DESC,lastUpdateDate DESC LIMIT #{startIndex},#{size}
+	</select>
+	<select id="getMessageNotice" parameterType="int" resultType="MessageNotice">
+		select MessageNoticeId,MessageNoticeType,MessageNoticeDesc,Message,IsChecked, CreateDate,CreateUser,LastUpdateDate,LastUpdateUser 
+		from MessageNotice
+		where MessageNoticeId = #{messageNoticeId}
+	</select>
+	<select id="getMessageNoticeCount" parameterType="com.partners.view.entity.VMessageNotice" resultType="int">
+		SELECT IFNULL(count(0),0)  FROM MessageNotice
+		where 1=1
+			<if test="name != null and name !=''">
+				and MessageNoticeDesc like '${name}%'
+			</if>
+	</select>
+	<insert id="insertMessageNotice" parameterType="MessageNotice">
+		<selectKey resultType="int" keyProperty="messageNoticeId" order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as messageNoticeId]]>
+		</selectKey>
+		insert into MessageNotice(MessageNoticeType,MessageNoticeDesc,Message,IsChecked, CreateDate,CreateUser,LastUpdateDate,LastUpdateUser)
+		values (#{messageNoticeType},#{messageNoticeDesc},#{message},#{isChecked},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser});
+	</insert>
+	<update id="updateMessageNotice" parameterType="MessageNotice">
+		update MessageNotice set MessageNoticeType=#{messageNoticeType}, MessageNoticeDesc=#{messageNoticeDesc}, Message=#{message}, IsChecked=#{isChecked}, LastUpdateDate=#{lastUpdateDate}, LastUpdateUser=#{lastUpdateUser} 
+		where MessageNoticeId = #{messageNoticeId};
+	</update>
+	<delete id="delMessageNotice" parameterType="int">
+		DELETE FROM MessageNotice WHERE MessageNoticeId = #{messageNoticeId};
+	</delete>
+	</mapper>

@@ -1,0 +1,39 @@
+﻿ #set($page_title="气象平台-手动补数")
+ #set($csslist=["jquery.mloading.css","jquery-ui.css","jquery-ui-timepicker-addon.min.css","select2.min.css","fixedColumns.dataTables.css","statistics.css"])
+ #macro(findStatisticsStation $Id)
+	#foreach($station in $Stations)
+		 #if($station.weatherStationCategoryId == $Id)	
+		     <option value="$station.weatherStationId">$!{station.weatherStationName}</option>
+		 #end 	     
+	#end
+#end
+<div class="search">
+	<div class="left">开始时间：<input type="text" id="startdate" class="date" placeholder="选择开始时间" value="$!{StartDate}"/></div>
+	<div>结束时间：<input type="text" id="enddate" class="date"  placeholder="选择结束时间" value="$!{EndDate}"/></div>
+</div>
+<div class="search">
+	<div class="left">选择站点：
+		<select class="combox" id="station" name="station" multiple>   
+			#foreach($rootCatgory in $Categories) 
+				<optgroup label="$!{rootCatgory.weatherStationCategoryName}">  
+					#findStatisticsStation(${rootCatgory.weatherStationCategoryId})
+				</optgroup>  
+			#end
+		</select>
+	</div>
+  	<div>
+  		<input type="button" class="button" value="补数" id="btnSynData">
+  	</div>
+	<div class="tip">温馨提示：选择站点、时间后，点击补数按钮进行数据补录！</div>
+ </div>
+ <hr class="line">
+ 
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/jquery.mloading.js"></script>
+<script type="text/javascript"  src="/script/select2.full.min.js"></script>
+<script type="text/javascript"  src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="/script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/script/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/script/jquery-ui-timepicker-zh-CN.js"></script>
+<script  type="text/javascript" src="/script/dataTables.fixedColumns.js"></script>
+<script type="text/javascript" src="/script/manualsyndata.js"></script>

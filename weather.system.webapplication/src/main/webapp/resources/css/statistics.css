@@ -1,0 +1,32 @@
+.temptdrifrm{
+    visibility: hidden;
+}
+.search{
+	display:block;
+	overflow:hidden;
+	clear:both;
+
+}
+.search div{
+    float: left;
+    margin: 10px 0 10px 20px;
+}
+.search .left{
+	width: 400px;
+}
+.search  input[type="text"]{
+	width:300px;
+}
+#btnExport{
+	margin-left:50px;
+}
+.search .tip {
+    font-size: 12px;
+    color: #ea7070;
+    margin-top: 15px;
+}
+#tablecontainer  .disabled{
+    background-color: #999;
+    opacity: 0.5;
+    color: #fff;
+}

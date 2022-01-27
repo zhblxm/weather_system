@@ -1,0 +1,50 @@
+﻿ #set($page_title="气象平台-用户管理")
+   #set($csslist=["user.css"])
+<form id="js-userform">
+  <div class="min_header">
+  	<div class="title">管理员设置</div>
+  </div>
+    <div class="user">
+        <ul>
+            <li>用户名：</li>
+            <li><input type="text" name="UserName" id="UserName" class="textbox" maxlength="20" placeholder="请输入用户名" value="$!{User.userName}" /><span class="star">*</span></li>
+        </ul>
+        <hr class="line" />
+          #if(!$User.uniqueUserId)
+        <ul>
+            <li>密码：</li>
+            <li><input type="password" name="UserPassword" id="UserPassword" class="textbox" placeholder="请输入密码" maxlength="20" value="$!{User.userPassword}" /><span class="star">*</span></li>
+        </ul>
+        <hr class="line" />
+         #end
+        <ul>
+            <li>邮箱：</li>
+            <li><input type="text" name="UserEmail" id="UserEmail" class="textbox" placeholder="请输入邮箱" maxlength="20" value="$!{User.userEmail}" /></li>
+        </ul>
+        <hr class="line" />
+        <ul>
+            <li>用户组：</li>
+            <li>
+                <select class="js-category select">
+                    #foreach($userGroup in $UserGroups)
+                    <option value="$userGroup.groupUniqueId">$userGroup.groupName</option>
+                    #end
+                </select>
+            </li>
+        </ul>
+        <hr class="line" />
+        <ul>
+            <li></li>
+            <li><input type="checkbox" name="IsForceChangePwd" id="IsForceChangePwd" #if($!{user.isforcechangepwd}) checked #end />强制修改密码</li>
+        </ul>
+        <hr class="line" />
+        <ul>
+        	<li>&nbsp;</li>
+            <li><input type="button" value="保存" id="btnSave" class="button" /></li>
+            <li><input type="button" value="返回列表" id="btnBack" class="button" /></li>
+        </ul>
+    </div>
+    <input type="hidden" name="UserId" id="UserId" value="$!{User.uniqueUserId}" />
+</form>
+#parse('default/common-js.vm')
+<script src="/script/user.js"></script>

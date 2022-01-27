@@ -1,0 +1,36 @@
+.serial{
+	margin:10px 10px 10px 20px;
+}
+.serial ul{
+   overflow:hidden;
+   	margin-left:20px;
+}
+.serial ul li {
+    line-height: 40px;
+    height: 40px;
+    float: left;
+    width: 200px;
+    position: relative;
+    overflow: hidden;
+}
+.star{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.serial ul li:first-child
+{ 
+	text-align: right;
+    margin-right: 15px;
+    width:100px;
+}
+.textbox,.select{
+	width:180px;
+}
+#IsForceChangePwd{
+	margin-right:10px;
+}
+.body{
+    min-width: 100%;
+    overflow: hidden;
+}

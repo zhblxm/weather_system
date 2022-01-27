@@ -1,0 +1,150 @@
+﻿ #set($page_title="气象平台-系统设置")
+  #set($csslist=["jquery.mloading.css","systemsetup.css?v1.2"])
+<form id="js-systemform" method="post" enctype="multipart/form-data">
+    <div class="category7">
+        <div class="header">
+            <div class="switch">
+                <a href="#" class="cate7a1a on"></a>
+                <a href="#three" class="cate7a1c"></a>
+                <a href="#four" class="cate7a1d"></a>
+                <a href="#five" class="cate7a1e"></a>
+                <a href="#six" class="cate7a1f"></a>
+                <a class="btn btn-default btn-sm saveall" href="#"><i class="fa fa-cogs fa-lg"></i> 一键保存设置</a>
+            </div>
+        </div>
+        <div class="cate7b">
+            <div class="cate7b1">
+                <div class="cate7b1a">
+                    <img src="/resources/images/category7tb2.png" alt="" class="cate7b1ai">
+                    <span class="cate7b1ap">页面设置</span>
+                </div>
+                <div class="cate7b1b">
+                    <div class="cate7b1ba">
+                        <div class="cate7b1bas">
+                            <div class="cate7b1ba1">上传登录背景图片：</div>
+                            <div class="cate7b1ba2">
+                                <div class="cate7b1ba2a"><input type="file" name="backgroundfile" id="backgroundfile" class="upfile" >选择背景</div>
+                                <div class="cate7b1ba2b"><input class="button" type="button" value="上传背景" id="btnUploadBackground"></div>
+                            </div>
+                            <div class="cate7b1ba2">
+                            	<div class="tip">温馨提示：请选择png格式图片，推荐大小1920*1080</div>
+                            </div>
+                        </div>
+                        <div class="cate7b1bat">
+                            <div class="cate7b1bat1">效果预览：</div>
+                            <div class="cate7b1bat2" id="bgpreview">
+                                <img id="bgimg" border="0" src="/resources/images/$!{backgroundimg}" width="415" height="233" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cate7b1bb">
+                        <div class="cate7b1bbs">
+                            <div class="cate7b1bb1">上传logo图片：</div>
+                            <div class="cate7b1bb2">
+                                <div class="cate7b1bb2a"><input type="file" name="logofile" id="logofile" class="upfile">选择Logo</div>
+                                <div class="cate7b1bb2b"><input class="button" type="button" value="上传Logo" id="btnUploadLogo" /></div>
+                            </div>
+                            <div class="cate7b1bb2">
+                            	<div class="tip">温馨提示：请选择png格式图片，推荐大小230*70</div>
+                            </div>
+                        </div>
+                        <div class="cate7b1bbt">
+                            <div class="cate7b1bbt1">效果预览：</div>
+                            <div class="cate7b1bbt2">
+                                <div id="logopreview">
+                                    <img id="logoimg" border="0" src="/resources/images/$!{logo}" width="209" height="58" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cate7b2">
+                <div class="cate7b2a">
+                    <img src="/resources/images/category7tb6.png" alt="" class="cate7b2ai">
+                    <span class="cate7b2ap">自动补数设置</span>
+                </div>
+                <div class="cate7b2b">
+                    <div class="cate7b2ba"></div>
+                    <div class="cate7b2back switchdate" data-rtype="d">
+                            <div class="cate7b2back1 #if("$!{autorefreshdatetype}" == "d" ) active #end"></div>
+                            <div class="cate7b2back2">分钟</div>
+                        </div>
+                        <div class="cate7b2baco switchdate" data-rtype="h">
+                            <div class="cate7b2back1 #if("$!{autorefreshdatetype}" == "h") active #end"></div>
+                            <div class="cate7b2back2">小时</div>
+                    </div>
+					<div class="cate7b2batm">
+						<div class="cate7b2batm1">每日执行时间：</div>
+						<div class="cate7b2batm2">
+							<select name="executedate" id="executedate" data-value="$!{executedate}"></select>
+						</div>
+					</div>
+                    <div class="syndate autonumber  #if("$!{autorefreshnumber}" == "Y" ) checked #end">
+                        <div class="check-default ">
+                            <input type="checkbox" name="autonumber"  #if("$!{autorefreshnumber}" == "Y" ) checked #end />
+                            <label class="check_lable"><i class="fa fa-check fa-1 #if("$!{autorefreshnumber}" != "Y" ) hidden #end"></i></label>
+                        </div>
+                        <div class="content">启动同步设置</div>
+                    </div>
+                </div>
+            </div>
+            <div id="three"></div>
+            <div class="cate7b3">
+                <div class="cate7b3a">
+                    <img src="/resources/images/category7tb8.png" alt="" class="cate7b3ai">
+                    <span class="cate7b3ap">时间同步设置</span>
+                </div>
+                <div class="cate7b3b">
+                    <div class="cate7b3b1"><span class="cate7b3b1sp1">当前时间：</span><span class="cate7b3b1sp2">$!{now}</span></div>
+                    <div class="syndate autodate #if("$!{autorefreshdate}"== "Y") checked #end">
+                        <div class="check-default ">
+                            <input type="checkbox" name="autodate" #if("$!{autorefreshnumber}"== "Y") checked #end />
+                            <label class="check_lable"><i class="fa fa-check fa-1 #if("$!{autorefreshdate}"!= "Y" ) hidden #end"></i></label>
+                        </div>
+                        <div class="content">立即同步</div>
+                    </div>
+                </div>
+            </div>
+            <div id="four"></div>
+			<div class="cate7b4">
+			    <div class="cate7b4a">
+			        <img src="/resources/images/category7tb10.png" alt="" class="cate7b4ai">
+			        <span class="cate7b4ap">系统名称</span>
+			    </div>
+			    <div class="cate7b4b">
+			        <div class="cate7b4bb">
+			            <div class="cate7b4bbtm">
+			                <div class="cate7b4bbtm1">名称：<input type="text" name="systemname" id="systemname" placeholder="请输入系统名称" value="$!{loginMainTitle}" maxlength="40"/></div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			<div id="five"></div>
+			<div class="cate7b4">
+			    <div class="cate7b4a">
+			        <img src="/resources/images/category4tb8.png" alt="" class="cate7b1ai">
+			        <span class="cate7b4ap">图片同步设置</span>
+			    </div>
+			    <div class="cate7b4b">
+			        <div class="cate7b4bb">
+			            <div class="cate7b4bbtm">
+			                <div class="cate7b4bbtm1">路径：<input type="text" name="imagepath" id="imagepath" placeholder="请输入图片路径" value="$!{imageMonitorPath}" maxlength="200"/></div>
+			                <div class="cate7b4bbtm1"><input class="button" type="button" value="同步图片" id="btnSyncImage" /></div>
+			                <div class="tip">路径格式如：c:\pic\</div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			<div id="six"></div>
+        </div>
+    </div>
+    <input type="hidden" value="$!{autorefreshdatetype}" id="autorefreshdatetype" name="autorefreshdatetype"/>
+</form>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/jquery.mloading.js"></script>
+<script  type="text/javascript" src="/script/jquery.scrollTo.min.js"></script>
+<script  type="text/javascript" src="/script/jquery.uploadPreview.js"></script>
+<script  type="text/javascript" src="/script/jquery.form.js"></script>
+<script  type="text/javascript" src="/script/ajaxfileupload.js"></script>
+<script  type="text/javascript" src="/script/systemsetup.js?v=1.0"></script>

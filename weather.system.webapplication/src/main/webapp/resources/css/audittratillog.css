@@ -1,0 +1,12 @@
+html,body {
+    min-width: auto;
+    width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.detail{    
+	word-break: break-all;
+    width: 96%;
+    overflow: auto;
+    margin: 10px;
+}

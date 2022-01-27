@@ -1,0 +1,126 @@
+﻿ #set($page_title="气象平台-邮件模板设置")
+ <table class="SearchBar" style="width: 35%;" cellpadding="5" cellspacing="5">
+            <tbody><tr>
+                <td colspan="2">
+                    <table style="width: 100%;">
+                        <tbody><tr>
+                            <td style="width: 40%;">
+                                <hr style="width: 100%; margin-top: 10px; margin-bottom: 10px; border-top-color: #ccc;
+                                    border-top-width: 1px; border-top-style: dashed;">
+                            </td>
+                            <td style="width: 20%; text-align: center;font-weight:bold;">
+                                General
+                            </td>
+                            <td style="width: 40%;">
+                                <hr style="width: 100%; margin-top: 10px; margin-bottom: 10px; border-top-color: #ccc;
+                                    border-top-width: 1px; border-top-style: dashed;">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td class="TextBoxStyle2" style="font-weight: bold;">
+                    Time Zone
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td class="TextBoxStyle2">
+                    <div class="select-box" style="width:183px"><div class="select-wrap" style="width:183px;height:20px;line-height:20px"><select name="SystemTimeZone" id="SystemTimeZone" class="commonSelect" style="margin: 0px 0px 0px -3px; height: 20px;">
+                        <option value="Alaskan Standard Time">Alaskan Standard Time</option>
+                        <option value="Atlantic Standard Time">Atlantic Standard Time</option>
+                        <option value="Central Standard Time">Central Standard Time</option>
+                        <option value="Eastern Standard Time">Eastern Standard Time</option>
+                        <option value="Hawaiian Standard Time">Hawaiian Standard Time</option>
+                        <option value="Mountain Standard Time">Mountain Standard Time</option>
+                        <option value="Pacific Standard Time">Pacific Standard Time</option>
+                    </select></div></div>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table style="width: 100%;">
+                        <tbody><tr>
+                            <td style="width: 40%;">
+                                <hr style="width: 100%; margin-top: 10px; margin-bottom: 10px; border-top-color: #ccc;
+                                    border-top-width: 1px; border-top-style: dashed;">
+                            </td>
+                            <td style="width: 20%; text-align: center;font-weight:bold;">
+                                SMTP Server
+                            </td>
+                            <td style="width: 40%;">
+                                <hr style="width: 100%; margin-top: 10px; margin-bottom: 10px; border-top-color: #ccc;
+                                    border-top-width: 1px; border-top-style: dashed;">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="font-weight: bold">
+                        SMTP Server</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="txtSMTPServer" name="txtSMTPServer" onkeypress="return IsServerOrNumber(event);" type="text" value="smtp.163.com" class="CommonControllStyle">
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="font-weight: bold">
+                        SMTP User Name</span>
+                </td>
+                <td>
+                    <span style="font-weight: bold">
+                        SMTP Password</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="txtSMTPUser" name="txtSMTPUser" type="text" value="yccptest1@163.com" class="CommonControllStyle">
+                </td>
+                <td>
+                    <input id="txtSMTPPassword" name="txtSMTPPassword" type="password" value="code123!" class="CommonControllStyle" style="background: rgb(255, 255, 255);">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr style="width: 100%; margin-top: 10px; margin-bottom: 10px; border-top-color: #ccc;
+                        border-top-width: 1px; border-top-style: dashed;">
+                </td>
+            </tr>
+        </tbody></table>
+  <textarea id="txtSummary" maxlength="500" style="height: 60px; resize: both" cols="80" name="txtSummary" ></textarea>
+<script src="/resources/ckeditor/ckeditor.js"></script>
+<script>
+ 
+    CKEDITOR.replace( 'txtSummary', {	
+    toolbar: [
+                           ['NewPage','-','Templates'],
+                           ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
+                           ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+                           '/',
+                           ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+                           ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+                           ['Image','Table','HorizontalRule','Smiley','SpecialChar'],
+                           '/',
+                           ['Styles','Format','Font','FontSize'],
+                           ['TextColor','BGColor']
+				]
+});
+    
+</script>

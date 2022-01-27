@@ -1,0 +1,32 @@
+﻿ #set($layout = "/layout/layout.vm")  
+  #set($csslist=["share.css","jquery.mloading.css","toastr.css","user.css"])
+
+<form id="js-userform" class="none">
+    <div class="user">
+        <ul>
+            <li>密码：</li>
+            <li><input type="password" name="UserPassword" id="UserPassword" class="textbox" placeholder="请输入密码" maxlength="20"  /><span class="star">*</span></li>
+        </ul>
+        <hr class="line" />
+              <ul>
+            <li>确认密码：</li>
+            <li><input type="password" name="ConfirmPassword" id="ConfirmPassword" class="textbox" placeholder="请输入确认密码" maxlength="20"  /><span class="star">*</span></li>
+        </ul>
+        <hr class="line" />
+        <ul>
+            <li><input type="button" value="保存" id="btnSavePwd" class="button" /></li>
+            <li><input type="button" value="关闭" id="btnClose" class="button" /></li>
+        </ul>
+    </div>
+    <input type="hidden" name="UserId" id="UserId" value="$!{uid}" />
+</form>
+#parse('default/common-js.vm')
+<script type="text/javascript">
+(function($) {
+	 window.onload=function()
+	 {
+	    $("body").addClass("body"),$("#js-userform").removeClass("none");
+	 }
+})(jQuery);
+</script>
+<script  type="text/javascript" src="/script/login.js"></script>

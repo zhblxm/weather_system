@@ -1,0 +1,88 @@
+.settings{
+	width: 35%;
+	margin:5px 0 0 20px;
+}
+.settings table{
+	width: 100%;
+}
+.settings td{
+	padding:10px 10px 0 0;
+}
+.settings td span{
+	font-weight: bold
+}
+.settings  input[type="text"],.settings  input[type="password"] {
+    width: 320px;
+}
+.settings  input[type="password"] {
+     height: 32px;
+    border: 1px solid #a7a7a7;
+    line-height: 32px;
+    border-radius: 5px;
+    padding: 5px;
+}
+.settings table .col{
+	width: 40%; 
+}
+.settings table .col_center{
+	width: 20%; text-align: center;font-weight:bold;
+}
+.settings table hr{
+	width: 100%; margin-top: 10px; margin-bottom: 10px; border-top-color: #ccc;border-top-width: 1px; border-top-style: dashed;
+}
+.cate7b2back2 {
+    width: 50px;
+}
+.switchdate .active{background-image:url(../images/category2tb2.png);}
+
+.switchonoff .active{background-image:url(../images/category2tb2.png);}
+
+.filepush_container{
+	position: relative;
+    overflow: hidden;
+
+}
+.prompt{
+    font-size: 14px;
+	color: #656565;
+}
+.filepush_container  .uploadfile{
+    position: absolute;
+    top: 0; 
+    opacity: 0; 
+    filter: Alpha(Opacity=0);
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+    left: 0;
+}
+.path {
+    width: 280px;
+    height: 34px;
+    border: 1px solid #a7a7a7;
+    background-color: #fff;
+    float: left;
+}
+.file{
+    width: 120px;
+    display: block;    
+    height: 34px;
+    background-color: #007ee5;
+    color: #fff;
+    line-height: 34px;
+    text-align: center;
+    font-size: 13px;
+    padding: 0 30px;
+    cursor: pointer;
+    border: 0;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    float:left;
+    margin-right: 10px;
+    padding-left: 5px;
+}
+.filepush_container a,.filepush_container a:hover,.filepush_container a:active,.filepush_container a:visited{
+	 color: #fff;
+	text-decoration: none;
+}

@@ -1,0 +1,15 @@
+﻿ #set($page_title="气象平台-站点分类管理")
+ #set($csslist=["jquery_dialog.css"])
+   <table id="logs" class="display" cellspacing="0" width="100%">
+        <thead>
+   			<th>操作者名称</th>
+   			<th>执行动作</th>
+   			<th>客户端IP</th>
+   			<th>访问日期</th>
+		 	<th></th>
+   			</tr>
+        </thead>
+  </table>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/jquery_dialog.js"></script>
+<script type="text/javascript" src="/script/audittrail.js?v=1.1"></script>

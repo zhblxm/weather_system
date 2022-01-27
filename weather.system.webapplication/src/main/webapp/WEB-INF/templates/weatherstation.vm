@@ -1,0 +1,166 @@
+﻿#set($page_title="气象平台-站点分类管理")
+#set($map={})
+#set($csslist=["jquery_dialog.css","jquery.edittable.min.css","jquery-ui.css","select2.min.css","weatherstation.css"])
+#macro(findChild $rootId)
+	#foreach($childCategory in $Categories)
+		 #if($childCategory.uniqueParentId == $rootId)	
+		 	#set($childSeparator="$!{childSeparator}==")	  	
+			<option value="$!{childCategory.uniqueCategoryId}" #if($!{Station.uniqueCategoryId}==$!{childCategory.uniqueCategoryId}) selected #end>$!{childSeparator}$!{childCategory.weatherStationCategoryName}</option>	
+			#findChild($!{childCategory.uniqueCategoryId})	
+	     #end 	     
+	#end
+#end
+ <form id="js-weatherStationCagegoryform"  enctype="multipart/form-data">
+  <div class="min_header">
+  	<div class="title">站点管理</div>
+  </div>
+<div class="station_panel"><p class="tip">提示：点击位置图标可以打开地图并选择经纬度</p></div>
+<table>
+<tr>
+<td>
+	<div class="station_panel">
+		<div class="title justify">所属分类<span></span></div>
+		<div class="content"><select class="js-category">
+			 <option value=""></option>	
+			#foreach($rootCatgory in $Categories)
+				 #if( "$!{rootCatgory.uniqueParentId}" == "" )
+				    <option value="$!{rootCatgory.uniqueCategoryId}" #if($!{Station.uniqueCategoryId}==$!{rootCatgory.uniqueCategoryId}) selected #end>$!{rootCatgory.weatherStationCategoryName}</option>		
+				 #else					 
+					 #if(!$map.get("$rootCatgory.uniqueParentId"))
+					 	$!{map.put("$rootCatgory.uniqueParentId","$rootCatgory.uniqueParentId")}	
+						#findChild(${rootCatgory.uniqueParentId})
+					 #end 
+			     #end      
+			#end		  
+		</select><span class="star">*</span>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">站点编号<span></span></div>
+		<div class="content">
+		<input type="text" name="weatherStationNumber" id="weatherStationNumber" maxlength="20" placeholder="请输入站点编号" value="$!{Station.weatherStationNumber}" data-require="1"/><span class="star">*</span>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">站点名称<span></span></div>
+		<div class="content">
+		<input type="text" name="weatherStationName" id="weatherStationName" maxlength="20" placeholder="请输入站点名称"  value="$!{Station.weatherStationName}" data-require="1"/><span class="star">*</span>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">经度<span></span></div>
+		<div class="content">
+		<input type="text" name="Longitude" id="Longitude"  maxlength="20" placeholder="请选择经度" title="点击右侧图标选择经纬度" readonly="readonly"  value="$!{Station.longitude}" data-require="1"/><span class="star">*</span><img title="" src="/resources/images/location.png"/>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">纬度<span></span></div>
+		<div class="content">
+		<input type="text" name="Latitude" id="Latitude" maxlength="20" placeholder="请选择纬度"  title="点击右侧图标选择经纬度"  readonly="readonly" value="$!{Station.latitude}" data-require="1"/><span class="star">*</span><img title="" src="/resources/images/location.png"/>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">海拔<span></span></div>
+		<div class="content">
+		<input type="text" name="altitude" id="altitude" maxlength="10"  IsIntegerOnly="1"  title="仅允许输入数字，最多10位"  placeholder="请输入海拔"  value="$!{Station.altitude}"/>
+		</div>
+	</div>
+	<div class="station_panel">
+	<div class="title justify">站点封面<span></span></div>
+		<div class="content terminal_container">
+		     <input class="path none" readonly="readonly"/>
+		    <a href="javascript:void(0);" class="file">选择文件<input name="fileCover" id="fileCover" type="file" class="uploadfile" /></a>
+		    <input type="button" class="button" value="图片预览" id="preview"/>
+		</div>
+	</div>
+</td>
+<td>
+	<div class="station_panel">
+		<div class="title justify">GRPS端口<span></span></div>
+		<div class="content">
+		<input type="text" name="gRPSPort" id="gRPSPort" maxlength="5" IsIntegerOnly="1" title="仅允许输入数字，最多5位"    placeholder="请输入GRPS端口"  value="$!{Station.gRPSPort}" data-require="1"/><span class="star">*</span>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">启用自动同步<span></span></div>
+		<div class="content">
+			 <input type="checkbox" name="isAutoSynTerminal" id="isAutoSynTerminal" maxlength="20" value="$!{Station.isAutoSynTerminal}" #if($!{Station.isAutoSynTerminal}==1) checked #end/>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">同步频率<span></span></div>
+		<div class="content">
+		<input type="text" name="autoSynFrequency" id="autoSynFrequency" maxlength="2" value="$!{Station.autoSynFrequency}"  IsIntegerOnly="1"  title="仅允许输入数字，最多2位"    />
+		<select class="js-AutoSynFrequencyUnit">
+		 <option value="d" #if($!{Station.autoSynFrequencyUnit}=='d') selected #end>每天</option>	
+		 <option value="h" #if($!{Station.autoSynFrequencyUnit}=='h') selected #end>小时</option>	
+		 <option value="m" #if($!{Station.autoSynFrequencyUnit}=='m') selected #end>分钟</option>	
+		</select>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">联系人姓名<span></span></div>
+		<div class="content">
+		<input type="text" name="contactUserName" id="contactUserName" maxlength="20" placeholder="请输入联系人姓名"  value="$!{Station.contactUserName}" data-require="1"/><span class="star">*</span>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">联系人电话<span></span></div>
+		<div class="content">
+		<input type="text" name="contactPhone" id="contactPhone" maxlength="11" IsIntegerOnly="1" title="仅允许输入数字，最多11位"    placeholder="请输入联系人电话" value="$!{Station.contactPhone}" data-require="1"/><span class="star">*</span>
+		</div>
+	</div>
+	<div class="station_panel">
+		<div class="title justify">紧急联系电话<span></span></div>
+		<div class="content">
+		<input type="text" name="emergencyPhone" id="emergencyPhone" maxlength="11" title="仅允许输入数字，最多11位"     value="$!{Station.emergencyPhone}"  IsIntegerOnly="1" />
+		</div>
+	</div>
+		<div class="station_panel"><div class="content tip ">
+		封面图片仅支持jpg，png，jpeg格式，大小500kb以内。
+		</div>
+	</div>
+</td>
+</tr>
+</table>
+<hr class="line">
+<div class="station_panel">
+	<div class="content">
+	 	<div id="weatherstationtable"></div>
+	</div>
+</div>
+<div class="station_panel">
+	<div class="content">
+	<input type="button" class="button" value="保存" id="btnSave" />&nbsp;&nbsp;<input type="button" class="button"  value="返回列表" id="btnBack" />
+	</div>
+</div>
+ <input type="hidden" name="weatherStationId" id="weatherStationId" value="$!{Station.uniqueWeatherStationId}"/><br/>
+</form>
+<div class="imgpopup popup_fade" data-cover="$!{Cover}"></div>
+<div class="modal-content hidden">
+	<div class="modal-header">站点封面预览<i class="fa fa-window-close-o fa-2 js_close_view"></i></div>
+	<div class="modal-body">
+		<div id="stationcover" >
+			<img id="js-cover" border="0" src="/resources/cover/$!{Cover}.png" width="209" height="58" />
+		</div>
+	</div>
+</div>
+#parse('default/common-js.vm')
+<script  type="text/javascript" src="/script/ajaxfileupload.js"></script>
+<script  type="text/javascript" src="/script/jquery.uploadPreview.js"></script>
+<script type="text/javascript" src="/script/select2.full.min.js"></script>
+<script type="text/javascript" src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="/script/jquery_dialog.js"></script>
+<script type="text/javascript" src="/script/jquery.edittable.js"></script>
+<script type="text/javascript" src="/script/jquery-ui.min.js"></script>
+<script  type="text/javascript"> 
+var jsondata=[],parameter=[];
+#foreach($item in $Station.weatherStationTerminals)
+		jsondata.push(['$!{item.terminalModel}','$!{item.uniqueTPCId}','$!{item.batteryType}',$!{item.acquisitionFrequency},'$!{item.acquisitionFrequencyUnit}','$!{item.uniqueWSTId}']);
+		parameter.push({
+						rownumber:($velocityCount - 1),
+						rowvalue:	'$!{item.terminalParameters}'
+		 });
+#end		 
+</script>
+<script type="text/javascript"  src="/script/weatherstation.js?v=1.0"></script>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IScheduleHistoryDAO">
+	<insert id="insertHistory" parameterType="Schedulehistory">
+		    <selectKey resultType="int" keyProperty="scheduleHistoryId" order="AFTER">  	        
+	          <![CDATA[SELECT LAST_INSERT_ID() as scheduleHistoryId]]>
+	    </selectKey>  
+			insert into ScheduleHistory(TaskId,TaskType,TaskDesc,TaskStartDate,TaskEndDate,TaskResult,TaskMessage,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser) 			
+			values (#{taskId},#{taskType},#{taskDesc},#{taskStartDate},#{taskEndDate},#{taskResult},#{taskMessage},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser}) 
+	</insert>
+	<select id="getSchedules" parameterType="com.partners.view.entity.VSchedule" resultType="Schedulehistory">
+		select TaskType,TaskDesc,TaskStartDate,TaskEndDate,TaskResult,TaskMessage,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser from ScheduleHistory
+		ORDER BY TaskStartDate DESC LIMIT #{startIndex},#{size}
+	</select>
+	<select id="getScheduleCount" resultType="int">
+		SELECT IFNULL(count(0),0)  FROM ScheduleHistory;
+	</select>
+</mapper>
+ 

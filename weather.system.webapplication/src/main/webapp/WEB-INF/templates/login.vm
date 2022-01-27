@@ -1,0 +1,43 @@
+﻿ #set($layout = "/layout/layout.vm")  
+ #set($page_title="气象信息服务平台-用户登录")
+ #set($csslist=["jquery_dialog.css","login.css","jquery.mloading.css","toastr.css"])
+<div class="loginbt">$!{LoginMainTitle}</div>
+	<div class="loginconts">
+		<div class="logincont">
+			<div class="logct1">
+				<p class="logct1pa">用户登录</p>
+				<p class="logct1pb">UserLogin</p>
+			</div>
+			<div class="logct2">
+			 <form action="/login" method="post" id="loginForm">
+				<div class="logct2txt">
+					<div class="logct2timgs"><img src="/resources/images/loginame.png" alt="" class="logct2timg" /></div>
+					<div class="logct2tipt"><input type="text" name="UserName" id="UserName" maxlength="20"  class="logct2tput" value="$!{UserName}"  placeholder="请输入用户名"/></div>
+				</div>
+				<div class="logct2txt">
+					<div class="logct2timgs"><img src="/resources/images/loginPassword.png" alt="" class="logct2timg" /></div>
+					<div class="logct2tipt"><input type="password" name="UserPwd" id="UserPwd" maxlength="50" class="logct2tpas" placeholder="请输入密码"/></div>
+				</div>
+				     <input type="hidden" name="RemberMe" id="RemberMe" />
+				</form>
+			</div>
+			<div class="logct3">
+				<div class="logct3a">
+					<div class="logct3j $!{Rember}"></div>
+					<p class="logct3jzw">记住我</p>
+				</div>
+				<a href="#" class="logct3b js-login">登&nbsp;&nbsp;&nbsp;录</a>
+			</div>
+			<div class="logct4">欢迎登录气象系统综合服务平台</div>
+		</div>
+	</div>
+	<div class="loginbg">
+		<img src="/resources/images/$!{name}" alt="" class="loginimg" />
+	</div>
+
+<script type="text/javascript" src="/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/script/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="/script/jquery.mloading.js"></script>
+<script type="text/javascript" src="/script/toastr.js"></script>
+<script type="text/javascript" src="/script/jquery_dialog.js"></script>
+<script type="text/javascript" src="/script/login.js"></script>

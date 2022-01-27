@@ -1,0 +1,42 @@
+#map{
+	width:100%;
+	min-height:768px;
+}
+.markerpopup {
+    left:30%;
+    margin-left:212px;
+    position: absolute;
+}
+.cate1td2dva2a2td1{
+	width:40%
+}
+cate1td2dva2a2td2{
+	width:35%
+}
+cate1td2dva2a2td3{
+	width:15%
+}
+cate1td2dva2a2td4{
+	width:10%
+}
+.cate1td2dva2a2 table td{
+	overflow:hidden;
+}
+.leaflet-left {
+    position: relative;
+}
+.js-station{
+	cursor:pointer;
+}
+.cate1td1dvb2ad img{
+	max-width:395px;
+	max-height:213px;
+}
+.analysis{
+    margin: 0 auto;
+    text-align: center;
+    padding:10px;
+}
+.analysis a{
+	padding:15px;
+}

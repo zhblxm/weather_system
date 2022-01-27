@@ -1,0 +1,99 @@
+﻿ #set($page_title="气象平台-文件推送设置")
+  #set($csslist=["jquery.mloading.css","toastr.css","filepush.css"])
+  <form id="js-ftpform">
+  <div class="min_header">
+  	<div class="title">文件推送设置</div>
+  </div>
+ <table class="settings" cellpadding="5" cellspacing="5">
+    <tr>
+        <td><span>FTP地址</span></td>
+        <td><span>FTP端口</span></td>
+    </tr>
+    <tr>
+        <td>
+            <input id="FtpUrl" name="FtpUrl" type="text" value="$!{ftpurl}" placeholder="请输入FTP地址" require="1"/>
+        </td>
+        <td><input id="FtpPort" name="FtpPort" type="text" value="$!{ftpport}" placeholder="请输入FTP端口"  require="1"/></td>
+    </tr>
+    <tr>
+        <td><span>用户名</span></td>
+        <td><span>密码</span></td>
+    </tr>
+    <tr>
+        <td>
+            <input id="FtpUser" name="FtpUser" type="text" value="$!{ftpuser}" placeholder="请输入FTP用户名"  require="1"/>
+        </td>
+        <td>
+            <input id="FtpPwd" name="FtpPwd" type="password" value="$!{ftppwd}" placeholder="请输入FTP密码"  require="1"/>
+        </td>
+    </tr>
+    <tr>
+        <td><span>FTP类型</span></td>
+        <td><span>文件推送</span></td>
+    </tr>
+    <tr>
+        <td>
+            <div class="cate7b2back switchdate" data-ftptype="ftp">
+            	<div class="cate7b2back1 #if("$!{ftptype}" == "ftp" ) active #end"></div>
+                <div class="cate7b2back2">FTP</div>
+            </div>
+            <div class="cate7b2baco switchdate" data-ftptype="ftps">
+            	<div class="cate7b2back1 #if("$!{ftptype}" == "ftps") active #end"></div>
+                <div class="cate7b2back2">FTPS</div>
+            </div>
+        </td>
+        <td>
+            <div class="cate7b2back switchonoff" data-ftponoff="on">
+            	<div class="cate7b2back1 #if("$!{ftponoff}" == "on") active #end"></div>
+                <div class="cate7b2back2">开</div>
+            </div>
+            <div class="cate7b2baco switchonoff" data-ftponoff="off">
+            	<div class="cate7b2back1 #if("$!{ftponoff}" == "off") active #end"></div>
+                <div class="cate7b2back2">关</div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+        	<span>上传模板</span>
+        </td>
+        
+    </tr>
+    <tr>
+        <td colspan="2">
+    		<div class="filepush_container">
+    			<input  class="path" readonly="readonly"/>
+    			<a href="javascript:void(0);" class="file" >
+    				选择文件
+    				<input name="fileTemplet" id="fileTemplet" type="file" class="uploadfile"/>
+    			</a>
+    			<input type="button" class="button" value="开始上传" id="btnUpload"/>
+    		</div>
+    		<div class="filepush_container prompt">
+    			<span class="star">*</span>选择文件后，点击上传文件，文件为文本格式。
+    		</div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <hr class="line" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" id="btnSave" class="button" value="保存" />
+            <a href="/resources/download/ftptempletdown.txt" download="模板样例"><input type="button" id="btnDownLoad" class="button" value="下载默认模板" /></a>
+        </td>
+    </tr>
+</table>
+<input type="hidden" id="sid" value="$!{setting.uniqueId}"/>
+<input type="hidden" value="$!{ftptype}" id="ftptype" name="ftptype"/>
+<input type="hidden" value="$!{ftponoff}" id="ftponoff" name="ftponoff"/>
+  </form>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/jquery.mloading.js"></script>
+<script  type="text/javascript" src="/script/jquery.scrollTo.min.js"></script>
+<script  type="text/javascript" src="/script/jquery.uploadPreview.js"></script>
+<script  type="text/javascript" src="/script/jquery.form.js"></script>
+<script  type="text/javascript" src="/script/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/script/filepush.js"></script>

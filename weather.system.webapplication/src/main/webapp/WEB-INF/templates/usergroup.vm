@@ -1,0 +1,73 @@
+﻿ #set($page_title="气象平台-用户组管理")
+  #set($csslist=["select2.min.css","usergroup.css"])
+ #set($map={})
+ <form id="js-groupform">
+ 	  <div class="groupname">
+      用户组名称：<input type="text" name="GroupName" id="GroupName" maxlength="20" class="textbox" value="$!{UserGroup.groupName}"/><span class="star">*</span>
+     </div>
+	<hr class="line">
+<div class="permission">
+#macro(findChildPermission $rootId)
+	#foreach($per in $ChildPermissions)
+		 #if($per.parentId == $rootId)
+			<li><input type="checkbox" name="permissions" value="$per.permissionId" #if($UserGroupPermissions.contains($per.permissionId)) checked #end/>$per.permissionName$per.permissionDesc</li>
+	     #end 	     
+	#end
+#end
+<ul>
+#foreach($permission in $ParentPermissions)
+		 <li><input type="checkbox" name="permissions" value="$permission.permissionId" #if($UserGroupPermissions.contains($permission.permissionId)) checked #end/>$permission.permissionName</li>
+#end  
+</ul>
+	<hr class="line">
+#foreach($permission in $ChildPermissions)
+	 #if($permission.parentId == 0)	
+	 <ul>
+		  	<li class="title"><input type="checkbox" name="permissions" class="none" value="$permission.permissionId" #if($UserGroupPermissions.contains($permission.permissionId)) checked #end/>$permission.permissionName</li>
+	 #else	
+		 #if(!$map.get("$permission.parentId"))
+		 	$!{map.put("$permission.parentId","$permission.parentId")}
+			#findChildPermission($permission.parentId)
+			</ul>
+			<hr class="line">
+		 #end 
+     #end  
+#end
+<input type="hidden" name="GroupId" id="GroupId" value="$!{UserGroup.groupUniqueId}"/>
+</div>
+<div class="stationcategory">
+ <ul>
+	  	<li class="title">设置站点可访问权限</li>
+	  	<li><select id="stationgroup" multiple="multiple">
+	  				<option value="all">全部</option>
+	  				#foreach($rootCatgory in $Categories) 
+			      	 <option value="$!{rootCatgory.uniqueCategoryId}">$!{rootCatgory.weatherStationCategoryName}</option>
+					#end
+	  	</select>
+	  	<select id="station" multiple="multiple">
+	  	</select></li>
+</ul>
+</div>
+<hr class="line">
+<div class="permission">
+ <ul>
+ <li><input type="button" value="保存" id="btnSave"  class="button"/></li>
+ <li><input type="button" value="全选" id="btnCheckAll"  class="button"/></li>
+ <li><input type="button" value="全不选" id="btnUnCheckAll"  class="button"/></li>
+<li><input type="button" value="返回列表" id="btnBack"  class="button"/></li>
+</ul>
+</div>
+</form>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/select2.full.min.js"></script>
+<script type="text/javascript" src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript">
+var usercategories=[],userstations=[];
+#foreach($item in $UserCategories)
+usercategories.push("$item");
+#end	
+#foreach($item in $UserStations)
+userstations.push("$item");
+#end	
+</script>
+<script type="text/javascript" src="/script/usergroup.js"></script>

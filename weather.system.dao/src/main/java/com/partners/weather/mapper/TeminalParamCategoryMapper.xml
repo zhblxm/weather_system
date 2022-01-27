@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.ITeminalParamCategoryDAO">
+	<select id="getAllCategories" resultType="Terminalparameterscategory">
+		SELECT TerminalParamCategoryId,TerminalParamCategoryName,MappingName,IsSystem,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser FROM TerminalParametersCategory;
+	</select>	
+	<select id="getTerminalparamCategorys" parameterType="com.partners.view.entity.VTerminalParam" resultType="Terminalparameterscategory">
+		SELECT TerminalParamCategoryId,TerminalParamCategoryName,MappingName,IsSystem,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser FROM TerminalParametersCategory
+		WHERE 1 = 1
+		<if test="name != null and name !=''">
+			AND TerminalParamCategoryName like  '${name}%'
+		</if>
+		<choose>
+			<when test="orderField =='DATE'">
+				ORDER BY CreateDate ${orderType}
+			</when>
+			<otherwise>
+				ORDER BY TerminalParamCategoryName ${orderType}
+			</otherwise>
+		</choose>
+		LIMIT #{startIndex,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+		<select id="getTerminalparamCategoryCount" parameterType="com.partners.view.entity.VTerminalParam" resultType="int">
+		SELECT   IFNULL(count(0),0)  FROM TerminalParametersCategory WHERE 1 = 1
+	 <if test="name != null and name !=''">
+			AND TerminalParamCategoryName like  '${name}%'
+		</if>
+	</select>
+	<select id="getTerminalparamCategory" parameterType="int" resultType="Terminalparameterscategory">
+		SELECT TerminalParamCategoryId,TerminalParamCategoryName,MappingName,IsSystem,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser FROM TerminalParametersCategory WHERE TerminalParamCategoryId = #{categoryId}
+	</select>
+	<select id="getTerminalparamCategoryByName" parameterType="string" resultType="Terminalparameterscategory">
+		SELECT TerminalParamCategoryId,TerminalParamCategoryName,MappingName,IsSystem,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser FROM TerminalParametersCategory where TerminalParamCategoryName = #{terminalParamCategoryName}
+	</select>
+	<delete id="delTerminalparamCategory" parameterType="int">
+		DELETE FROM TerminalParametersCategory WHERE TerminalParamCategoryId = #{categoryId};
+		DELETE FROM TerminalParameters  WHERE TerminalParamCategoryId = #{categoryId};
+	</delete>
+	<delete id="delTerminalparamSettings" parameterType="int">
+		DELETE FROM TerminalParameters  WHERE TerminalParamCategoryId = #{categoryId};
+	</delete>
+	<select id="checkCategoryExists" resultType="int">
+		SELECT count(0) FROM TerminalParametersCategory where TerminalParamCategoryId!=#{0} and TerminalParamCategoryName=#{1};
+	</select>	
+	<select id="getTerminalParamSettings" parameterType="int" resultType="com.partners.entity.TerminalParamSettings">
+		SELECT TerminalParamId,TerminalParamCategoryId,TerminalParamName,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser FROM TerminalParameters WHERE TerminalParamCategoryId = #{categoryId}
+	</select>
+		<select id="getAllTerminalParamSettings" resultType="com.partners.entity.TerminalParamSettings">
+		SELECT TerminalParamId,TerminalParamCategoryId,TerminalParamName,ExtendInfo,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser FROM TerminalParameters;
+	</select>
+	<insert id="batchInsertTerminalParamSettings" useGeneratedKeys="true" keyProperty="terminalParamId" parameterType="java.util.List" >  
+	   <!--
+	    <selectKey resultType="int" keyProperty="terminalParamId" order="AFTER">  	        
+	          <![CDATA[SELECT LAST_INSERT_ID() as terminalParamId]]>
+	    </selectKey>  
+	      -->
+	    INSERT INTO TerminalParameters (TerminalParamCategoryId,TerminalParamName,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser)   
+	    values  
+	    <foreach collection="list" item="item" index="index" separator="," >  	    
+	        (#{item.terminalParamCategoryId,jdbcType=VARCHAR},#{item.terminalParamName,jdbcType=VARCHAR},now(),#{item.createUser,jdbcType=LONGVARCHAR},now(),#{item.lastUpdateUser,jdbcType=LONGVARCHAR})  
+	    </foreach>  
+	</insert>  	
+	<insert id="insertTerminalParamCategory" useGeneratedKeys="true" parameterType="Terminalparameterscategory" >
+		<selectKey resultType="int" keyProperty="terminalParamCategoryId" order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as terminalParamCategoryId]]>
+		</selectKey>
+			insert into TerminalParametersCategory(TerminalParamCategoryName,MappingName,IsSystem,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser) values (#{terminalParamCategoryName},#{mappingName},#{isSystem},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser});
+	</insert>
+	<update id="updateTerminalParamCategory" parameterType="Terminalparameterscategory">
+			update TerminalParametersCategory
+			set TerminalParamCategoryName=#{terminalParamCategoryName},LastUpdateDate=#{lastUpdateDate}
+			,MappingName=#{mappingName},IsSystem=#{isSystem}
+			,LastUpdateUser=#{lastUpdateUser}
+			where TerminalParamCategoryId = #{terminalParamCategoryId};
+	</update>
+</mapper>

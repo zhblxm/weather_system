@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>$!page_title</title>
+ 	#include("default/header.vm")
+ 	<link href="/resources/css/font-awesome.min.css" rel="stylesheet" />
+ 	<!--[if IE 7]><link rel="stylesheet" href="/resources/css/font-awesome-ie7.min.css"><![endif]-->
+ 	<!--[if lte IE 8]><script type="text/javascript" src="/script/selectivizr-min.js"></script><![endif]-->
+ 	 	  <link rel="stylesheet" href="/resources/css/jquery.mloading.css" />
+ 	<link href="/resources/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/resources/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="/resources/css/buttons.dataTables.min.css" rel="stylesheet" />
+      <link href="/resources/css/toastr.css" rel="stylesheet" />
+     <link href="/resources/css/jquery.alerts.css" rel="stylesheet" />
+     <link  type="text/css" rel="stylesheet" href="/resources/css/share.css"/>
+     	#foreach($cus_css in $customePathlist)
+	<link  type="text/css" rel="stylesheet" href="$cus_css"/>
+	#end
+	<link rel="stylesheet" href="/resources/css/category.css" />
+	#foreach($css in $csslist)
+	<link  type="text/css" rel="stylesheet" href="/resources/css/$css"/>
+	#end
+</head>
+<body>
+	 <div class="temptdlsan"></div> 
+	<div class="template">
+		<table class="temptab">
+			<tr>
+				<td class="temptdr">
+					<div class="temptdrs">
+						<div class="temptdrifrm">
+							${screen_content}
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

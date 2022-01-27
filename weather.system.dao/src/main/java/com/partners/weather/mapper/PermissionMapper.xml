@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IPermissionDAO">
+	<select id="getPermissions" resultType="Permission">
+		select PermissionId, PermissionName, PermissionDesc,IsOnlySystemPremission,ParentId,URL,OrderId,Enabled,IsNavigation,ICON from Permission where Enabled=1;
+	</select>	
+	<select id="getUserNavPermissions" resultType="Permission">
+		select PermissionId, PermissionName, PermissionDesc,IsOnlySystemPremission,ParentId,URL,OrderId,Enabled,IsNavigation,ICON from Permission where Enabled=1
+		AND IsNavigation=1 AND PermissionId IN
+	     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+	 		 #{item}  
+	   </foreach>  
+	</select>	
+	<select id="getUserGroups" parameterType="com.partners.view.entity.VUserGroup" resultType="Usergroup">
+		SELECT   GroupId,GroupName,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,StationGroup,Station FROM UserGroup
+		WHERE GroupId>1 and 1 = 1
+		<if test="name != null and name !=''">
+		    AND GroupName like  '${name}%'
+		</if>
+          <choose>
+                <when test="orderField =='DATE'">
+                       ORDER BY CreateDate ${orderType}
+                </when>
+                <otherwise>
+                       ORDER BY GroupName ${orderType}
+                 </otherwise>
+         </choose>
+          LIMIT #{startIndex,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+	<select id="getUserGroupCount" parameterType="com.partners.view.entity.VUserGroup" resultType="int">
+		SELECT   IFNULL(count(0),0)  FROM UserGroup
+		WHERE GroupId>1 AND 1 = 1
+		<if test="name != null and name !=''">
+		    AND GroupName like  '${name}%'
+		</if>
+	</select>
+	<select id="getALLGroups"  resultType="Usergroup">
+		SELECT  GroupId,GroupName,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser FROM UserGroup WHERE GroupId>1 ;
+	</select>
+	<select id="getUserGroup" parameterType="int" resultType="Usergroup">
+		SELECT   GroupId,GroupName,CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,StationGroup,Station FROM UserGroup WHERE GroupId = #{groupId}
+	</select>
+	<select id="getUserGroupJoinAdminUserCount" parameterType="int" resultType="int">
+		SELECT  IFNULL(count(0),0) FROM UserGroup INNER JOIN AdminUser on AdminUser.GroupId=UserGroup.GroupId where UserGroup.GroupId= #{groupId}
+	</select>
+	<delete id="delUserGroup" parameterType="int">
+		DELETE FROM UserGroup WHERE GroupId=#{groupId};
+		DELETE FROM GroupPermission WHERE GroupId=#{groupId};
+	</delete>
+	<delete id="delUserGroupPermission" parameterType="int">
+		DELETE FROM GroupPermission WHERE GroupId=#{groupId};
+	</delete>
+	<select id="getMaxId" resultType="Integer">
+		SELECT  IFNULL(MAX(GroupId),0)+1 as MAXId FROM UserGroup; 
+	</select>	
+	<select id="getGroupPermissions" parameterType="int" resultType="int">
+		SELECT  PermissionId FROM GroupPermission where GroupId=#{groupId}; 
+	</select>	
+	<select id="checkGroupExists"  resultType="int">
+		SELECT  count(0) FROM UserGroup where GroupId!=#{0} and GroupName=#{1}; 
+	</select>	
+	<insert id="insertUserGroup" parameterType="Usergroup">
+	   	insert into UserGroup(GroupId,GroupName, CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,StationGroup,Station) values (#{groupId},#{groupName},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser},#{stationGroup},#{station})	ON DUPLICATE KEY UPDATE GroupName=#{groupName},LastUpdateDate=#{lastUpdateDate},LastUpdateUser=#{lastUpdateUser},StationGroup=#{stationGroup},Station=#{station};
+	</insert>
+	<insert id="batchInsertUserPermission" useGeneratedKeys="true" parameterType="java.util.List">
+	    <selectKey resultType="int" keyProperty="GroupPermissionId" order="AFTER">  
+       		SELECT LAST_INSERT_ID()  
+	    </selectKey>  
+			replace into GroupPermission (GroupId, PermissionId)
+			values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.groupId,jdbcType=INTEGER},#{item.permissionId,jdbcType=INTEGER})  
+	    </foreach> 
+	</insert>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.ISystemOptionDAO">
+	<select id="getSystemOptions" resultType="SystemOption">
+		select OPTIONID,OPTIONVALUE,ISSYSTE,VERSION FROM SystemOption;
+	</select>
+	<select id="getSystemOption" parameterType="String" resultType="SystemOption">
+			select OPTIONID,OPTIONVALUE,ISSYSTE,VERSION FROM SystemOption WHERE OPTIONID=#{optionId};
+	</select>
+	<insert id="insertSystemOption" parameterType="SystemOption">
+			insert into SystemOption(OPTIONID,OPTIONVALUE,ISSYSTE) values (#{optionId},#{optionValue},#{isSystem}) on duplicate key update OPTIONVALUE=#{optionValue};
+	</insert>
+	<delete id="delSystemOption" parameterType="String">
+		DELETE FROM SystemOption WHERE OPTIONID=#{optionId};
+	</delete>
+</mapper>
+ 

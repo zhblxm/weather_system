@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="Adminuser" type="com.partners.entity.Adminuser" />
+		<typeAlias alias="Usergroup" type="com.partners.entity.Usergroup" />
+		<typeAlias alias="Permission" type="com.partners.entity.Permission" />
+		<typeAlias alias="Grouppermission" type="com.partners.entity.Grouppermission" />
+		<typeAlias alias="Terminalparameterscategory" type="com.partners.entity.Terminalparameterscategory" />
+		<typeAlias alias="Terminalparameters" type="com.partners.entity.Terminalparameters" />
+		<typeAlias alias="Terminalhistory" type="com.partners.entity.Terminalhistory" />
+		<typeAlias alias="Weatherstationcategory" type="com.partners.entity.Weatherstationcategory" />
+		<typeAlias alias="VWeatherstationcategory" type="com.partners.view.entity.VWeatherstationcategory" />
+		<typeAlias alias="Weatherstation" type="com.partners.entity.Weatherstation" />
+		<typeAlias alias="VWeatherStation" type="com.partners.view.entity.VWeatherStation" />
+		<typeAlias alias="SystemOption" type="com.partners.entity.SystemOption" />
+		<typeAlias alias="Autofrequencyhistory" type="com.partners.entity.Autofrequencyhistory" />
+		<typeAlias alias="AutoFrequencyTerminal" type="com.partners.entity.AutoFrequencyTerminal" />
+		<typeAlias alias="VStatistics" type="com.partners.view.entity.VStatistics" />
+		<typeAlias alias="ClientInfo" type="com.partners.entity.ClientInfo" />
+		<typeAlias alias="Emalilandsmssettings" type="com.partners.entity.Emalilandsmssettings" />
+		<typeAlias alias="Schedulehistory" type="com.partners.entity.Schedulehistory" />
+		<typeAlias alias="Notification" type="com.partners.entity.Notification" />
+		<typeAlias alias="VTerminalhistory" type="com.partners.view.entity.VTerminalhistory" />
+		<typeAlias alias="WeatherstationClient" type="com.partners.entity.WeatherstationClient" />
+		<typeAlias alias="AuditTrailLog" type="com.partners.entity.AuditTrailLog" />
+		<typeAlias alias="MessageNotice" type="com.partners.entity.MessageNotice" />
+		<typeAlias alias="VMessageNotice" type="com.partners.view.entity.VMessageNotice" />
+		<typeAlias alias="FilePushFlag" type="com.partners.entity.FilePushFlag" />
+	</typeAliases>
+</configuration>

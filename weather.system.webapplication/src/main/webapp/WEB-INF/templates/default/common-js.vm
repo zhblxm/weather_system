@@ -1,0 +1,10 @@
+﻿<script type="text/javascript" src ="/script/jquery-1.11.1.min.js" ></script>
+<script type="text/javascript" src="/script/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="/script/jquery.dataTables.min.js "></script>
+<script type="text/javascript" src="/script/dataTables.bootstrap.js "></script>
+<script type="text/javascript" src="/script/dataTables.buttons.min.js "></script>
+<script type="text/javascript" src="/script/jquery.nicescroll.min.js "></script>
+<script type="text/javascript" src="/script/jquery.alerts.js "></script>
+<script type="text/javascript" src="/script/toastr.js"></script>
+<script type="text/javascript" src="/script/jquery.mloading.js"></script>
+<script type="text/javascript" src="/script/common.js"></script>

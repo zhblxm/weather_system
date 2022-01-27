@@ -1,0 +1,195 @@
+﻿ #set($page_title="气象平台-数据统计")
+ #set($csslist=["jquery.mloading.css","jquery-ui.css","jquery-ui-timepicker-addon.min.css","select2.min.css","fixedColumns.dataTables.css","statistics.css"])
+ #macro(findStatisticsStation $Id)
+	#foreach($station in $Stations)
+		 #if($station.weatherStationCategoryId == $Id)	
+		     <option value="$station.weatherStationId">$!{station.weatherStationName}</option>
+		 #end 	     
+	#end
+#end
+<div class="search">
+	<div class="left">开始时间：<input type="text" id="startdate" class="date" placeholder="选择开始时间" value="$!{StartDate}"/></div>
+	<div>结束时间：<input type="text" id="enddate" class="date"  placeholder="选择结束时间" value="$!{EndDate}"/></div>
+</div>
+<div class="search">
+	<div class="left">选择站点：
+		<select class="combox" id="station" name="station" multiple>   
+			#foreach($rootCatgory in $Categories) 
+				<optgroup label="$!{rootCatgory.weatherStationCategoryName}">  
+					#findStatisticsStation(${rootCatgory.weatherStationCategoryId})
+				</optgroup>  
+			#end
+		</select>
+	</div>
+	<div>
+		<input type="button" class="button" value="查询" id="btnSearch">
+		<input type="button" class="export" value="导出" id="btnExport">
+	</div>
+	<div class="tip">温馨提示：选择站点后，点击查询按钮进行数据搜索！</div>
+</div>
+<hr class="line">
+<div id="tablecontainer" class="none">
+	<table id="searchTable" class="display" cellspacing="0" width="100%" >
+		<thead><tr><td></td></tr></thead>
+	</table>
+</div>
+<div class="cate2td2dv" style="position:absolute;z-index: 9999;margin: 0 auto;top:10px;right:0px;padding: 0;">
+	<div class="temptdlsanright"></div>
+	<div class="cate2td2dva">
+		<div class="cate2td2dvau">
+			<span class="cate2td2dvausp">要素日统计</span>
+		</div>
+		<div class="cate2td2dvad">
+			<div class="cate2td2dvads">
+				<div class="cate2td2dvadsq">
+					<div class="cate2td2dvadsq1" data-reportId="DayRainfall">雨</div>
+					<div class="cate2td2dvadsq1" data-reportId="DayWindspeed">风</div>
+					<div class="cate2td2dvadsq1" data-reportId="DayTemperature">温度</div>
+					<div class="cate2td2dvadsq1" data-reportId="DayHumidity">湿度</div>
+					<div class="cate2td2dvadsq1 on" data-reportId="DayPressure">气压</div>
+				</div>
+				<div class="cate2td2dvadsh">
+					<div class="cate2td2dvadsha" id="DayRainfall">
+						<div class="cate2td2dvadsha1">
+							<div class="cate2td2dvadsha1p">累计雨量</div>
+							<div class="cate2td2dvadsha1t"><input type="text" name="" id="txtDayRainfallAll" class="cate2td2dvadsha1txt1" /></div>
+						</div>
+					</div>
+					<div class="cate2td2dvadsha" id="DayWindspeed">
+						<div class="cate2td2dvadsha1">
+							<div class="cate2td2dvadsha1p">最高风速</div>
+							<div class="cate2td2dvadsha1t"><input type="text" name="" id="txtDayMaxWindspeed" class="cate2td2dvadsha1txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha2">
+							<div class="cate2td2dvadsha2p">最高风速出现时间</div>
+							<div class="cate2td2dvadsha2t"><input type="text" name="" id="txtDayMaxWindspeedTime" class="cate2td2dvadsha2txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha3">
+							<div class="cate2td2dvadsha3p">最低风速</div>
+							<div class="cate2td2dvadsha3t"><input type="text" name="" id="txtDayMinWindspeed" class="cate2td2dvadsha3txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha4">
+							<div class="cate2td2dvadsha4p">最低风速出现时间</div>
+							<div class="cate2td2dvadsha4t"><input type="text" name="" id="txtDayMinWindspeedTime" class="cate2td2dvadsha4txt1" /></div>
+						</div>
+					</div>
+					<div class="cate2td2dvadsha" id="DayTemperature">
+						<div class="cate2td2dvadsha1">
+							<div class="cate2td2dvadsha1p">最高温度</div>
+							<div class="cate2td2dvadsha1t"><input type="text" name="" id="txtDayMaxTemperature" class="cate2td2dvadsha1txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha2">
+							<div class="cate2td2dvadsha2p">最高温度出现时间</div>
+							<div class="cate2td2dvadsha2t"><input type="text" name="" id="txtDayMaxTemperatureTime" class="cate2td2dvadsha2txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha3">
+							<div class="cate2td2dvadsha3p">最低温度</div>
+							<div class="cate2td2dvadsha3t"><input type="text" name="" id="txtDayMinTemperature" class="cate2td2dvadsha3txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha4">
+							<div class="cate2td2dvadsha4p">最低温度出现时间</div>
+							<div class="cate2td2dvadsha4t"><input type="text" name="" id="txtDayMinTemperatureTime" class="cate2td2dvadsha4txt1" /></div>
+						</div>
+					</div>
+					<div class="cate2td2dvadsha" id="DayHumidity">
+						<div class="cate2td2dvadsha1">
+							<div class="cate2td2dvadsha1p">最高湿度</div>
+							<div class="cate2td2dvadsha1t"><input type="text" name="" id="txtDayMaxHumidity" class="cate2td2dvadsha1txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha2">
+							<div class="cate2td2dvadsha2p">最高湿度出现时间</div>
+							<div class="cate2td2dvadsha2t"><input type="text" name="" id="txtDayMaxHumidityTime" class="cate2td2dvadsha2txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha3">
+							<div class="cate2td2dvadsha3p">最低湿度</div>
+							<div class="cate2td2dvadsha3t"><input type="text" name="" id="txtDayMinHumidity" class="cate2td2dvadsha3txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha4">
+							<div class="cate2td2dvadsha4p">最低湿度出现时间</div>
+							<div class="cate2td2dvadsha4t"><input type="text" name="" id="txtDayMinHumidityTime" class="cate2td2dvadsha4txt1" /></div>
+						</div>
+					</div>
+					<div class="cate2td2dvadsha" style="display:block;" id="DayPressure">
+						<div class="cate2td2dvadsha1">
+							<div class="cate2td2dvadsha1p">最高气压</div>
+							<div class="cate2td2dvadsha1t"><input type="text" name="" id="txtDayMaxPressure" class="cate2td2dvadsha1txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha2">
+							<div class="cate2td2dvadsha2p">最高气压出现时间</div>
+							<div class="cate2td2dvadsha2t"><input type="text" name="" id="txtDayMaxPressureTime" class="cate2td2dvadsha2txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha3">
+							<div class="cate2td2dvadsha3p">最低气压</div>
+							<div class="cate2td2dvadsha3t"><input type="text" name="" id="txtDayMinPressure" class="cate2td2dvadsha3txt1" /></div>
+						</div>
+						<div class="cate2td2dvadsha4">
+							<div class="cate2td2dvadsha4p">最低气压出现时间</div>
+							<div class="cate2td2dvadsha4t"><input type="text" name="" id="txtDayMinPressureTime" class="cate2td2dvadsha4txt1" /></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="cate2td2dvb">
+		<div class="cate2td2dvbu"><span class="cate2td2dvbusp">统计</span></div>
+		<div class="cate2td2dvbd">
+			<div class="cate2td2dvbd1">
+				请选择开始也结束时间
+				<input type="button" class="button" value="查询" id="btnSearchReport" style="float:right">
+			</div>
+			<div class="cate2td2dvbd2">
+				<div style="float:left;"><input type="text" id="startdateReport" class="date" style="width:154px" placeholder="选择开始时间" value="$!{StartDateReport}"/></div>
+				<div class="cate2td2dvbd2b">至</div>
+				<div style="float:left;"><input type="text" id="enddateReport" class="date" style="width:154px" placeholder="选择结束时间" value="$!{EndDateReport}"/></div>
+			</div>
+			<div class="cate2td2dvbd3">
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">累计雨量</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtRainfallAll" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最大风速</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMaxWindspeed" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最小风速</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMinWindspeed" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最高温度</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMaxTemperature" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最低温度</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMinTemperature" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最大湿度</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMaxHumidity" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最小湿度</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMinHumidity" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最高气压</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMaxPressure" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+				<div class="cate2td2dvbd3a">
+					<div class="cate2td2dvbd3a1">最低气压</div>
+					<div class="cate2td2dvbd3a2"><input type="text" name="" id="txtMinPressure" class="cate2td2dvbd3a2txt" /></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/jquery.mloading.js"></script>
+<script type="text/javascript"  src="/script/select2.full.min.js"></script>
+<script type="text/javascript"  src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="/script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/script/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/script/jquery-ui-timepicker-zh-CN.js"></script>
+<script  type="text/javascript" src="/script/dataTables.fixedColumns.js"></script>
+<script type="text/javascript" src="/script/weathersearch.js?v=1.0"></script>

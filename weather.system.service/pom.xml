@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>weather.system</groupId>
+        <artifactId>weather.system</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>weather.system.service</groupId>
+    <artifactId>weather.system.service</artifactId>
+    <packaging>jar</packaging>
+    <name>weather.system.service</name>
+    <version>${revision}</version>
+    <dependencies>
+        <dependency>
+            <groupId>weather.system</groupId>
+            <artifactId>weather.system.utils</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>weather.system</groupId>
+            <artifactId>weather.system.dao</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>weather.system</groupId>
+            <artifactId>weather.system.entity</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
+
+
+    <!--	<build>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.0</version>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>-->
+</project>

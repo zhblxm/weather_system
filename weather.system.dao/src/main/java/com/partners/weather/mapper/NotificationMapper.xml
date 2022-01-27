@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.INotificationDAO">
+	<select id="getNotifications" parameterType="com.partners.view.entity.VNotification" resultType="Notification">
+		select NotificationId,NotificationType,NotificationDesc,Message,IsChecked, CreateDate,CreateUser,LastUpdateDate,LastUpdateUser from Notification
+		ORDER BY IsChecked DESC,lastUpdateDate DESC LIMIT #{startIndex},#{size}
+	</select>
+	<select id="getNotificationCount" resultType="int">
+		SELECT IFNULL(count(0),0)  FROM Notification;
+	</select>
+	<insert id="inserNotification" parameterType="Notification">
+		<selectKey resultType="int" keyProperty="notificationId" order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as notificationId]]>
+		</selectKey>
+		insert into Notification(NotificationType,NotificationDesc,Message,IsChecked, CreateDate,CreateUser,LastUpdateDate,LastUpdateUser)
+		values (#{notificationType},#{notificationDesc},#{message},#{isChecked},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser});
+	</insert>
+	<update id="updateNotification" parameterType="int">
+		update Notification set isChecked=0 where NotificationId = #{notificationId};
+	</update>
+	<update id="batchUpdateNotification" parameterType="int">
+		update Notification set isChecked=0 where NotificationId IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+	 		 #{item}  
+	   	   </foreach> 
+	</update>
+</mapper>

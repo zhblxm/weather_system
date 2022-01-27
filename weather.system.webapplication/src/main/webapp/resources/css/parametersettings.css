@@ -1,0 +1,46 @@
+html,body {
+    min-width: auto;
+    width: 100%;
+    margin: 0 auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.param_container{
+	width: 95%;
+    margin: 20px;
+    display: block;
+    overflow: hidden;
+}
+.check-default{
+	float: left;
+	display: block;
+	padding: 10px;
+	width: 210px;
+}
+.check-default .check_lable{
+    border: 1px solid #23b7e5;
+    border-radius: 4px;
+    text-align: center;
+    color: #23b7e5;
+    font-size: 22px;
+    width: 24px;
+    line-height: 24px;
+    height: 24px;
+    cursor:pointer;
+
+}
+.fa-check { *font-size:22px; } 
+.check-default input[type="checkbox"]{
+    display:none;
+}
+.fa-1{
+	font-size: 20px;
+    padding: 4px;
+}
+.param_container ul{
+	   overflow:hidden;
+}
+.param_container ul li {
+    float: left;
+    padding: 10px 50px;
+}

@@ -1,0 +1,44 @@
+﻿ #set($page_title="气象平台-串口下载管理")
+   #set($csslist=["serialport.css"])
+<form id="js-serialform">
+  <div class="min_header">
+  	<div class="title">串口下载设置</div>
+  </div>
+    <div class="serial">
+        <ul>
+            <li>串口：</li>
+            <li><select class="js-port select" name="serialport" data-default="$serialport">
+                    #foreach($port in $ports)
+                    <option value="$port">$port</option>
+                    #end
+                </select></li>
+        </ul>
+        <hr class="line" />
+        <ul>
+            <li>波特率：</li>
+            <li>
+              <select class="js-baudrate select" name="baudrate" data-default="$baudrate">
+					<option value="300">300</option>
+					<option value="600">600</option>
+					<option value="1200">1200</option>
+					<option value="2400">2400</option>
+					<option value="4800">4800</option>
+					<option value="9600">9600</option>
+					<option value="19200">19200</option>
+					<option value="38400">38400</option>
+					<option value="57600">57600</option>
+				<option value="115200">115200</option>
+				<option value="128000">128000</option>
+				<option value="256000">256000</option>
+               </select>
+            </li>
+        </ul>
+        <hr class="line" />
+        <ul>
+        	<li>&nbsp;</li>
+            <li><input type="button" value="开始同步串口数据" id="btnSave" class="button" /></li>
+        </ul>
+    </div>
+</form>
+#parse('default/common-js.vm')
+<script src="/script/serialport.js"></script>

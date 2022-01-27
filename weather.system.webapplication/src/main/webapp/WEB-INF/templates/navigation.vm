@@ -1,0 +1,22 @@
+﻿ #set($layout = "/layout/commonlayout.vm")
+ <div class="navigation">
+		<div class="logo">
+			<table class="logotab">
+				<tbody><tr>
+					<td><img src="/resources/images/$!{logo}" alt="" class="logoimg"></td>
+				</tr>
+			</tbody></table>
+		</div>
+		<div class="category">
+			<ul class="cateul">
+				#foreach($nav in $navigations)
+				<li>
+					<a class="catea#if("$!{nav.permissionName}"=="实时监控") on#end" href="$!{nav.URL}">
+						<div class="catedva"><img src="/resources/images/$!{nav.ICON}" alt="" class="catedvai"></div>
+						<div class="catedvb">$!{nav.permissionName}</div>
+					</a>
+				</li>
+				#end
+			</ul>
+		</div>
+</div>

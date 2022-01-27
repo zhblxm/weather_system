@@ -1,0 +1,212 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd
+        http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+        http://www.springframework.org/schema/task  
+    	http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+
+	<context:annotation-config />
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<ref bean="stringHttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:annotation-driven executor="executor"
+		scheduler="scheduler" />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<context:component-scan base-package="com.partners.*" />
+	<mvc:default-servlet-handler />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="jsonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<!-- <context:property-placeholder location="/WEB-INF/dataSource.properties" 
+		/> -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/dataSource.properties</value>
+				<value>/WEB-INF/redis.properties</value>
+				<value>classpath*:/common.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<property name="jdbcUrl" value="${jdbc.jdbcUrl}" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="minPoolSize" value="${jdbc.minPoolSize}" />
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}" />
+		<property name="acquireIncrement" value="${jdbc.acquireIncrement}" />
+		<property name="maxStatements" value="${jdbc.maxStatements}" />
+		<property name="maxStatementsPerConnection" value="${jdbc.maxStatementsPerConnection}" />
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}" />
+		<property name="idleConnectionTestPeriod" value="1800" />
+		<property name="acquireRetryAttempts" value="6" />
+		<property name="acquireRetryDelay" value="1000" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="testConnectionOnCheckout" value="true" />
+		<property name="testConnectionOnCheckin" value="false" />
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="/WEB-INF/config/mybatisConfig.xml" />
+		<property name="mapperLocations" value="classpath:com/partners/weather/mapper/*.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:basePackage="com.partners.weather.dao" p:sqlSessionFactoryBeanName="sqlSessionFactory" />
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		autowire="default">
+		<constructor-arg>
+			<ref bean="dataSource" />
+		</constructor-arg>
+	</bean>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/classes/messages" />
+		<property name="useCodeAsDefaultMessage" value="true" />
+		<property name="cacheSeconds" value="0" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize">
+			<value>9242880</value>
+		</property>
+	</bean>
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="order" value="1" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean id="velocityConfig"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="configLocation" value="classpath:velocity.properties" />
+		<property name="resourceLoaderPath" value="/WEB-INF/templates/" />
+	</bean>
+	<bean id="velocityViewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+		<property name="order" value="0" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="cache" value="true" />
+		<property name="suffix" value=".vm" />
+		<property name="layoutUrl" value="layout/mainlayout.vm" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="requestContextAttribute" value="request" />
+		<property name="dateToolAttribute" value="dateTool" />
+		<property name="numberToolAttribute" value="numberTool" />
+	</bean>
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+	<mvc:resources location="/script/" mapping="/script/**" />
+	<mvc:resources location="/include/" mapping="/include/**" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/login/**" />
+			<mvc:exclude-mapping path="/logout**" />
+			<mvc:exclude-mapping path="/favicon.ico" />
+			<mvc:exclude-mapping path="/leaflet/**" />
+			<mvc:exclude-mapping path="/script/**" />
+			<mvc:exclude-mapping path="/resources/**" />
+			<bean class="com.partners.weather.interceptor.SecurityInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxTotal" value="${redis.maxActive}" />
+		<property name="maxWaitMillis" value="${redis.maxWait}" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+	</bean>
+	<!-- <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" 
+		p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.password}" 
+		p:pool-config-ref="poolConfig" /> <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"> 
+		<property name="jedisConnectionFactory" ref="jedisConnectionFactory" /> </bean> -->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg name="poolConfig" ref="poolConfig" />
+		<constructor-arg name="host" value="${redis.host}" />
+		<constructor-arg name="port" value="${redis.port}"
+			type="int" />
+		<constructor-arg name="timeout" value="${redis.timeout}"
+			type="int" />
+		<constructor-arg name="password" value="${redis.password}" />
+		<constructor-arg name="database" value="${redis.db.index}"
+			type="int" />
+	</bean>
+	<bean id="jedisConnFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg index="0" ref="poolConfig" />
+		<property name="hostName" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="timeout" value="${redis.timeout}" />
+		<property name="password" value="${redis.password}" />
+		<property name="database" value="${redis.db.index}" />
+	</bean>
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnFactory" />
+	<bean id="jedisQueueListener" class="com.partners.weather.redis.QueueListener" />
+	<bean id="jedisQueue" class="com.partners.weather.redis.RedisQueue"
+		destroy-method="destroy">
+		<property name="redisTemplate" ref="redisTemplate"></property>
+		<property name="key" value="user:queue"></property>
+		<property name="listener" ref="jedisQueueListener"></property>
+	</bean>
+	<bean id="redisAtomicLong"
+		class="org.springframework.data.redis.support.atomic.RedisAtomicLong">
+		<constructor-arg name="redisCounter" value="weathercounterkey"></constructor-arg>
+		<constructor-arg name="factory" ref="jedisConnFactory"></constructor-arg>
+	</bean>
+	<bean id="redisAtomicInteger"
+		class="org.springframework.data.redis.support.atomic.RedisAtomicInteger">
+		<constructor-arg name="redisCounter" value="weatherstationterminalkey"></constructor-arg>
+		<constructor-arg name="factory" ref="jedisConnFactory"></constructor-arg>
+	</bean>
+	<bean class="com.partners.weather.init.SysInit" />
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+</beans>

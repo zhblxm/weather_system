@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--showInPage：表示是否显示在UI上，默认是Y，显示在UI上，如果是N，那么就不显示在UI上，表示这是系统所用，不为UI所看或所用。 -->
+<!-- order: 排列顺序，表示数据所在的位置。 -->
+<!-- orderDesc: 排列顺序描述，目的为便于理解 -->
+<!-- ******************************************************************************** -->
+<!-- unit: 表示单位，可以为空 -->
+<!-- ******************************************************************************** -->
+<!-- datatype：表示数据类型，看如下： -->
+<!-- string表示字符 -->
+<!-- double:表示带有小数的数值 -->
+<!-- date表示日期，不包括时间 -->
+<!-- time表示时间，不包括日期 -->
+<!-- datetime表示日期和时间 -->
+<!-- ******************************************************************************** -->
+<!-- datatypeformat：数据格式，如果是日期，时间或日期时间，格式必须填写，其他可以为空 -->
+<!-- 日期写法：yyyy-MM-dd -->
+<!-- 时间写法：HH:mm:ss -->
+<!-- 日期时间写法：yyyyMMddHHmmss -->
+<!-- ******************************************************************************** -->
+<!-- datatypedesc：针对数据类型的描述，可以为空 -->
+<!-- ******************************************************************************** -->
+
+<!-- ******************************************************************************** -->
+<!-- dataconvert：表示转换规则，共2个字：乘/除 例如：除100，表示缩小100 乘10， 表示扩大10倍 -->
+<!-- ******************************************************************************** -->
+<!-- minvalue：表示最小值，低于这个值，就是错误数据。不配置表示无限制 -->
+<!-- ******************************************************************************** -->
+<!-- maxvalue：表示最大值，高于这个值，就是错误数据。不配置表示无限制 -->
+<!-- ******************************************************************************** -->
+<!--223.104.13.222:8149:66666 20180208103000 75 323 -94-->
+<Parameters name="长安大学">
+	<Parameter name="ID" description="ID号" showInPage="N" order="1" orderDesc="">
+		<attribute name="unit" description="单位"></attribute>
+		<attribute name="datatype" description="数据类型">string</attribute>
+		<attribute name="datatypedesc">字符</attribute>
+	</Parameter>
+	<Parameter name="date" description="日期" showInPage="N" order="2" orderDesc="">
+		<attribute name="unit" description="单位"></attribute>
+		<attribute name="datatype" description="数据类型">datetime</attribute>
+		<attribute name="datatypeformat" description="数据格式">yyyyMMddHHmmss</attribute>
+		<attribute name="datatypedesc">完整日期格式</attribute>
+	</Parameter>
+	<Parameter name="windspeed" description="风速" order="3" orderDesc="">
+		<attribute name="unit" description="单位">m/s</attribute>
+		<attribute name="datatype" description="数据类型">double</attribute>
+		<attribute name="minvalue" description="最小值">0</attribute>
+		<attribute name="maxvalue" description="最大值">1000</attribute>
+		<attribute name="datatypedesc">浮点数</attribute>
+		<attribute name="dataconvert" description="数据转换"><![CDATA[除10]]></attribute>
+	</Parameter>
+	<Parameter name="winddirection" description="风向" order="4" orderDesc="">
+		<attribute name="unit" description="单位">°</attribute>
+		<attribute name="datatype" description="数据类型">double</attribute>
+		<attribute name="minvalue" description="最小值">0</attribute>
+		<attribute name="maxvalue" description="最大值">360</attribute>
+		<attribute name="datatypedesc">浮点数</attribute>
+	</Parameter>
+	<Parameter name="temperature" description="温度" order="6" orderDesc="">
+		<attribute name="unit" description="单位">℃</attribute>
+		<attribute name="datatype" description="数据类型">double</attribute>
+		<attribute name="datatypedesc">浮点数</attribute>
+		<attribute name="minvalue" description="最小值">-50</attribute>
+		<attribute name="maxvalue" description="最大值">100</attribute>
+		<attribute name="dataconvert" description="数据转换"><![CDATA[除10]]></attribute>
+	</Parameter>	
+</Parameters>

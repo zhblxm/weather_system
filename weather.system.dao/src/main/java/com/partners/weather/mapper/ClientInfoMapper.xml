@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IClientInfoDAO">
+	<select id="getClientInfo" parameterType="String" resultType="ClientInfo">
+		select ClientId,ClientIP,Port,WeatherStationNumber from ClientInfo WHERE ClientIP = #{clientIP}  limit 1
+	</select>
+	<select id="getClientInfoByWSNumber" parameterType="String" resultType="ClientInfo">
+		select ClientId,ClientIP,Port,WeatherStationNumber 
+		from ClientInfo 
+		WHERE WeatherStationNumber = #{weatherStationNumber}  limit 1
+	</select>
+	<select id="getClientInfos"  resultType="ClientInfo">
+		select ClientId,ClientIP,Port,WeatherStationNumber from ClientInfo
+	</select>
+	<insert id="insertClientInfo" parameterType="ClientInfo">
+		<selectKey resultType="int" keyProperty="clientId" order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as clientId]]>
+		</selectKey>
+		insert into ClientInfo(ClientIP,Port,WeatherStationNumber) values (#{clientIP},#{port},#{weatherStationNumber});
+	</insert>
+	<update id="updateClientInfo" parameterType="ClientInfo">
+		update ClientInfo set Port=#{port},WeatherStationNumber=#{weatherStationNumber} where ClientIP = #{clientIP};
+	</update>
+</mapper>

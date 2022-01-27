@@ -1,0 +1,32 @@
+.settings{
+	width: 35%;
+	margin:5px 0 0 20px;
+}
+.settings table{
+	width: 100%;
+}
+.settings td{
+	padding:10px 10px 0 0;
+}
+.settings td span{
+	font-weight: bold
+}
+.settings  input[type="text"],.settings  input[type="password"] {
+    width: 320px;
+}
+.settings  input[type="password"] {
+     height: 32px;
+    border: 1px solid #a7a7a7;
+    line-height: 32px;
+    border-radius: 5px;
+    padding: 5px;
+}
+.settings table .col{
+	width: 40%; 
+}
+.settings table .col_center{
+	width: 20%; text-align: center;font-weight:bold;
+}
+.settings table hr{
+	width: 100%; margin-top: 10px; margin-bottom: 10px; border-top-color: #ccc;border-top-width: 1px; border-top-style: dashed;
+}

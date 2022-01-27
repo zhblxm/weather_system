@@ -1,0 +1,15 @@
+﻿#set($page_title="气象平台-要素分组管理")
+   #set($csslist=["terminal.css"])
+<form action="/Terminal/UploadTerminalCategory" method="post" enctype="multipart/form-data" id="terminalform">
+    <div class="terminal_container prompt">
+    	<span class="star">*</span>选择文件后，点击上传文件，文件为特定格式，了解文件格式可以去要素列表下载文件进行查看。
+    </div>
+    <div class="terminal_container">
+    <input  class="path" readonly="readonly"/>
+    <a href="javascript:void(0);" class="file" >选择文件<input name="fileTerminalCategor" id="fileTerminalCategor" type="file" class="uploadfile"/></a>
+    <input type="button" class="button" value="开始上传" id="btnUpload"/>
+    </div>
+ </form>
+#parse('default/common-js.vm')
+<script src="/script/ajaxfileupload.js"></script>
+<script src="/script/terminalparamcategory.js"></script>

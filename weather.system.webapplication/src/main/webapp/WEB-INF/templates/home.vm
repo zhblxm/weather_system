@@ -1,0 +1,14 @@
+﻿ #set($layout ="default/blank.vm")  
+<!DOCTYPE html>
+<html>
+<head>
+    <title>气象中心平台管理系统</title>
+</head>
+<frameset cols="280,*" border="0" framespacing="0" name="pageframe" id="pageframe">
+    <frame src="/home/navigation" id="Navigation" noresize="false" name="Navigation"  scrolling="no" allowtransparency="true" />
+    <frameset id="rightframe"  name="rightframe" rows="96,*" frameborder="0" border="1" framespacing="0">
+         <frame id="FrameHeader" marginheight="0" marginwidth="0" src="/home/header" noresize="false" allowtransparency="true" scrolling="no" />
+		<frame id="content" name="content" src="/monitor"   scrolling="auto"/>
+	</frameset>
+</frameset>
+</html>

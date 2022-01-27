@@ -1,0 +1,15 @@
+﻿ #set($page_title="气象平台-站点分类管理")
+ #set($csslist=["jquery_dialog.css"])
+   <table id="schedules" class="display" cellspacing="0" width="100%">
+        <thead>
+        	<tr>
+   			<th>任务类型</th>
+   			<th>开始日期</th>
+   			<th>完成日期</th>
+   			 <th>执行结果</th>
+   			</tr>
+        </thead>
+  </table>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/jquery_dialog.js"></script>
+<script type="text/javascript" src="/script/schedule.js"></script>

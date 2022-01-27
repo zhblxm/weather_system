@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.ITerminalHistoryDAO">
+	<update id="createNewTable" parameterType="string">
+		CREATE TABLE IF NOT EXISTS ${tableName} (
+		TerminalHistoryId INT not null PRIMARY KEY AUTO_INCREMENT,
+		TerminalCatetoryId INT not null DEFAULT 0,
+		WeatherStationId INT not null DEFAULT 0,
+		Detail VARCHAR(3000) NOT NULL,
+		Invalid TINYINT not null DEFAULT 0,
+		Source VARCHAR(10) DEFAULT '',
+		ExtendInfo CHAR(1) DEFAULT '',
+		CreateDate DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+		CreateUTCDate DATETIME NULL
+		);
+	</update>
+	<insert id="inserTerminalhistory" parameterType="Terminalhistory">
+		<selectKey resultType="int" keyProperty="terminalHistoryId" order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as terminalHistoryId]]>
+		</selectKey>
+		insert into ${tableName}(TerminalCatetoryId,WeatherStationId,Detail,Invalid, Source,CreateDate,CreateUTCDate)
+		values (#{terminalCatetoryId},#{weatherStationId},#{detail},#{invalid},#{source},#{createDate},utc_timestamp());
+	</insert>
+	<update id="updateTerminalhistory" parameterType="Terminalhistory">
+		update ${tableName} set Invalid=#{invalid} where TerminalHistoryId = #{terminalHistoryId};
+	</update>
+	<select id="getTerminalhistorys" parameterType="VTerminalhistory" resultType="Terminalhistory">
+		SELECT TerminalCatetoryId,WeatherStationId,Detail,Invalid, Source,CreateDate,CreateUTCDate 
+		FROM ${tableName}
+		where CreateDate BETWEEN  #{createDateFrom} AND #{createDateTo}
+		ORDER BY WeatherStationId,CreateDate
+	</select>
+</mapper>

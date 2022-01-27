@@ -1,0 +1,4 @@
+﻿#set($page_title="")
+ #set($layout = "/layout/layout.vm")  
+ #set($csslist=["share.css","audittratillog.css"])
+<div class="detail">$!{detail}</div>

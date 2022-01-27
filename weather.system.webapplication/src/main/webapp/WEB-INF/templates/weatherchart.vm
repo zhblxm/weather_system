@@ -1,0 +1,64 @@
+﻿ #set($page_title="气象平台-图表分析")
+ #set($csslist=["jquery.mloading.css","jquery-ui.css","jquery-ui-timepicker-addon.min.css","select2.min.css","fixedColumns.dataTables.css","statistics.css"])
+ #macro(findStatisticsStation $Id)
+	#foreach($station in $Stations)
+		 #if($station.weatherStationCategoryId == $Id)	
+		     <option value="$station.weatherStationId">$!{station.weatherStationName}</option>
+		 #end 	     
+	#end
+#end
+<div class="search">
+	<div class="left">
+		开始时间：
+		<input type="text" id="startdate" class="date" placeholder="选择开始时间" value="$!{StartDate}"/>
+	</div>
+	<div>
+		统计纬度：
+		<select class="js-baudrate select" id="linecharttype" name="linecharttype" style="width:300px">
+			<option value="1">小时数据</option>
+			<option value="2">分钟数据</option>
+		</select>
+	</div>
+</div>
+<div class="search">
+	<div class="left">
+ 		选择站点：
+ 		<select class="combox" id="station" name="station" multiple>   
+			#foreach($rootCatgory in $Categories) 
+			     <optgroup label="$!{rootCatgory.weatherStationCategoryName}">  
+						#findStatisticsStation(${rootCatgory.weatherStationCategoryId})
+				 </optgroup>  
+			#end
+		</select>
+	</div>
+	<div>
+		选择要素：
+		<select class="js-baudrate select" id="parameters" name="parameters" style="width:300px">
+		</select>
+	</div>
+	<div>
+		<input type="button" class="button" value="生成图表" id="btnSearch">
+		<!--<input type="button" class="export" value="导出图表" id="btnExport">-->
+	</div>
+	<!--<div class="tip">温馨提示：选择站点后，点击查询按钮进行数据搜索！</div>-->
+</div>
+<hr class="line"/>
+<div id="container"></div>
+<!--
+<div id="tablecontainer" class="none">
+	<table id="searchTable" class="display" cellspacing="0" width="100%" >
+		<thead><tr><td></td></tr></thead>
+	</table>
+</div>
+-->
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/script/jquery.mloading.js"></script>
+<script type="text/javascript"  src="/script/select2.full.min.js"></script>
+<script type="text/javascript"  src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="/script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/script/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/script/jquery-ui-timepicker-zh-CN.js"></script>
+<script type="text/javascript" src="/script/weatherchart.js?v=1.0"></script>
+<script type="text/javascript" src="/script/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="/script/highcharts/exporting.js"></script>
+<script type="text/javascript" src="/script/highcharts/highcharts-zh_CN.js"></script>

@@ -1,0 +1,29 @@
+﻿#set($page_title="要素管理")
+  <table id="parameters" class="display" cellspacing="0" width="100%">
+        <thead>
+   			<th>要素名称</th>
+   			<th>单位</th>
+   			<th>最小值</th>
+   			<th>最大值</th>
+   			<th>数据转换</th>
+   			</tr>
+        </thead>
+        <tbody>
+        #foreach($p in $Parameters)
+		<tr>
+		<td>$!{p.description}</td>
+		  #foreach($attr in $p.parameterAttributes)
+		   #if("$!{attr.name}" != "datatypedesc" and "$!{attr.name}" != "datatype" )
+			      #if("$!{attr.name}" == "dataconvert" and "$!{attr.value}" == "" )
+						<td>正常</td>
+				 #else
+					<td>$!{attr.value}</td>
+				#end	
+			 #end	
+		#end
+		</tr>
+		#end
+        </tbody>
+  </table>
+    #parse('default/common-js.vm')
+<script src="/script/terminal.js"></script>

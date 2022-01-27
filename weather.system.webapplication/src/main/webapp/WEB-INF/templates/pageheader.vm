@@ -1,0 +1,38 @@
+﻿ #set($layout = "/layout/commonlayout.vm") 
+
+ <div class="header_container">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="header_left">
+                        <marquee scrolldelay="150" behavior="scroll" scrollamount="10" class="marqu"></marquee>
+                    </div>
+                </td>
+                <td class="notification">
+                    <div class="header_right">
+                        <!--<div class="message">
+                            <div class="detail">
+                                <div><img src="/resources/images/icon1.png" alt=""></div>
+                                <div class="msg_number msg_info">120</div>
+                            </div>
+                        </div>-->
+                         #if($Notification == 1)	
+                        <div class="message" title="">
+                            <div class="detail">
+                                <div><img src="/resources/images/icon2.png" alt=""></div>
+                                <div class="msg_number msg_alert none"></div>
+                            </div>
+                        </div>
+		 				#end
+                        <div class="login">
+                            <div class="login_name">$!{user.userName}</div>
+                            <div class="logout">注销</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">var header=true;</script>

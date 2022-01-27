@@ -1,0 +1,76 @@
+﻿#set($page_title="气象中心平台管理系统-实时监控")
+ #set($customePathlist=["/leaflet/leaflet.css"])
+ #set($csslist=["monitor.css"])
+  #set($imgSrc="")
+ #macro(findStation $Id)
+	#foreach($station in $Stations)
+		 #if($station.weatherStationCategoryId == $Id)	
+			 #if( $!{station.voltage} <=30 )
+			 	#set($imgSrc="voltageLow.png")
+			 #elseif($!{station.voltage} <=70)
+			  	#set($imgSrc="voltageMiddle.png")
+			 #else
+	 				#set($imgSrc="voltageHight.png")
+			 #end
+			<tr class="js-station"  data-latlng="$station.latitude,$station.longitude">
+			<td class="cate1td2dva2a2td1">$!{station.weatherStationName}</td>
+			<td class="cate1td2dva2a2td2">$!{station.weatherStationNumber}</td>
+			<td class="cate1td2dva2a2td3">电量:<span class="hui">$!{station.voltagePercent}</span></td>
+			<td class="cate1td2dva2a2td4"><img src="/resources/images/$!{imgSrc}" alt="" class="cate1td2dva2a2td4i"></td>
+			</tr>
+		 #end 	     
+	#end
+#end
+<div class="category1">
+    <table class="cate1tab">
+        <tbody>
+            <tr>
+                <td class="cate1td1">
+                    <div class="cate1td1dv">
+                        <div class="cate1td1dva"><div id="map" data-host="$!{MapImgHost}"></div></div>
+                    </div>
+                </td>
+                <td class="cate1td2">
+                    <div class="cate1td2dv">
+                        <div class="cate1td2dva">
+                            <div class="cate1td2dva1"><span class="cate1td2dva1sp">站点</span></div>
+                            <div class="cate1td2dva2" tabindex="0" style="overflow: hidden; outline: none;">
+                                <div class="cate1td2dva2s">
+                                    #foreach($rootCatgory in $Categories)
+                                    <div class="cate1td2dva2a">
+                                        <div class="cate1td2dva2a1">
+                                            <div class="cate1td2dva2a1a #if($!{velocityCount}==1) on #end"></div>
+                                            <div class="cate1td2dva2a1b">$!{rootCatgory.weatherStationCategoryName}</div>
+                                        </div>
+                                        <div class="cate1td2dva2a2" #if($!{velocityCount} == 1) style="display:block;" #end>
+                                        <table class="cate1td2dva2a2tab"><tbody>#findStation(${rootCatgory.weatherStationCategoryId})</tbody></table>
+                                        </div>
+                                    </div>
+                                    #end
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cate1td2dvb">
+                            <div class="cate1td2dvba">
+                                <span class="cate1td2dvbap1">统计</span>
+                            </div>
+                            <div class="cate1td2dvbb">
+                                <div class="cate1td2dvbbd1">设备数量：<span class="cate1td2dvbbd1s">$!{Terminals}个</span></div>
+                                <div class="cate1td2dvbbd1">通讯正常：<span class="cate1td2dvbbd1s">$!{Online}个</span></div>
+                                 <div class="cate1td2dvbbd1">通讯信号弱：<span class="cate1td2dvbbd1s">$!{OnOrOffline}个</span></div>
+                                <div class="cate1td2dvbbd1">设备连通率：<span class="cate1td2dvbbd1s">$!{NetworkTransferPercent}</span></div>
+                                <div class="cate1td2dvbbd1">数据通讯率：<span class="cate1td2dvbbd1s">$!{NetworkDataTransferPercent}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+#parse('default/common-js.vm')
+<script type="text/javascript" src="/leaflet/leaflet.js"></script>
+<script type="text/javascript">
+		var stations=[#foreach($station in $Stations){"id":"$!{station.uniqueWeatherStationId}","name":"$!{station.weatherStationName}","cover":"$!{station.Cover}","latlng":[$station.latitude,$station.longitude]},#end];
+</script>
+<script type="text/javascript" src="/script/monitor.js?v=1.0"></script> 

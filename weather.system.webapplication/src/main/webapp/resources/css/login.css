@@ -1,0 +1,30 @@
+@charset "utf-8";
+*{padding:0;margin:0;list-style:none;text-decoration:none;outline:none;font-family:"微软雅黑","Microsoft YaHei",Arial,Helvetica,sans-serif,"SimSun";}
+.loginbt{color:#fff;font-size:35px;text-align:center;font-weight:bold;padding-top:9%;line-height:35px;}
+.loginbg{width:100%;height:100%;position:absolute;left:0px;top:0px;z-index:-10;background-size:cover;background-attachment:fixed;}
+.loginimg{width:100%;height:100%;}
+.loginconts{position:relative;z-index:10;width:516px;height:384px;margin:0 auto;margin-top:50px;background:url(../images/logindl.png) no-repeat;padding:0px 5px;}
+.logincont{padding:0px 32px;}
+.logct1{height:25px;padding-top:34px;padding-bottom:24px;}
+.logct1pa{color:#007ee5;font-size:20px;line-height:25px;float:left;}
+.logct1pb{color:#007ee5;font-size:12px;line-height:12px;float:right;padding-top:8px;}
+.logct2{}
+.logct2txt{margin-bottom:24px;width:432px;height:50px;background:url(../images/logintxt.png) no-repeat;padding-left:21px;}
+.logct2timgs{float:left;padding-top:16px;}
+.logct2tipt{float:left;padding-left:16px;padding-top:15px;}
+.logct2tput{color:#7b8392;border:0px solid #fff;border:none;height:20px;line-height:20px;width:387px;font-size:13px;}
+.logct2tpas{color:#cacdd3;border:0px solid #fff;border:none;height:20px;line-height:20px;width:387px;font-size:13px;}
+.logct3{height:40px;}
+.logct3a{float:left;padding-top:5px;}
+.logct3j{width:22px;height:22px;background:url(../images/loginjzmm.png) no-repeat;float:left;}
+.logct3j.on{background-image:url(../images/loginjzmm1.png);}
+.logct3jzw{float:left;line-height:22px;color:#007ee5;margin-left:7px;}
+.logct3b{cursor:pointer;display:block;float:right;width:301px;height:40px;color:#fff;text-align:center;line-height:40px;font-size:15px;background:url(../images/logindlbtn.png) no-repeat;display:block;}
+.logct4{height:66px;line-height:66px;text-align:center;font-size:12px;color:#007ee5;margin-top:34px;}
+.ui-widget-overlay {
+    background: #000;
+    opacity: 0.7;
+    filter: Alpha(Opacity=30);
+}
+
+

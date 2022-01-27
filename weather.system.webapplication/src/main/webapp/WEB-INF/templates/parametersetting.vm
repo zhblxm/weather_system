@@ -1,0 +1,20 @@
+﻿#set($page_title="站点管理")
+ #set($layout = "/layout/layout.vm")  
+  #set($csslist=["share.css","parametersettings.css"])
+  <div class="param_container js-parameter" data-row=" $!{row}">
+ #foreach($p in $Parameters)
+<div class="check-default hidden">
+      <input type="checkbox" name="parametergroup"  value=" $!{p.id} " />
+     <label class="check_lable"><i class="fa fa-check fa-1"></i></label> $!{p.description} 
+</div>
+#end
+</div>
+<hr class="line"/>
+ <div class="param_container">
+ <ul>
+ <li><input type="button" value="保存" id="btnSave" class="button" /></li>
+<li><input type="button" value="关闭" id="btnClose" class="button" /></li>
+  </ul>  
+  </div>
+<script type="text/javascript" src="/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/script/parametersetting.js"></script>

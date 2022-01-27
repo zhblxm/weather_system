@@ -1,0 +1,16 @@
+﻿ #set($page_title="气象平台-用户管理")
+   <table id="users" class="display" cellspacing="0" width="100%" data-update="$!{Update}" data-delete="$!{Delete}"  data-reset="$!{Reset}">
+        <thead>
+   			<th>用户组名称</th>
+   			<th>创建日期</th>
+   			<th>创建人</th>
+   			<th>最近一次更新日期</th>
+   			<th>最近一次更新人</th>
+   			 #if($!{Update}==1 or $!{Delete})
+		 	<th>操作</th>
+		 	#end 
+   			</tr>
+        </thead>
+  </table>
+#parse('default/common-js.vm')
+<script src="/script/user.js"></script>

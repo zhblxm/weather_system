@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.partners.weather.dao.IAdminUserDAO">
+	<!-- <select id="userLogin" parameterType="string" resultType="Adminuser"> select UserId,UserName,UserPassword,IsForceChangePwd,GroupId from AdminUser where UserName=#{UserName} and UserPassword=#{UserPassword} </select> -->
+	<select id="userLogin" resultType="Adminuser">
+		select UserId,UserName,IsForceChangePwd,GroupId,UserEmail from AdminUser where UserName=#{0} and UserPassword=#{1};
+	</select>
+	<select id="getUsers" parameterType="com.partners.view.entity.VUser" resultType="Adminuser">
+		select UserId,UserName,IsForceChangePwd,GroupId,UserEmail from AdminUser
+		WHERE 1 = 1
+		<if test="name != null and name !=''">
+			AND UserName like '${name}%'
+		</if>
+		<choose>
+			<when test="orderField =='DATE'">
+				ORDER BY CreateDate ${orderType}
+			</when>
+			<otherwise>
+				ORDER BY UserName ${orderType}
+			</otherwise>
+		</choose>
+		LIMIT #{startIndex,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+	<select id="getUserCount" parameterType="com.partners.view.entity.VUser" resultType="int">
+		SELECT   IFNULL(count(0),0)  FROM AdminUser
+		WHERE 1 = 1
+	 <if test="name != null and name !=''">
+			AND UserName like '${name}%'
+		</if>
+	</select>
+	<select id="getUser" parameterType="int" resultType="Adminuser">
+		select UserId,UserName,IsForceChangePwd,GroupId,UserEmail,UserPassword from AdminUser WHERE UserId = #{userId}
+	</select>
+	<select id="checkUserExists" resultType="int">
+		SELECT count(0) FROM AdminUser where UserId!=#{0} and UserName=#{1};
+	</select>
+	<insert id="insertUser" parameterType="Adminuser">
+		<selectKey resultType="int" keyProperty="userId" order="AFTER">
+			  <![CDATA[SELECT LAST_INSERT_ID() as userId]]>
+		</selectKey>
+		insert into AdminUser(UserName,UserPassword,IsForceChangePwd,GroupId, CreateDate,CreateUser,LastUpdateDate,LastUpdateUser,WeatherStationId,UserEmail)
+		values (#{userName},#{userPassword},#{isForceChangePwd},#{groupId},#{createDate},#{createUser},#{lastUpdateDate},#{lastUpdateUser},0,#{userEmail});
+	</insert>
+	<update id="updateUser" parameterType="Adminuser">
+		update AdminUser set UserName=#{userName},LastUpdateDate=#{lastUpdateDate},GroupId=#{groupId},
+		LastUpdateUser=#{lastUpdateUser},UserEmail = #{userEmail},
+		IsForceChangePwd=#{isForceChangePwd}
+		where UserId = #{userId};
+	</update>
+	<update id="updateUserPwd" parameterType="Adminuser">
+		update AdminUser set UserPassword=#{userPassword},IsForceChangePwd=#{isForceChangePwd}
+		where UserId = #{userId};
+	</update>
+	<delete id="delUser" parameterType="int">
+		DELETE FROM AdminUser WHERE UserId = #{userId}
+	</delete>
+</mapper>

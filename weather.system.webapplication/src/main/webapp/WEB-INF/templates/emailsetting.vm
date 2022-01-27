@@ -1,0 +1,87 @@
+﻿ #set($page_title="气象平台-邮件服务器和短信设置")
+  #set($csslist=["jquery.mloading.css","toastr.css","emailsetting.css"])
+  <form id="js-Emailform">
+  <div class="min_header">
+  	<div class="title">邮件服务器和短信设置</div>
+  </div>
+ <table class="settings" cellpadding="5" cellspacing="5">
+    <tr>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <td class="col"><hr /></td>
+                    <td class="col_center">邮箱服务器</td>
+                    <td class="col"><hr /> </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td><span>SMTP域名或IP地址</span></td>
+        <td><span>邮件接收人</span></td>
+    </tr>
+    <tr>
+        <td>
+            <input id="SMTPServer" name="SMTPServer" type="text" value="$!{setting.smtpserver}" placeholder="请输入SMTP域名或IP" require="1"/>
+        </td>
+        <td><input id="SMTPReceive" name="SMTPReceive" type="text" value="$!{setting.smtpuserName}" placeholder="请输入接收人"  require="1"/></td>
+    </tr>
+    <tr>
+        <td><span>用户名</span></td>
+        <td><span>密码</span></td>
+    </tr>
+    <tr>
+        <td>
+            <input id="SMTPUser" name="SMTPUser" type="text" value="$!{setting.receiveEmail}" placeholder="请输入SMTP用户名"  require="1"/>
+        </td>
+        <td>
+            <input id="SMTPPwd" name="SMTPPwd" type="password" placeholder="请输入SMTP密码"  require="1"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <td class="col"><hr /></td>
+                    <td class="col_center">短信设置</td>
+                    <td class="col"><hr /> </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td><span>SMS地址</span></td><td><span>SMS联系电话</span></td>
+    </tr>
+    <tr>
+        <td>
+            <input id="SMSServer" name="SMSServer" type="text" value="$!{setting.smsurl}"  placeholder="请输入地址"  require="1"/>
+        </td>
+        <td>  <input id="SMSPhone" name="SMSPhone" type="text" value="$!{setting.smsphone}"  placeholder="请输入联系电话"  require="1"/></td>
+    </tr>
+    <tr>
+        <td><span>SMS用户名</span></td>
+        <td><span>SMS密码</span></td>
+    </tr>
+    <tr>
+        <td>
+            <input id="SMSUser" name="SMSUser" type="text" value="$!{setting.smsuserName}" placeholder="请输入SMS用户名"  require="1"/>
+        </td>
+        <td>
+            <input id="SMSPwd" name="SMSPwd" type="password" placeholder="请输入SMS密码"  require="1"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <hr class="line" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" id="btnSave" class="button" value="保存" />
+        </td>
+    </tr>
+</table>
+<input type="hidden" id="sid" value="$!{setting.uniqueId}"/>
+  </form>
+#parse('default/common-js.vm')
+  <script type="text/javascript" src="/script/emailsetting.js"></script>

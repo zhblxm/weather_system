@@ -1,0 +1,9 @@
+﻿ #set($page_title="气象平台-温馨提示")
+   #set($csslist=["user.css"])
+<form id="js-userform">
+  <div class="min_header">
+  	<div class="title">温馨提示</div>
+</div>
+<div class="user">
+         开发中，近两天就部署到服务器！
+</div>

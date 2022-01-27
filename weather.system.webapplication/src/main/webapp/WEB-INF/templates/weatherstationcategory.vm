@@ -1,0 +1,60 @@
+﻿#set($page_title="气象平台-站点分类管理")
+#set($map={})
+#set($csslist=["jquery_dialog.css","jquery-ui.css","select2.min.css","weatherstation.css"])
+#macro(findChild $rootId)
+	#foreach($childCategory in $Categories)
+	 $rootId
+		 #if($childCategory.uniqueParentId == $rootId)	
+		 	#set($childSeparator="$!{childSeparator}==")	  	
+			<option value="$!{childCategory.uniqueCategoryId}" #if($!{Catetory.uniqueParentId}==$!{childCategory.uniqueCategoryId}) selected #end>$!{childSeparator}$!{childCategory.weatherStationCategoryName}</option>	
+			#findChild($!{childCategory.uniqueCategoryId})	
+	     #end 	     
+	#end
+#end
+
+ <form id="js-weatherStationCagegoryform">
+ <div class="min_header">
+<div class="title">
+站点分类管理
+</div></div>
+<div class="station_panel"><p class="tip">提示：点击位置图标可以打开地图并选择经纬度</p></div>
+<div class="station_panel">
+<div class="title justify">所属分类<span></span></div>
+<div class="content"><select class="js-category">
+<option value=""></option>	
+		#foreach($rootCatgory in $Categories)
+			 #if( "$!{rootCatgory.uniqueParentId}" == "" )
+			    <option value="$!{rootCatgory.uniqueCategoryId}" #if($!{Catetory.uniqueParentId}==$!{rootCatgory.uniqueCategoryId}) selected #end>$!{rootCatgory.weatherStationCategoryName}</option>		
+			 #else				 
+				 #if(!$map.get("$rootCatgory.uniqueParentId"))
+				 	$!{map.put("$rootCatgory.uniqueParentId","$rootCatgory.uniqueParentId")}	
+					#findChild(${rootCatgory.uniqueParentId})
+				 #end 
+		     #end      
+		#end		  
+</select>
+</div></div>
+<div class="station_panel">
+<div class="title justify">分类名称<span></span></div>
+<div class="content"><input type="text" name="CategoryName" class="textbox" id="CategoryName" maxlength="20" width="400px" placeholder="请输入分类名称" value="$!{Catetory.weatherStationCategoryName}"/><span class="star">*</span></div>
+</div>
+<div class="station_panel">
+<div class="title justify">经度<span></span></div>
+<div class="content"><input type="text" name="Longitude" class="textbox"  id="Longitude" maxlength="20" readonly="readonly" value="$!{Catetory.longitude}" title="点击右侧图标选择经纬度"  placeholder="请输入经度"/><span class="star">*</span><img title="" src="/resources/images/location.png" data-target="Longitude"/></div>
+</div>
+<div class="station_panel">
+<div class="title justify">纬度<span></span></div>
+<div class="content"><input type="text" name="Latitude" class="textbox"  id="Latitude" maxlength="20" readonly="readonly" value="$!{Catetory.latitude}" title="点击右侧图标选择经纬度"  placeholder="请输入纬度"/><span class="star">*</span><img title="" src="/resources/images/location.png" data-target="Latitude"/></div>
+</div>
+<div class="station_panel">
+<div class="title">&nbsp;</div>
+<div class="content"><input type="button" class="button"  value="保存" id="btnSave" />&nbsp;&nbsp;<input type="button" class="button none"  value="返回列表" id="btnBack" /></div>
+</div>
+<input type="hidden" name="CategoryId" id="CategoryId" value="$!{Catetory.uniqueCategoryId}"/>
+</form>
+#parse('default/common-js.vm')
+<script type="text/javascript"  src="/script/select2.full.min.js"></script>
+<script type="text/javascript"  src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="/script/jquery_dialog.js"></script>
+<script type="text/javascript" src="/script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/script/weatherstationcategory.js"></script>

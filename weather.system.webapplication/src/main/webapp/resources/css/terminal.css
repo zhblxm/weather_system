@@ -1,0 +1,49 @@
+.terminal_container{
+	position: relative;
+    overflow: hidden;
+     margin: 10px 0 0 20px;
+}
+.prompt{
+    font-size: 16px;
+	color: #656565;
+}
+.terminal_container  .uploadfile{
+    position: absolute;
+    top: 0; 
+     opacity: 0; 
+    filter: Alpha(Opacity=0);
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+    left: 0;
+}
+.path {
+    width: 280px;
+    height: 34px;
+    border: 1px solid #a7a7a7;
+    background-color: #fff;
+    float: left;
+}
+.file{
+    width: 120px;
+    display: block;    
+     height: 34px;
+    background-color: #007ee5;
+    color: #fff;
+    line-height: 34px;
+    text-align: center;
+    font-size: 13px;
+    padding: 0 30px;
+    cursor: pointer;
+    border: 0;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    float:left;
+    margin-right: 10px;
+    padding-left: 5px;
+}
+.terminal_container a,.terminal_container a:hover,.terminal_container a:active,.terminal_container a:visited{
+	 color: #fff;
+	text-decoration: none;
+}

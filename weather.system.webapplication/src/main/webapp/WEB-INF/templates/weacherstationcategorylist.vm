@@ -1,0 +1,20 @@
+﻿ #set($page_title="气象平台-站点分类管理")
+  <table id="categories" class="display" cellspacing="0" width="100%" data-update="$!{Update}" data-delete="$!{Delete}"> 
+   <thead> 
+    <tr> 
+     <th>分类名称</th> 
+     <th>所属分类</th> 
+     <th>经度</th> 
+     <th>纬度</th> 
+     <th>创建日期</th> 
+     <th>创建人</th> 
+     <th></th> 
+    </tr> 
+   </thead> 
+  </table>
+#parse('default/common-js.vm')
+<script src="/script/select2.full.min.js"></script>
+<script src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="/script/jquery-ui.min.js"></script>
+<script src="/script/weatherstationcategory.js"></script>
+

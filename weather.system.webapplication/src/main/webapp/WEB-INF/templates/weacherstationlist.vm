@@ -1,0 +1,22 @@
+﻿ #set($page_title="气象平台-站点分类管理")
+  <table id="categories" class="display" cellspacing="0" width="100%" data-update="$!{Update}" data-delete="$!{Delete}"> 
+   <thead> 
+    <tr> 
+		<th>站点编号</th>
+		<th>站点名称</th>
+		<th>经度</th>
+		<th>纬度</th>
+		<th>海拔</th>
+		<th>端口号</th>
+		<th>同步频率</th>
+		<th>自动同步</th>
+		<th>联系人</th>
+		<th>联系电话</th>
+		<th></th>
+    </tr> 
+   </thead> 
+  </table>
+#parse('default/common-js.vm')
+<script type="text/javascript"  src="/script/select2.full.min.js"></script>
+<script type="text/javascript" src="/script/select2/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="/script/weatherstationlist.js?v=1.1"></script>
