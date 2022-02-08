@@ -27,22 +27,22 @@ import com.partners.entity.ParameterAttribute;
 import com.partners.entity.TerminalParametersAttrs;
 import com.partners.entity.Terminalparameters;
 import com.partners.weather.common.CommonResources;
-import com.partners.weather.exception.FileFormartException;
+import com.partners.weather.exception.FileFormatException;
 
 public class ParseXML {
 	private static final Logger logger = LoggerFactory.getLogger(ParseXML.class);
 	private static final DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
 	private static final XPath xPath = XPathFactory.newInstance().newXPath();
 
-	public static Terminalparameters parseXMLFile(final File xmlFile) throws FileFormartException, ParserConfigurationException {
+	public static Terminalparameters parseXMLFile(final File xmlFile) throws FileFormatException, ParserConfigurationException {
 		return parseXMLFile(xmlFile, documentFactory.newDocumentBuilder());
 	}
 
-	public static Terminalparameters parseXMLFile(final String filePath) throws FileFormartException, ParserConfigurationException {
+	public static Terminalparameters parseXMLFile(final String filePath) throws FileFormatException, ParserConfigurationException {
 		return parseXMLFile(new File(filePath), documentFactory.newDocumentBuilder());
 	}
 
-	private static Terminalparameters parseXMLFile(final File sourceFile, final DocumentBuilder documentBuilder) throws FileFormartException {
+	private static Terminalparameters parseXMLFile(final File sourceFile, final DocumentBuilder documentBuilder) throws FileFormatException {
 		Terminalparameters terminalparameters = null;
 		try {
 			if (StringUtils.isBlank(sourceFile.getName())) {
@@ -54,14 +54,14 @@ public class ParseXML {
 			NodeList childNodes = null;
 			NamedNodeMap parameterMap;
 			if (element == null) {
-				throw new FileFormartException("xml文件格式不符合系统要求");
+				throw new FileFormatException("xml文件格式不符合系统要求");
 			}
 			NodeList nodes = element.getChildNodes();
 			if (nodes.getLength() == 0) {
-				throw new FileFormartException("未发现可用元素，xml文件格式不符合系统要求");
+				throw new FileFormatException("未发现可用元素，xml文件格式不符合系统要求");
 			}
 			if (StringUtils.isBlank(element.getAttribute("name").trim())) {
-				throw new FileFormartException("根节点属性name不能为空，xml文件格式不符合系统要求");
+				throw new FileFormatException("根节点属性name不能为空，xml文件格式不符合系统要求");
 			}
 			terminalparameters = new Terminalparameters(element.getAttribute("name").trim(), sourceFile.getName().replaceAll("\\s*", "").replaceAll("[.][^.]+$", ""));
 			List<TerminalParametersAttrs> terminalParametersAttrs = new ArrayList<>();
@@ -74,15 +74,15 @@ public class ParseXML {
 			for (int i = 0; i < nodes.getLength(); i++) {
 				if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
 					if (!nodes.item(i).hasAttributes()) {
-						throw new FileFormartException("参数至少有一个属性！文件格式不符合系统要求。");
+						throw new FileFormatException("参数至少有一个属性！文件格式不符合系统要求。");
 					}
 					parameterMap = nodes.item(i).getAttributes();
 					if (parameterMap.getNamedItem("name") == null || StringUtils.isBlank(parameterMap.getNamedItem("name").getNodeValue())) {
-						throw new FileFormartException("参数缺少name！文件格式不符合系统要求。");
+						throw new FileFormatException("参数缺少name！文件格式不符合系统要求。");
 					}
 					terminalParametersAttr = new TerminalParametersAttrs(parameterMap.getNamedItem("name").getNodeValue().trim());
 					if (parameterMap.getNamedItem("order") == null || StringUtils.isBlank(parameterMap.getNamedItem("order").getNodeValue())) {
-						throw new FileFormartException("参数缺少order！文件格式不符合系统要求。");
+						throw new FileFormatException("参数缺少order！文件格式不符合系统要求。");
 					}
 					terminalParametersAttr.setOrder(Integer.valueOf(parameterMap.getNamedItem("order").getNodeValue().trim()));
 					lasterOrder=lasterOrder<terminalParametersAttr.getOrder()?terminalParametersAttr.getOrder():lasterOrder;
@@ -104,7 +104,7 @@ public class ParseXML {
 						if (childNodes.item(j).getNodeType() == Node.ELEMENT_NODE) {
 							parameterAttribute = new ParameterAttribute();
 							if (!childNodes.item(j).hasAttributes()) {
-								throw new FileFormartException("属性配置缺少name或description！文件格式不符合系统要求。");
+								throw new FileFormatException("属性配置缺少name或description！文件格式不符合系统要求。");
 							}
 							parameterMap = childNodes.item(j).getAttributes();
 							if (parameterMap.getNamedItem("name") != null || StringUtils.isBlank(parameterMap.getNamedItem("name").getNodeValue())) {
@@ -117,12 +117,12 @@ public class ParseXML {
 								eleValue = childNodes.item(j).getChildNodes().item(0).getNodeValue().trim();
 								if ("datatype".equalsIgnoreCase(parameterAttribute.getName())) {
 									if (!Arrays.asList(CommonResources.DATETYPE).contains(eleValue.toLowerCase())) {
-										throw new FileFormartException("数据类型不符合要求，请检查文件配置");
+										throw new FileFormatException("数据类型不符合要求，请检查文件配置");
 									}
 								}
 								if ("datatypeformat".equalsIgnoreCase(parameterAttribute.getName())) {
 									if (!Arrays.asList(CommonResources.DATEFORMATE).contains(eleValue)) {
-										throw new FileFormartException("日期或时间格式不符合要求，请检查文件配置");
+										throw new FileFormatException("日期或时间格式不符合要求，请检查文件配置");
 									}
 								}
 								if (("minvalue".equalsIgnoreCase(parameterAttribute.getName()) || "maxvalue".equalsIgnoreCase(parameterAttribute.getName()))) {
@@ -183,10 +183,10 @@ public class ParseXML {
 
 		} catch (Exception e) {
 			logger.error("Error in {0}", e);
-			throw new FileFormartException(e.getMessage());
+			throw new FileFormatException(e.getMessage());
 		}
 		if (terminalparameters == null) {
-			throw new FileFormartException("文件解析失败！请通知管理员查看日志文件。");
+			throw new FileFormatException("文件解析失败！请通知管理员查看日志文件。");
 		}
 		return terminalparameters;
 
