@@ -1,5 +1,6 @@
 package com.partners.weather.job;
 
+import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import com.partners.weather.service.IClientInfoService;
@@ -46,15 +47,15 @@ public class TaskFactory {
 	public void setTerminalHistoryService(ITerminalHistoryService terminalHistoryService) {
 		this.terminalHistoryService = terminalHistoryService;
 	}
-	
+
 	public static IScheduleHistoryService getScheduleHistoryService() {
 		return INSTANCE.historyService;
 	}
-	
+
 	public static ISystemOptionService getOptionService() {
 		return INSTANCE.systemOptionService;
 	}
-	
+
 	public IScheduleHistoryService getHistoryService() {
 		return historyService;
 	}

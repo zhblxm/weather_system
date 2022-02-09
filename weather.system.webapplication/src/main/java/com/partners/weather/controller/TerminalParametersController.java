@@ -42,7 +42,7 @@ import com.partners.weather.common.CommonResources;
 import com.partners.weather.common.MappingType;
 import com.partners.weather.common.RedisKey;
 import com.partners.weather.encrypt.HexUtil;
-import com.partners.weather.exception.FileFormartException;
+import com.partners.weather.exception.FileFormatException;
 import com.partners.weather.redis.RedisPoolManager;
 import com.partners.weather.request.RequestHelper;
 import com.partners.weather.search.SearchIndexUtil;
@@ -224,7 +224,7 @@ public class TerminalParametersController {
 				if (SearchIndexUtil.createIndex(MappingType.INDEX)) {
 					SearchIndexUtil.createMapping(categoryId, terminalparameters, MappingType.INDEX);
 				}
-			} catch (FileFormartException | ParserConfigurationException | IOException | BadHanyuPinyinOutputFormatCombination e) {
+			} catch (FileFormatException | ParserConfigurationException | IOException | BadHanyuPinyinOutputFormatCombination e) {
 				responseMsg.setStatusCode(1);
 				responseMsg.setMessage("解析文件失败，请稍后再试！");
 				logger.error("Error in {}", e);

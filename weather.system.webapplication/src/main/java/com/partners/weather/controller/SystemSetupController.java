@@ -102,7 +102,7 @@ public class SystemSetupController {
 			DateTime now = new DateTime();
 			String trigger = "";
 			if ("Y".equalsIgnoreCase(systemOption.getOptionValue())) {
-				if (!ScheduleFactory.checkExixtsScheduler(CommonResources.TERMINALDATETASK)) {
+				if (!ScheduleFactory.checkExistsScheduler(CommonResources.TERMINALDATETASK)) {
 					trigger = String.format("0 %d %d %d %d *", now.getMinuteOfHour() + 2, now.getHourOfDay(), now.getDayOfMonth(), now.getMonthOfYear());
 					ScheduleFactory.addSchedule(CommonResources.TERMINALDATETASK, new CronTrigger(trigger), new TerminalDateTimeTask());
 				}
@@ -136,8 +136,8 @@ public class SystemSetupController {
 			systemOption.setOptionValue(imagepath);
 			systemOptionService.addSystemOption(systemOption);
 			// 自动补数
-			if (ScheduleFactory.checkExixtsScheduler(CommonResources.DATAACQUISITIONTASK)) {
-				ScheduleFactory.cancleSchedule(CommonResources.DATAACQUISITIONTASK);
+			if (ScheduleFactory.checkExistsScheduler(CommonResources.DATAACQUISITIONTASK)) {
+				ScheduleFactory.cancelSchedule(CommonResources.DATAACQUISITIONTASK);
 			}
 			trigger = String.format("0 0 %s * * ?", executedate);
 			ScheduleFactory.addSchedule(CommonResources.DATAACQUISITIONTASK, new CronTrigger(trigger), new DataAcquisitionTask());

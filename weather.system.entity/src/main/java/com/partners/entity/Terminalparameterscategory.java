@@ -1,5 +1,7 @@
 package com.partners.entity;
 
+import lombok.Builder;
+
 public class Terminalparameterscategory extends BaseEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

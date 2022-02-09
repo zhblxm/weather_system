@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -20,9 +21,8 @@ import com.partners.entity.Schedulehistory;
 import com.partners.entity.WeatherstationClient;
 import com.partners.weather.protocol.ComponentManager;
 
+@Slf4j
 public class ManualSynDataTask implements Runnable {
-	private static final Logger logger = LoggerFactory.getLogger(DataAcquisitionTask.class);
-
 	private List<Integer> weatherStationIds;
 	private String systemDateFrom;
 	private String systemDateTo;
@@ -59,7 +59,7 @@ public class ManualSynDataTask implements Runnable {
 		} catch (Exception ex) {
 			schedulehistory.setTaskResult((byte) 2);
 			schedulehistory.setTaskMessage("手动数据采集失败.Exception:" + ex.getMessage());
-			logger.error("Error in {}", ex);
+			log.error("Error in {}", ex);
 		}
 		schedulehistory.setTaskEndDate(new Timestamp(new Date().getTime()));
 		TaskFactory.getScheduleHistoryService().insertHistory(schedulehistory);
@@ -68,7 +68,6 @@ public class ManualSynDataTask implements Runnable {
 	/**
 	 * 从Terminal获取气象数据
 	 * 
-	 * @param receiveDate
 	 * @param clientIP
 	 * @param port
 	 * @param schedulehistory
@@ -86,13 +85,13 @@ public class ManualSynDataTask implements Runnable {
 		byte[] sendToTerminalBs = sendToTerminalStr.getBytes();
 
 		try {
-			logger.info(sendToTerminalStr);
-			logger.info(clientIP + ":" + port);
+			log.info(sendToTerminalStr);
+			log.info(clientIP + ":" + port);
 			socket = new Socket(clientIP, port);
 			out = new BufferedOutputStream(socket.getOutputStream());
 			out.write(sendToTerminalBs);
 			out.flush();
-			logger.info("命令发送成功");
+			log.info("命令发送成功");
 			socket.shutdownOutput();
 			
 			in = new BufferedInputStream(socket.getInputStream());
@@ -100,11 +99,11 @@ public class ManualSynDataTask implements Runnable {
 			byte[] buffer = new byte[availableLen];
 			in.read(buffer, 0, availableLen);
 			receiveWeatherInfo = new String(buffer, "UTF-8");
-			logger.info(receiveWeatherInfo);
+			log.info(receiveWeatherInfo);
 		} catch (Exception ex) {
 			schedulehistory.setTaskResult((byte) 2);
 			schedulehistory.setTaskMessage("补数据采集失败.Exception:" + ex.getMessage());
-			logger.error("Error in {}", ex);
+			log.error("Error in {}", ex);
 		} finally {
 			try {
 				if (null != in) {
@@ -119,7 +118,7 @@ public class ManualSynDataTask implements Runnable {
 					socket.close();
 				}
 			} catch (IOException e) {
-				logger.error("Error in {}", e);
+				log.error("Error in {}", e);
 			}
 		}
 		return receiveWeatherInfo;
@@ -130,7 +129,6 @@ public class ManualSynDataTask implements Runnable {
 	 * 
 	 * @param dateFrom
 	 * @param dateTo
-	 * @param acquisitionFrequency
 	 * @param weatherstationClient
 	 * @param schedulehistory
 	 */

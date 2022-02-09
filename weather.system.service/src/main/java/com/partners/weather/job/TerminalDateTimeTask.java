@@ -73,7 +73,7 @@ public class TerminalDateTimeTask implements Runnable {
 		schedulehistory.setTaskEndDate(new Timestamp(new Date().getTime()));
 		TaskFactory.getScheduleHistoryService().insertHistory(schedulehistory);
 		// 取消任务
-		ScheduleFactory.cancleSchedule(CommonResources.TERMINALDATETASK);
+		ScheduleFactory.cancelSchedule(CommonResources.TERMINALDATETASK);
 	}
 
 }

@@ -1,7 +1,12 @@
 package com.partners.entity;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Builder
+@Data
 public class RequestMessage implements Serializable {
 
 	private static final long serialVersionUID = 7960171418870139074L;
@@ -9,28 +14,6 @@ public class RequestMessage implements Serializable {
 	private int Port;
 	private String RequestMessage;
 
-	public String getClientIP() {
-		return ClientIP;
+	public RequestMessage() {
 	}
-
-	public void setClientIP(String clientIP) {
-		ClientIP = clientIP;
-	}
-
-	public int getPort() {
-		return Port;
-	}
-
-	public void setPort(int port) {
-		Port = port;
-	}
-
-	public String getRequestMessage() {
-		return RequestMessage;
-	}
-
-	public void setRequestMessage(String requestMessage) {
-		RequestMessage = requestMessage;
-	}
-
 }

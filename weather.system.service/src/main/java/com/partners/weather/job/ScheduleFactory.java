@@ -4,15 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ScheduleFactory {
-	private static final Logger logger = LoggerFactory.getLogger(ScheduleFactory.class);
 	private static volatile ThreadPoolTaskScheduler threadPoolTaskScheduler;
 	private static volatile Map<String, ScheduledFuture<?>> futureMap = new HashMap<>();
 	static {
@@ -27,11 +26,11 @@ public class ScheduleFactory {
 			ScheduledFuture<?> future = threadPoolTaskScheduler.schedule(task, trigger);
 			futureMap.put(scheduleName, future);
 		} catch (Exception e) {
-			logger.error("Error in {}", e);
+			log.error("Error in {}", e);
 		}
 	}
 
-	public static void cancleSchedule(String scheduleName) {
+	public static void cancelSchedule(String scheduleName) {
 		try {
 			if (futureMap.containsKey(scheduleName)) {
 				ScheduledFuture<?> future = futureMap.get(scheduleName);
@@ -39,14 +38,14 @@ public class ScheduleFactory {
 				futureMap.remove(scheduleName);
 			}
 		} catch (Exception e) {
-			logger.error("Error in {}", e);
+			log.error("Error in {}", e);
 		}
 	}
-	public static boolean checkExixtsScheduler(String scheduleName) {
+	public static boolean checkExistsScheduler(String scheduleName) {
 		try {
 			return futureMap.containsKey(scheduleName);
 		} catch (Exception e) {
-			logger.error("Error in {}", e);
+			log.error("Error in {}", e);
 		}
 		return false;
 	}
@@ -54,7 +53,7 @@ public class ScheduleFactory {
 		try {
 			threadPoolTaskScheduler.shutdown();
 		} catch (Exception e) {
-			logger.error("Error in {}", e);
+			log.error("Error in {}", e);
 		}
 	}
 }
