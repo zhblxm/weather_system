@@ -42,10 +42,11 @@ public class MonitorTask implements Runnable {
                 now.compareTo(heartbeatMap.get(weatherstation.getWeatherStationNumber()).getCreateDate().plusMinutes(CommonResources.ONOROFFLINECOUNT)) > 0).collect(Collectors.toList());
 
         for (Weatherstation weatherstation : weatherStations) {
-            notification = Notification.builder().notificationType(NotificationType.DataMissAlert.getValue())
-                    .notificationDesc(NotificationType.DataMissAlert.getDescription())
-                    .message(String.format("站点编号为%s，长时间未收到数据", weatherstation.getWeatherStationNumber()))
-                    .isChecked((byte) 1).build();
+            notification=new Notification();
+            notification.setNotificationType(NotificationType.DataMissAlert.getValue());
+            notification.setNotificationDesc(NotificationType.DataMissAlert.getDescription());
+            notification.setMessage(String.format("站点编号为%s，长时间未收到数据",weatherstation.getWeatherStationNumber()));
+            notification.setIsChecked((byte)1);
             EmailHelper.SendEmail(settings, notification, NotificationType.DataMissAlert);
             notifications.add(notification);
         }

@@ -70,10 +70,11 @@ public class TerminalDownload implements Runnable {
                     if (StringUtils.isBlank(receiveMsg)) {
                         return;
                     }
-                    ComponentManager.getInstance().getJedisQueue().pushFromHead(
-                            RequestMessage.builder().ClientIP(socket.getInetAddress().getHostAddress())
-                                    .Port(socket.getPort())
-                                    .RequestMessage(receiveMsg).build());
+                    RequestMessage message = new RequestMessage();
+                    message.setClientIP(socket.getInetAddress().getHostAddress());
+                    message.setPort(socket.getPort());
+                    message.setRequestMessage(receiveMsg);
+                    ComponentManager.getInstance().getJedisQueue().pushFromHead(message);
                 });
 
             } catch (Exception e) {
