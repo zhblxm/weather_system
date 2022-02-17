@@ -5,7 +5,7 @@ import java.util.List;
 import com.partners.entity.FilePushFlag;
 
 public interface IFilePushFlagService {
-	public List<FilePushFlag> getAllFilePushFlags();
+	List<FilePushFlag> getAllFilePushFlags();
 	
-	public FilePushFlag getFilePushFlag(List<FilePushFlag> filePushFlags, String terminalParam);
+	FilePushFlag getFilePushFlag(List<FilePushFlag> filePushFlags, String terminalParam);
 }

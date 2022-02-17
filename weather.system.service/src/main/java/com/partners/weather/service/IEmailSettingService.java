@@ -5,7 +5,7 @@ import com.partners.view.entity.ResponseMsg;
 
 public interface IEmailSettingService {
 
-	public Emalilandsmssettings getEmalilandsmssetting();
+	Emalilandsmssettings getEmalilandsmssetting();
 
-	public ResponseMsg insertOrUpdateEmailSettings(Emalilandsmssettings emalilandsmssetting);
+	ResponseMsg insertOrUpdateEmailSettings(Emalilandsmssettings emalilandsmssetting);
 }
