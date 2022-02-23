@@ -1,38 +1,38 @@
 package com.partners.weather.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.partners.entity.TerminalParamSettings;
 import com.partners.entity.Terminalparameters;
 import com.partners.entity.Terminalparameterscategory;
 import com.partners.view.entity.ResponseMsg;
 import com.partners.view.entity.VTerminalParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface ITerminalParamCategoryService {
-	public ArrayList<Terminalparameterscategory> getAllCategories();
+    ArrayList<Terminalparameterscategory> getAllCategories();
 
-	public ArrayList<Terminalparameterscategory> getTerminalparamCategorys(VTerminalParam vTerminalParam);
+    ArrayList<Terminalparameterscategory> getTerminalparamCategorys(VTerminalParam vTerminalParam);
 
-	public Terminalparameterscategory getTerminalparamCategory(int categoryId);
+    Terminalparameterscategory getTerminalparamCategory(int categoryId);
 
-	public void delTerminalparamCategory(int categoryId);
+    void delTerminalparamCategory(int categoryId);
 
-	public ResponseMsg insertTerminalParamCategory(Terminalparameterscategory terminalparameterscategory);
+    ResponseMsg insertTerminalParamCategory(Terminalparameterscategory terminalparameterscategory);
 
-	public Terminalparameterscategory getTerminalparamCategoryByName(String terminalParamCategoryName);
+    Terminalparameterscategory getTerminalparamCategoryByName(String terminalParamCategoryName);
 
-	public ArrayList<TerminalParamSettings> getTerminalParamSettings(int categoryId);
+    ArrayList<TerminalParamSettings> getTerminalParamSettings(int categoryId);
 
-	public ResponseMsg batchInsertTerminalParamSettings(List<TerminalParamSettings> terminalParamSettings);
+    ResponseMsg batchInsertTerminalParamSettings(List<TerminalParamSettings> terminalParamSettings);
 
-	public ResponseMsg batchInsertTerminalParamSettings(int categoryId, Terminalparameters terminalparameter);
+    ResponseMsg batchInsertTerminalParamSettings(int categoryId, Terminalparameters terminalparameter);
 
-	public int getTerminalparamCategoryCount(VTerminalParam vTerminalParam);
+    int getTerminalparamCategoryCount(VTerminalParam vTerminalParam);
 
-	public List<TerminalParamSettings> getAllTerminalParamSettings();
+    List<TerminalParamSettings> getAllTerminalParamSettings();
 
-	public void setTerminalParameterValue(int categoryId,Terminalparameters terminalparameter, List<TerminalParamSettings> terminalParamSettings);
-	
-	public void setTerminalParameterValue(int categoryId,List<Terminalparameters> terminalparameters, List<TerminalParamSettings> terminalParamSettings);
+    void setTerminalParameterValue(int categoryId, Terminalparameters terminalparameter, List<TerminalParamSettings> terminalParamSettings);
+
+    void setTerminalParameterValue(int categoryId, List<Terminalparameters> terminalparameters, List<TerminalParamSettings> terminalParamSettings);
 }

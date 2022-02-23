@@ -7,15 +7,15 @@ import com.partners.view.entity.ResponseMsg;
 import com.partners.view.entity.VMessageNotice;
 
 public interface IMessageNoticeService {
-	public List<MessageNotice> getMessageNotices(VMessageNotice messageNotice);
-	
-	public MessageNotice getMessageNotice(int messageNoticeId);
+    List<MessageNotice> getMessageNotices(VMessageNotice messageNotice);
 
-	public ResponseMsg insertMessageNotice(MessageNotice messageNotice);
+    MessageNotice getMessageNotice(int messageNoticeId);
 
-	public ResponseMsg updateMessageNotice(MessageNotice messageNotice);
-	
-	public boolean delMessageNotice(int messageNoticeId);
-	
-	public int getMessageNoticeCount(VMessageNotice messageNotice);
+    ResponseMsg insertMessageNotice(MessageNotice messageNotice);
+
+    ResponseMsg updateMessageNotice(MessageNotice messageNotice);
+
+    boolean delMessageNotice(int messageNoticeId);
+
+    int getMessageNoticeCount(VMessageNotice messageNotice);
 }

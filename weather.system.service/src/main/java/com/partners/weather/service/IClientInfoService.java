@@ -6,13 +6,13 @@ import com.partners.entity.ClientInfo;
 import com.partners.view.entity.ResponseMsg;
 
 public interface IClientInfoService {
-	public List<ClientInfo> getClientInfos();
+    List<ClientInfo> getClientInfos();
 
-	public ClientInfo getClientInfo(String clientIP);
-	
-	public ClientInfo getClientInfoByWSNumber(String weatherStationNumber);
+    ClientInfo getClientInfo(String clientIP);
 
-	public ResponseMsg insertClientInfo(ClientInfo clientInfo);
+    ClientInfo getClientInfoByWSNumber(String weatherStationNumber);
 
-	public ResponseMsg updateClientInfo(ClientInfo clientInfo);
+    ResponseMsg insertClientInfo(ClientInfo clientInfo);
+
+    ResponseMsg updateClientInfo(ClientInfo clientInfo);
 }

@@ -7,11 +7,11 @@ import com.partners.view.entity.VTerminalhistory;
 
 public interface ITerminalHistoryService {
 
-	public void createNewTable(String tableName) throws IllegalArgumentException;
+    void createNewTable(String tableName) throws IllegalArgumentException;
 
-	public int inserTerminalhistory(Terminalhistory terminalhistory);
+    int inserTerminalhistory(Terminalhistory terminalhistory);
 
-	public void updateTerminalParamCategory(Terminalhistory terminalhistory);
+    void updateTerminalParamCategory(Terminalhistory terminalhistory);
 
-	public List<Terminalhistory> getTerminalhistorys(VTerminalhistory vTerminalhistory);
+    List<Terminalhistory> getTerminalhistorys(VTerminalhistory vTerminalhistory);
 }

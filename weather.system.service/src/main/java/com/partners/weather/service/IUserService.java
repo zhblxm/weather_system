@@ -1,27 +1,27 @@
 package com.partners.weather.service;
 
-import java.util.List;
-
 import com.partners.entity.Adminuser;
 import com.partners.view.entity.ResponseMsg;
 import com.partners.view.entity.VUser;
 
+import java.util.List;
+
 public interface IUserService {
-	public Adminuser login(String userName, String userPassword);
+    Adminuser login(String userName, String userPassword);
 
-	public List<Adminuser> getUsers(VUser vUser);
+    List<Adminuser> getUsers(VUser vUser);
 
-	public Adminuser getUser(int userId);
+    Adminuser getUser(int userId);
 
-	public int checkUserExists(int userId, String userName);
+    int checkUserExists(int userId, String userName);
 
-	public ResponseMsg insertUser(Adminuser adminuser);
+    ResponseMsg insertUser(Adminuser adminuser);
 
-	public boolean updateUser(Adminuser adminuser);
+    boolean updateUser(Adminuser adminuser);
 
-	public boolean updateUserPwd(Adminuser adminuser);
+    boolean updateUserPwd(Adminuser adminuser);
 
-	public boolean delUser(int userId);
-	
-	public int getUserCount(VUser vUser);
+    boolean delUser(int userId);
+
+    int getUserCount(VUser vUser);
 }

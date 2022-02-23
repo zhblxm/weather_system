@@ -7,15 +7,15 @@ import com.partners.view.entity.ResponseMsg;
 import com.partners.view.entity.VNotification;
 
 public interface INotificationService {
-	public List<Notification> getNotifications(VNotification vnotification);
+    List<Notification> getNotifications(VNotification vnotification);
 
-	public ResponseMsg inserNotification(Notification notification);
+    ResponseMsg inserNotification(Notification notification);
 
-	public ResponseMsg updateNotification(int notificationId);
-	
-	public ResponseMsg batchInserNotification(List<Notification> notifications);
-	
-	public ResponseMsg batchUpdateNotification(List<Integer> notifications);
-	
-	public int getNotificationCount();
+    ResponseMsg updateNotification(int notificationId);
+
+    ResponseMsg batchInserNotification(List<Notification> notifications);
+
+    ResponseMsg batchUpdateNotification(List<Integer> notifications);
+
+    int getNotificationCount();
 }

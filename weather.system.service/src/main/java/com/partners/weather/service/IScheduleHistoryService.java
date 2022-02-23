@@ -7,9 +7,9 @@ import com.partners.view.entity.ResponseMsg;
 import com.partners.view.entity.VSchedule;
 
 public interface IScheduleHistoryService {
-	public ResponseMsg insertHistory(Schedulehistory schedulehistory);
+    ResponseMsg insertHistory(Schedulehistory schedulehistory);
 
-	public List<Schedulehistory> getSchedules(VSchedule vschedule);
+    List<Schedulehistory> getSchedules(VSchedule vschedule);
 
-	public int getScheduleCount();
+    int getScheduleCount();
 }

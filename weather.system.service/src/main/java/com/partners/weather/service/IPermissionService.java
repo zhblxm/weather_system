@@ -9,15 +9,25 @@ import com.partners.view.entity.ResponseMsg;
 import com.partners.view.entity.VUserGroup;
 
 public interface IPermissionService {
-	public ArrayList<Permission> getPermissions();
-	public ResponseMsg insertUserGroup(Usergroup usergroup,int[] permissions);
-	public int getMaxId();
-	public ArrayList<Usergroup> getUserGroups(VUserGroup vuserGroup);
-	public Usergroup getUserGroup(int groupId);
-	public int getUserGroupJoinAdminUserCount(int groupId);
-	public void delUserGroup(int groupId);
-	public List<Integer> getGroupPermissions(int groupId);
-	public ArrayList<Usergroup> getALLGroups();	
-	public int getUserGroupCount(VUserGroup vuserGroup);
-	public List<Permission> getUserNavPermissions(List<Integer> permissions);
+    ArrayList<Permission> getPermissions();
+
+    ResponseMsg insertUserGroup(Usergroup usergroup, int[] permissions);
+
+    int getMaxId();
+
+    ArrayList<Usergroup> getUserGroups(VUserGroup vuserGroup);
+
+    Usergroup getUserGroup(int groupId);
+
+    int getUserGroupJoinAdminUserCount(int groupId);
+
+    void delUserGroup(int groupId);
+
+    List<Integer> getGroupPermissions(int groupId);
+
+    ArrayList<Usergroup> getALLGroups();
+
+    int getUserGroupCount(VUserGroup vuserGroup);
+
+    List<Permission> getUserNavPermissions(List<Integer> permissions);
 }

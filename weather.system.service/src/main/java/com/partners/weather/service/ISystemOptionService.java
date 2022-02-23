@@ -6,13 +6,13 @@ import com.partners.entity.SystemOption;
 import com.partners.view.entity.ResponseMsg;
 
 public interface ISystemOptionService {
-	public List<SystemOption> getSystemOptions();
+    List<SystemOption> getSystemOptions();
 
-	public SystemOption getSystemOption(String optionId);
+    SystemOption getSystemOption(String optionId);
 
-	public ResponseMsg addSystemOption(SystemOption systemOption);
-	
-	public SystemOption getSystemOption(List<SystemOption> systemOptions,String optionId);
-	
-	public ResponseMsg delSystemOption(String optionId);
+    ResponseMsg addSystemOption(SystemOption systemOption);
+
+    SystemOption getSystemOption(List<SystemOption> systemOptions, String optionId);
+
+    ResponseMsg delSystemOption(String optionId);
 }
