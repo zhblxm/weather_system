@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +18,7 @@ import com.partners.weather.common.CommonResources;
 public class RequestHelper {
 	private static final Logger logger = LoggerFactory.getLogger(RequestHelper.class);
 	public static vBaseEntity prepareRequest(HttpServletRequest request, boolean isCustomeSize) {
-		if (request == null) {
+		if (Objects.isNull(request)) {
 			throw new NullPointerException("request");
 		}
 		vBaseEntity entity = new vBaseEntity();

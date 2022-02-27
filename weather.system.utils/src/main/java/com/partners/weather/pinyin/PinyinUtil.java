@@ -8,22 +8,18 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 public class PinyinUtil {
 	public static String chineseToPinyin(String chinese) throws BadHanyuPinyinOutputFormatCombination {
-		String pinyinStr = "";
+		StringBuilder pingyinBuilder=new StringBuilder();
 		char[] newChar = chinese.toCharArray();
 		HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
 		defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
 		defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-		for (int i = 0; i < newChar.length; i++) {
-			if (newChar[i] > 128) {
-				try {
-					pinyinStr += PinyinHelper.toHanyuPinyinStringArray(newChar[i], defaultFormat)[0];
-				} catch (BadHanyuPinyinOutputFormatCombination e) {
-					throw e;
-				}
-			} else {
-				pinyinStr += newChar[i];
+		for (char c : newChar) {
+			if (c <=128) {
+				pingyinBuilder.append(c);
+				continue;
 			}
+			pingyinBuilder.append(PinyinHelper.toHanyuPinyinStringArray(c, defaultFormat)[0]);
 		}
-		return pinyinStr;
+		return pingyinBuilder.toString();
 	}
 }
