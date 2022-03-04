@@ -23,8 +23,11 @@ import com.partners.weather.common.CommonResources;
 import com.partners.weather.ip.IPUtil;
 import com.partners.weather.service.IUserAuditTrailLogService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Aspect
 @Component
+@Slf4j
 public class UserActionAspect {
 	private static final Logger logger = LoggerFactory.getLogger(UserActionAspect.class);
 	@Autowired
@@ -39,10 +42,10 @@ public class UserActionAspect {
 		StringBuilder argsBuilder = new StringBuilder();
 		UserAction userAction = method.getAnnotation(UserAction.class);
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		argsBuilder.append("请求地址 :" + request.getRequestURL().toString());
-		argsBuilder.append(CommonResources.NEWLINE+"请求方式 : " + request.getMethod());
-		argsBuilder.append(CommonResources.NEWLINE+"IP地址: " + request.getRemoteAddr());
-		argsBuilder.append(CommonResources.NEWLINE+"模块信息 : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+		argsBuilder.append("请求地址 :").append(request.getRequestURL().toString());
+		argsBuilder.append(CommonResources.NEWLINE + "请求方式 : ").append(request.getMethod());
+		argsBuilder.append(CommonResources.NEWLINE + "IP地址: ").append(request.getRemoteAddr());
+		argsBuilder.append(CommonResources.NEWLINE + "模块信息 : ").append(joinPoint.getSignature().getDeclaringTypeName()).append(".").append(joinPoint.getSignature().getName());
 		String argsString = Arrays.toString(joinPoint.getArgs());
 		if (argsString.length() > 1000) {
 			if (this.logger.isInfoEnabled()) {
