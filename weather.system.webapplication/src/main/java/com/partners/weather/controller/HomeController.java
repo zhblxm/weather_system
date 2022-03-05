@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,7 @@ public class HomeController {
 	IPermissionService permissionService;
 	@Autowired
 	JedisPool jedisPool;
+
 	@Autowired
 	IMessageNoticeService messageNoticeService;
 
@@ -58,22 +60,7 @@ public class HomeController {
 	}
 	@RequestMapping("/header")
 	public String header(HttpServletRequest request) throws ParseException {
-//		Adminuser adminuser = (Adminuser) request.getSession().getAttribute(CommonResources.ADMINUSERKEY);
-//		List<Permission> permissions = null;
 		request.setAttribute("Notification", 0);
-//		if (!adminuser.getPermissions().isEmpty()) {
-//			permissions = permissionService.getUserNavPermissions(adminuser.getPermissions());
-//			Map<Integer, Permission> categoryMap = Maps.uniqueIndex(permissions, new Function<Permission, Integer>() {
-//				@Override
-//				public Integer apply(Permission input) {
-//					return input.getPermissionId();
-//				}
-//			});
-//			if(categoryMap.containsKey(UserPermissionEnum.NOTIFICATION.getId()))
-//			{
-//				request.setAttribute("Notification", 1);
-//			}
-//		}
 		return "pageheader";
 	}
 
@@ -89,45 +76,19 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/pageline")
-	public String line(HttpServletRequest request, HttpServletResponse response) {
+	public String line() {
 		return "pageline";
 	}
 
 	@RequestMapping("/notifications")
 	@ResponseBody
 	public List<MessageNotice> getNotifications(HttpServletRequest request, HttpServletResponse response) {
-		/*
-		Jedis client = null;
-		List<Notification> cacheNotifications = new ArrayList<>();
-		try {
-			RedisPoolManager.Init(jedisPool);
-			client = RedisPoolManager.getJedis();
-			ListSerializeTransfer<Heartbeat> lsSerializeTransfer = new ListSerializeTransfer<>();
-			byte[] key = CommonResources.NOTIFICATIONS.getBytes();
-			if (client.exists(key)) {
-				cacheNotifications = (List<Notification>) lsSerializeTransfer.deserialize(client.get(key));
-			}
-			if (!cacheNotifications.isEmpty()) {
-				Collection<Notification> notificationFilterList = Collections2.filter(cacheNotifications, new Predicate<Notification>() {
-					public boolean apply(Notification notification) {
-						return notification.getIsChecked() == (byte) 1 ? true : false;
-					}
-				});
-				cacheNotifications = Lists.newArrayList(notificationFilterList);
-			}
-		} finally {
-			RedisPoolManager.close(client);
-		}
-		return cacheNotifications;
-		*/
-		
 		VMessageNotice vMessageNotice = new VMessageNotice(null, "", 0, "", "", 0, 1);
 		List<MessageNotice> messageNotices = messageNoticeService.getMessageNotices(vMessageNotice);
-		for (MessageNotice messageNotice : messageNotices) {
-			messageNotice.setUniqueMessageNoticeId(HexUtil.IntToHex(messageNotice.getMessageNoticeId()));
-			messageNotice.setMessageNoticeId(0);
-		}
-		messageNotices = messageNotices == null ? new ArrayList<MessageNotice>(0) : messageNotices;
-		return messageNotices;
+		messageNotices.forEach(m->{
+			m.setUniqueMessageNoticeId(HexUtil.IntToHex(m.getMessageNoticeId()));
+			m.setMessageNoticeId(0);
+		});
+		return Optional.of(messageNotices).orElse(Lists.newArrayListWithCapacity(0));
 	}
 }
