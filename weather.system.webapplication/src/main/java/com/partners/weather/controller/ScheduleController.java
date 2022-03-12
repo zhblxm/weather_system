@@ -39,7 +39,7 @@ public class ScheduleController {
 	public JsonResult logs(HttpServletRequest request) {
 		VSchedule vSchedule=new VSchedule(RequestHelper.prepareRequest(request,true));
 		List<Schedulehistory> scheduleHistories=scheduleHistoryService.getSchedules(vSchedule);
-		int draw = StringUtils.isBlank(request.getParameter("draw")) ? 1 : Integer.valueOf(request.getParameter("draw"));
+		int draw = StringUtils.isBlank(request.getParameter("draw")) ? 1 : Integer.parseInt(request.getParameter("draw"));
 		int count = scheduleHistoryService.getScheduleCount();
 		JsonResult jsonResult = new JsonResult();
 		jsonResult.setDraw(draw);
