@@ -44,8 +44,9 @@ import lombok.extern.slf4j.Slf4j;
 @UserPermission(value = UserPermissionEnum.SYSTEMSETUP)
 @Slf4j
 public class SystemSetupController {
+
     @Resource
-    ISystemOptionService systemOptionService;
+    private ISystemOptionService systemOptionService;
 
     @RequestMapping
     @UserPermission(value = UserPermissionEnum.SYSTEMSETUP)
