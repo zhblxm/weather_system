@@ -1,13 +1,7 @@
 package com.partners.weather.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 import com.partners.entity.Grouppermission;
 import com.partners.entity.Permission;
@@ -18,179 +12,133 @@ import com.partners.weather.dao.IPermissionDAO;
 import com.partners.weather.encrypt.HexUtil;
 import com.partners.weather.service.IPermissionService;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional
+@Slf4j
 public class PermissionServiceImp implements IPermissionService {
-	private static final Logger logger = LoggerFactory.getLogger(PermissionServiceImp.class);
-	@Autowired
-	private IPermissionDAO permissionDAO;
+    @Autowired
+    private IPermissionDAO permissionDAO;
 
-	@Override
-	public ArrayList<Permission> getPermissions() {
-		ArrayList<Permission> permissions = null;
-		try {
-			permissions = permissionDAO.getPermissions();
-			for (Permission permission : permissions) {
-				if(permission.getParentId()==0)
-				{
-					for (Permission childPermission : permissions) {
-						if(childPermission.getParentId()==permission.getPermissionId() )
-						{
-							permission.setHasChild(true);
-							break;
-						}
-					}
-				}
-			}
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		permissions = permissions == null ? new ArrayList<Permission>(0) : permissions;
-		return permissions;
-	}
+    @Override
+    public ArrayList<Permission> getPermissions() {
+        try {
+            List<Permission> permissions = permissionDAO.getPermissions();
+            permissions.stream().filter(p -> p.getPermissionId() == 0).collect(Collectors.toList()).forEach(
+                    p -> {
+                        permissions.stream().filter(e -> e.getParentId() == p.getPermissionId()).forEach(
+                                ph -> ph.setHasChild(Boolean.TRUE)
+                        );
+                    }
+            );
+            return (ArrayList<Permission>) permissions;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return Lists.newArrayListWithCapacity(0);
+    }
 
-	@Override
-	public ResponseMsg insertUserGroup(Usergroup usergroup, int[] permissions) {
-		ResponseMsg responseMsg=new ResponseMsg();
-		responseMsg.setStatusCode(0);
-		try {
-			int groupId = usergroup.getGroupId();	
-			responseMsg.setMessageObject(HexUtil.IntToHex(groupId));
-			int groupCount=permissionDAO.checkGroupExists(groupId,usergroup.getGroupName());
-			if(groupCount>0)
-			{
-				responseMsg.setStatusCode(1);
-				responseMsg.setMessage(usergroup.getGroupName()+"已经存在，请更换其它名字。");
-				return responseMsg;
-			}
-			permissionDAO.insertUserGroup(usergroup);		
-			if (groupId > 0 && permissions.length > 0) {
-				List<Grouppermission> grouppermissions = new ArrayList<>(permissions.length);
-				Grouppermission grouppermission;
-				for (int permissionId : permissions) {
-					grouppermission = new Grouppermission();
-					grouppermission.setGroupId(groupId);
-					grouppermission.setPermissionId(permissionId);
-					grouppermissions.add(grouppermission);
-				}
-				permissionDAO.delUserGroupPermission(groupId);
-				permissionDAO.batchInsertUserPermission(grouppermissions);
-			}
-		} catch (Exception exception) {
-			responseMsg.setStatusCode(-1);
-			responseMsg.setMessage(exception.getMessage());
-			logger.error("Error in {}", exception);
-		}
-		return responseMsg;
-	}
+    @Override
+    public ResponseMsg insertUserGroup(Usergroup usergroup, int[] permissions) {
+        if (ArrayUtils.isNotEmpty(permissions)) {
+            return ResponseMsg.builder().statusCode(1).build();
+        }
+        int groupCount = permissionDAO.checkGroupExists(usergroup.getGroupId(), usergroup.getGroupName());
+        if (groupCount > 0) {
+            return ResponseMsg.builder().statusCode(1).messageObject(HexUtil.IntToHex(usergroup.getGroupId())).message(usergroup.getGroupName() + "已经存在，请更换其它名字。").build();
+        }
+        try {
+            permissionDAO.insertUserGroup(usergroup);
+            List<Grouppermission> groupPermissions = Lists.newArrayListWithCapacity(permissions.length);
+            Grouppermission grouppermission;
+            for (int permissionId : permissions) {
+                grouppermission = new Grouppermission();
+                grouppermission.setGroupId(usergroup.getGroupId());
+                grouppermission.setPermissionId(permissionId);
+                groupPermissions.add(grouppermission);
+            }
+            permissionDAO.delUserGroupPermission(usergroup.getGroupId());
+            permissionDAO.batchInsertUserPermission(groupPermissions);
+            return ResponseMsg.builder().statusCode(0).build();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return ResponseMsg.builder().statusCode(1).build();
+    }
 
-	@Override
-	public int getMaxId() {
-		int maxId = 0;
-		try {
-			maxId = permissionDAO.getMaxId();
+    @Override
+    public int getMaxId() {
+        return permissionDAO.getMaxId();
+    }
 
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		return maxId;
-	}
+    @Override
+    public ArrayList<Usergroup> getUserGroups(VUserGroup vuserGroup) {
+        Preconditions.checkNotNull(vuserGroup, "VUserGroup cannot be null.");
+        try {
+            return permissionDAO.getUserGroups(vuserGroup);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return Lists.newArrayListWithCapacity(0);
+    }
 
-	@Override
-	public ArrayList<Usergroup> getUserGroups(VUserGroup vuserGroup) {
-		ArrayList<Usergroup> usergroups = null;
-		if (vuserGroup == null) {
-			throw new NullPointerException("VUserGroup cannot be null.");
-		}
-		try {
-			usergroups = permissionDAO.getUserGroups(vuserGroup);
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		return usergroups == null ? new ArrayList<Usergroup>(0) : usergroups;
-	}
+    @Override
+    public Usergroup getUserGroup(int groupId) {
+        return permissionDAO.getUserGroup(groupId);
+    }
 
-	@Override
-	public Usergroup getUserGroup(int groupId) {
-		Usergroup usergroup = null;
-		try {
-			usergroup = permissionDAO.getUserGroup(groupId);
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		return usergroup;
-	}
+    @Override
+    public int getUserGroupJoinAdminUserCount(int groupId) {
+        return permissionDAO.getUserGroupJoinAdminUserCount(groupId);
+    }
 
-	@Override
-	public int getUserGroupJoinAdminUserCount(int groupId) {
-		int count = 0;
-		try {
-			count = permissionDAO.getUserGroupJoinAdminUserCount(groupId);
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		return count;
-	}
+    @Override
+    public void delUserGroup(int groupId) {
+        permissionDAO.delUserGroup(groupId);
+    }
 
-	@Override
-	public void delUserGroup(int groupId) {
-		try {
-			permissionDAO.delUserGroup(groupId);
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-	}
+    @Override
+    public List<Integer> getGroupPermissions(int groupId) {
+        return permissionDAO.getGroupPermissions(groupId);
+    }
 
-	@Override
-	public List<Integer> getGroupPermissions(int groupId) {
-		List<Integer> userPermissions = null;
-		try {
-			userPermissions = permissionDAO.getGroupPermissions(groupId);
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		return userPermissions == null ? new ArrayList<Integer>(0) : userPermissions;
-	}
+    @Override
+    public ArrayList<Usergroup> getALLGroups() {
+        try {
+            ArrayList<Usergroup> userGroups = permissionDAO.getALLGroups();
+            if (CollectionUtils.isEmpty(userGroups)) {
+                return Lists.newArrayListWithCapacity(0);
+            }
+            userGroups.forEach(e -> {
+                e.setGroupUniqueId(HexUtil.IntToHex(e.getGroupId()));
+                e.setGroupId(0);
+            });
+            return userGroups;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return Lists.newArrayListWithCapacity(0);
+    }
 
-	@Override
-	public ArrayList<Usergroup> getALLGroups() {
-		ArrayList<Usergroup> usergroups = null;
-		try {
-			usergroups = permissionDAO.getALLGroups();
-			if(usergroups!=null && usergroups.size()>0)
-			{
-				for(Usergroup usergroup:usergroups){
-					usergroup.setGroupUniqueId(HexUtil.IntToHex(usergroup.getGroupId()));
-					usergroup.setGroupId(0);
-				}
-			}
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		return usergroups == null ? new ArrayList<Usergroup>(0) : usergroups;
-	}
+    @Override
+    public int getUserGroupCount(VUserGroup vuserGroup) {
+        return permissionDAO.getUserGroupCount(vuserGroup);
+    }
 
-	@Override
-	public int getUserGroupCount(VUserGroup vuserGroup) {
-		int userGroupCount=0;
-		try {
-			userGroupCount = permissionDAO.getUserGroupCount(vuserGroup);
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		return userGroupCount;
-	}
-
-	@Override
-	public List<Permission> getUserNavPermissions(List<Integer> permissions) {
-		List<Permission> userPermissions = null;
-		try {
-			userPermissions = permissionDAO.getUserNavPermissions(permissions);
-		} catch (Exception exception) {
-			logger.error("Error in {}", exception);
-		}
-		userPermissions = userPermissions == null ? new ArrayList<Permission>(0) : userPermissions;
-		return userPermissions;
-	}
+    @Override
+    public List<Permission> getUserNavPermissions(List<Integer> permissions) {
+        return permissionDAO.getUserNavPermissions(permissions);
+    }
 
 }
