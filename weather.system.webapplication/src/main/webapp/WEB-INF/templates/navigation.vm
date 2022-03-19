@@ -3,7 +3,7 @@
 		<div class="logo">
 			<table class="logotab">
 				<tbody><tr>
-					<td><img src="/resources/images/$!{logo}" alt="" class="logoimg"></td>
+					<td style="font-size:24px;color: #fff;">气象信息管理平台</td>
 				</tr>
 			</tbody></table>
 		</div>

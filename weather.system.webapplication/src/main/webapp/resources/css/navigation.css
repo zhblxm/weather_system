@@ -1,4 +1,4 @@
-*{padding:0;margin:0;list-style:none;text-decoration:none;outline:none;border-spacing:0px;border-collapse:collapse;font-family:"Î¢ÈíÑÅºÚ","Microsoft YaHei",Arial,Helvetica,sans-serif,"SimSun";}
+*{padding:0;margin:0;list-style:none;text-decoration:none;outline:none;border-spacing:0px;border-collapse:collapse;font-family:"Î¢ï¿½ï¿½ï¿½Åºï¿½","Microsoft YaHei",Arial,Helvetica,sans-serif,"SimSun";}
 html,body{height:100%;}
 body{background-color:#f5f7f8;}
 .header_container{height:95px;border-bottom:1px solid #ebebeb;background-color:#ffffff;}
@@ -26,7 +26,7 @@ body{background-color:#f5f7f8;}
 .catedva{float:left;width:30px;height:30px;margin-top:16px;text-align:center;}
 .catedvb{float:left;margin-left:20px;line-height:53px;color:#fff;font-size:15px;}
 .category{
-	height:530px;
+	height:80%;
 }
 .none{
 	display:none;

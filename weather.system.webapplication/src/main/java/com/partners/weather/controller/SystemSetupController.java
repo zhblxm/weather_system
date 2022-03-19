@@ -53,12 +53,7 @@ public class SystemSetupController {
     @UserAction(Action = UserPermissionEnum.SYSTEMSETUP, Description = "系统设置")
     public String Manage(HttpServletRequest request) {
         String saveFilePathDir = request.getSession().getServletContext().getRealPath("/resources/images");
-        File logoFile = new File(saveFilePathDir + "/logo_new.png");
         request.setAttribute("logo", "logo.png");
-        request.setAttribute("backgroundimg", "category7jp1.jpg");
-        if (logoFile.exists()) {
-            request.setAttribute("logo", "logo_new.png");
-        }
         File bgImageFile = new File(saveFilePathDir + "/background.png");
         if (bgImageFile.exists()) {
             request.setAttribute("backgroundimg", "background.png");

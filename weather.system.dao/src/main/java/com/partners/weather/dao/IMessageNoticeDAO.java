@@ -7,15 +7,15 @@ import com.partners.view.entity.VMessageNotice;
 
 
 public interface IMessageNoticeDAO {
-	public List<MessageNotice> getMessageNotices(VMessageNotice messageNotice);
+	List<MessageNotice> getMessageNotices(VMessageNotice messageNotice);
 	
-	public MessageNotice getMessageNotice(int messageNoticeId);
+	MessageNotice getMessageNotice(int messageNoticeId);
 
-	public int insertMessageNotice(MessageNotice messageNotice);
+	int insertMessageNotice(MessageNotice messageNotice);
 
-	public void updateMessageNotice(MessageNotice messageNotice);
+	void updateMessageNotice(MessageNotice messageNotice);
 	
-	public int getMessageNoticeCount(VMessageNotice messageNotice);
+	int getMessageNoticeCount(VMessageNotice messageNotice);
 
-	public void delMessageNotice(int messageNoticeId);
+	void delMessageNotice(int messageNoticeId);
 }
