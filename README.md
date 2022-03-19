@@ -15,10 +15,11 @@ This project is broken down into multiple sub-modules, each solving a different 
 
 Demos
 =====
-A pair of demo applications are in the [`grpc-java-contrib-demo`](https://github.com/salesforce/grpc-java-contrib/tree/master/demos/grpc-java-contrib-demo) directory.
+![Image text](https://raw.githubusercontent.com/zhblxm/weather_system/main/screen/index.png)
 
-* *time-service-demo* - Hosts a simple gRPC service that reports the current time. Demonstrates grpc-spring service hosting.
-* *time-client-demo* - Connects to the time service. Demonstrates `StaticResolver` and jProtoc.
+![Image text](https://raw.githubusercontent.com/zhblxm/weather_system/main/screen/monitor.png)
+
+![Image text](https://raw.githubusercontent.com/zhblxm/weather_system/main/screen/category.png)
 
 Usage
 =====
