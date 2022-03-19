@@ -15,11 +15,11 @@ This project is broken down into multiple sub-modules, each solving a different 
 
 Demos
 =====
-![Image text](https://github.com/zhblxm/weather_system/blob/main/screen/index.png)
+![Image text](https://raw.githubusercontent.com/zhblxm/weather_system/main/screen/index.png)
 
-![Image text](https://github.com/zhblxm/weather_system/blob/main/screen/monitor.png)
+![Image text](https://raw.githubusercontent.com/zhblxm/weather_system/main/screen/monitor.png)
 
-![Image text](https://github.com/zhblxm/weather_system/blob/main/screen/category.pngg)
+![Image text](https://raw.githubusercontent.com/zhblxm/weather_system/main/screen/category.png)
 
 Usage
 =====
