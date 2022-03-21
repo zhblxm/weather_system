@@ -13,87 +13,87 @@ import com.partners.view.entity.VStatistics;
 import com.partners.view.entity.VWeatherStation;
 import com.partners.view.entity.VWeatherstationcategory;
 
-public interface IWeatherStationDAO {
-	public List<Integer> getAllPorts();
+interface IWeatherStationDAO {
+	List<Integer> getAllPorts();
 
-	public int getWeatherStationTerminalCount();
+	int getWeatherStationTerminalCount();
 	
-	public List<WeatherStationTerminal> getWeatherStationTerminals();
+	List<WeatherStationTerminal> getWeatherStationTerminals();
 
-	public WeatherStationTerminal getWeatherStationTerminalByModel(String terminalModel);
+	WeatherStationTerminal getWeatherStationTerminalByModel(String terminalModel);
 
-	public List<Weatherstationcategory> getWeatherStationCategorys(VWeatherstationcategory vWeatherstationcategory);
+	List<Weatherstationcategory> getWeatherStationCategorys(VWeatherstationcategory vWeatherstationcategory);
 
-	public List<Weatherstationcategory> getAllWeatherCatsExcludeCategory(int categoryId);
+	List<Weatherstationcategory> getAllWeatherCatsExcludeCategory(int categoryId);
 
-	public Weatherstationcategory getWeatherStationCategory(int categoryId);
+	Weatherstationcategory getWeatherStationCategory(int categoryId);
 
-	public Weatherstationcategory getWeatherStationCategoryByName(String weatherStationCategoryName);
+	Weatherstationcategory getWeatherStationCategoryByName(String weatherStationCategoryName);
 
-	public void delWeatherStationCategory(int categoryId);
+	void delWeatherStationCategory(int categoryId);
 
-	public int checkCategoryExists(int categoryId, String weatherStationCategoryName);
+	int checkCategoryExists(int categoryId, String weatherStationCategoryName);
 
-	public int checkWeatherStationExists(int categoryId);
+	int checkWeatherStationExists(int categoryId);
 
-	public int getWeatherCategoryMaxId();
+	int getWeatherCategoryMaxId();
 
-	public void insertWeatherStationCategory(Weatherstationcategory weatherstationcategory);
+	void insertWeatherStationCategory(Weatherstationcategory weatherstationcategory);
 	
-	public List<Weatherstationcategory> getAllWeatherStationCategory();		
+	List<Weatherstationcategory> getAllWeatherStationCategory();		
 	
-	public int getWeatherStationCategoryCount(VWeatherstationcategory vWeatherstationcategory);
+	int getWeatherStationCategoryCount(VWeatherstationcategory vWeatherstationcategory);
 	
-	public void updateStationCategoryName(Weatherstationcategory weatherstationcategory);	
+	void updateStationCategoryName(Weatherstationcategory weatherstationcategory);	
 	
-	public List<WeatherStationTerminal> getTerminalsByStationId(List<Integer> categories);
+	List<WeatherStationTerminal> getTerminalsByStationId(List<Integer> categories);
 
 	/******************************** * Weather Station ***********************************************/
 	
-	public List<Weatherstation> getAllWeatherStation();
+	List<Weatherstation> getAllWeatherStation();
 	
-	public List<Weatherstation> getWeatherStations(VWeatherStation vWeatherStation);
+	List<Weatherstation> getWeatherStations(VWeatherStation vWeatherStation);
 
-	public Weatherstation getWeatherStation(int weatherStationId);
+	Weatherstation getWeatherStation(int weatherStationId);
 
-	public Weatherstation getWeatherStationByName(String weatherStationName);
+	Weatherstation getWeatherStationByName(String weatherStationName);
 
-	public void delWeatherStation(int weatherStationId);
+	void delWeatherStation(int weatherStationId);
 
-	public void delWeatherStationTerminal(int weatherStationId);
+	void delWeatherStationTerminal(int weatherStationId);
 
-	public int insertWeatherStation(Weatherstation weatherstation);
+	int insertWeatherStation(Weatherstation weatherstation);
 
-	public int batchInsertWeatherStationTerminal(List<WeatherStationTerminal> weatherStationTerminals);
+	int batchInsertWeatherStationTerminal(List<WeatherStationTerminal> weatherStationTerminals);
 
-	public ArrayList<WeatherStationTerminal> getWeatherStationTerminalById(int weatherStationId);
+	ArrayList<WeatherStationTerminal> getWeatherStationTerminalById(int weatherStationId);
 	
-	public int checkWeatherStationByNameExists(int weatherStationId, String weatherStationName);
+	int checkWeatherStationByNameExists(int weatherStationId, String weatherStationName);
 	
-	public int getWeatherStationCount(VWeatherStation vWeatherStation);
+	int getWeatherStationCount(VWeatherStation vWeatherStation);
 	
-	public void updateWeatherStation(Weatherstation weatherstation);
+	void updateWeatherStation(Weatherstation weatherstation);
 	
-	public int getWeatherStationTerminalMaxId();	
+	int getWeatherStationTerminalMaxId();	
 	
-	public List<Weatherstation> getMutliWeatherStation(List<Integer> weatherstations);
+	List<Weatherstation> getMutliWeatherStation(List<Integer> weatherstations);
 	
-	public List<Weatherstation> getWeatherStationsByCategory(List<Integer> categories);
+	List<Weatherstation> getWeatherStationsByCategory(List<Integer> categories);
 	
 	int getWeatherStationCountByPort(int gRPSPort);
 	/******************************** Auto Frequency History***********************************************/
 	
-	public int insertAutoFrequencyHistory(Autofrequencyhistory autofrequencyhistory);
+	int insertAutoFrequencyHistory(Autofrequencyhistory autofrequencyhistory);
 
-	public List<Autofrequencyhistory> getAutoFrequencyHistories();
+	List<Autofrequencyhistory> getAutoFrequencyHistories();
 	
-	public List<Autofrequencyhistory> getAutoFrequencyHistory(VStatistics statistics);
+	List<Autofrequencyhistory> getAutoFrequencyHistory(VStatistics statistics);
 	
-	public int batchInsertAutoFrequencyHistory(List<Autofrequencyhistory> autofrequencyhistories);
+	int batchInsertAutoFrequencyHistory(List<Autofrequencyhistory> autofrequencyhistories);
 	
-	public void batchUpdateAutoFrequencyHistory(List<AutoFrequencyTerminal> autoFrequencyTerminals);	
+	void batchUpdateAutoFrequencyHistory(List<AutoFrequencyTerminal> autoFrequencyTerminals);	
 	
-	public List<WeatherstationClient> getWeatherStationClients();
+	List<WeatherstationClient> getWeatherStationClients();
 	
-	public List<WeatherstationClient> getWSClientsByStationId(List<Integer> weatherStations);
+	List<WeatherstationClient> getWSClientsByStationId(List<Integer> weatherStations);
 }

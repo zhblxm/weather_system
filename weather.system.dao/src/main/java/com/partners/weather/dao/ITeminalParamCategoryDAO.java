@@ -7,30 +7,30 @@ import com.partners.entity.TerminalParamSettings;
 import com.partners.entity.Terminalparameterscategory;
 import com.partners.view.entity.VTerminalParam;
 
-public interface ITeminalParamCategoryDAO {
-	public ArrayList<Terminalparameterscategory> getAllCategories();
+interface ITeminalParamCategoryDAO {
+	ArrayList<Terminalparameterscategory> getAllCategories();
 
-	public ArrayList<Terminalparameterscategory> getTerminalparamCategorys(VTerminalParam vTerminalParam);
+	ArrayList<Terminalparameterscategory> getTerminalparamCategorys(VTerminalParam vTerminalParam);
 
-	public Terminalparameterscategory getTerminalparamCategory(int categoryId);
+	Terminalparameterscategory getTerminalparamCategory(int categoryId);
 
-	public void delTerminalparamCategory(int categoryId);
+	void delTerminalparamCategory(int categoryId);
 
-	public int checkCategoryExists(int categoryId, String categoryName);
+	int checkCategoryExists(int categoryId, String categoryName);
 
-	public int insertTerminalParamCategory(Terminalparameterscategory terminalparameterscategory);
+	int insertTerminalParamCategory(Terminalparameterscategory terminalparameterscategory);
 
-	public void updateTerminalParamCategory(Terminalparameterscategory terminalparameterscategory);
+	void updateTerminalParamCategory(Terminalparameterscategory terminalparameterscategory);
 	
-	public Terminalparameterscategory getTerminalparamCategoryByName(String terminalParamCategoryName);	
+	Terminalparameterscategory getTerminalparamCategoryByName(String terminalParamCategoryName);	
 	
-	public void delTerminalparamSettings(int categoryId);
+	void delTerminalparamSettings(int categoryId);
 	
-	public ArrayList<TerminalParamSettings> getTerminalParamSettings(int categoryId);
+	ArrayList<TerminalParamSettings> getTerminalParamSettings(int categoryId);
 	
-	public int batchInsertTerminalParamSettings(List<TerminalParamSettings> terminalParamSettings);
+	int batchInsertTerminalParamSettings(List<TerminalParamSettings> terminalParamSettings);
  
-	public int getTerminalparamCategoryCount(VTerminalParam vTerminalParam);
+	int getTerminalparamCategoryCount(VTerminalParam vTerminalParam);
 	
-	public List<TerminalParamSettings> getAllTerminalParamSettings();	
+	List<TerminalParamSettings> getAllTerminalParamSettings();	
 }

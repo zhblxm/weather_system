@@ -7,14 +7,14 @@ import org.apache.ibatis.annotations.Param;
 import com.partners.entity.Terminalhistory;
 import com.partners.view.entity.VTerminalhistory;
 
-public interface ITerminalHistoryDAO {
+interface ITerminalHistoryDAO {
 	
-	public void createNewTable(@Param("tableName") String tableName);
+	void createNewTable(@Param("tableName") String tableName);
 	
-	public int inserTerminalhistory(Terminalhistory terminalhistory);
+	int inserTerminalhistory(Terminalhistory terminalhistory);
 	
-	public void updateTerminalParamCategory(Terminalhistory terminalhistory);
+	void updateTerminalParamCategory(Terminalhistory terminalhistory);
 	
-	public List<Terminalhistory> getTerminalhistorys(VTerminalhistory vTerminalhistory);
+	List<Terminalhistory> getTerminalhistorys(VTerminalhistory vTerminalhistory);
 	
 }

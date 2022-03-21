@@ -5,17 +5,17 @@ import java.util.List;
 import com.partners.entity.AuditTrailLog;
 import com.partners.view.entity.VAuditTrailLog;
 
-public interface IUserAuditTrailLogDAO {
+interface IUserAuditTrailLogDAO {
 
-	public int insertAuditTratilLog(AuditTrailLog auditTrailLog);
+	int insertAuditTratilLog(AuditTrailLog auditTrailLog);
 
-	public List<AuditTrailLog> getAuditTratilLogs(VAuditTrailLog vAuditTrailLog);
+	List<AuditTrailLog> getAuditTratilLogs(VAuditTrailLog vAuditTrailLog);
 
-	public void delAuditTrailLog();
+	void delAuditTrailLog();
 	
-	public int getAuditTratilLogCount(VAuditTrailLog vAuditTrailLog);
+	int getAuditTratilLogCount(VAuditTrailLog vAuditTrailLog);
 	
-	public AuditTrailLog getAuditTratilLog(int userAuditTrailLogId);
+	AuditTrailLog getAuditTratilLog(int userAuditTrailLogId);
 	
 
 }

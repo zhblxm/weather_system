@@ -5,11 +5,11 @@ import java.util.List;
 import com.partners.entity.Schedulehistory;
 import com.partners.view.entity.VSchedule;
 
-public interface IScheduleHistoryDAO {
+interface IScheduleHistoryDAO {
 	
-	public int insertHistory(Schedulehistory schedulehistory);
+	int insertHistory(Schedulehistory schedulehistory);
 	
-	public List<Schedulehistory> getSchedules(VSchedule vschedule);
+	List<Schedulehistory> getSchedules(VSchedule vschedule);
 	
-	public int getScheduleCount();
+	int getScheduleCount();
 }

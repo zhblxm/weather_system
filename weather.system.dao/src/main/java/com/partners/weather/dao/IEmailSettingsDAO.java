@@ -2,9 +2,9 @@ package com.partners.weather.dao;
 
 import com.partners.entity.Emalilandsmssettings;
 
-public interface IEmailSettingsDAO {
+interface IEmailSettingsDAO {
 
-	public Emalilandsmssettings getEmalilandsmssetting();
+	Emalilandsmssettings getEmalilandsmssetting();
 
-	public int insertOrUpdateEmailSettings(Emalilandsmssettings emalilandsmssettingss);
+	int insertOrUpdateEmailSettings(Emalilandsmssettings emalilandsmssettingss);
 }

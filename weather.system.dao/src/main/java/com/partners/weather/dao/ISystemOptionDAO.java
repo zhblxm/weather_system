@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.partners.entity.SystemOption;
 
-public interface ISystemOptionDAO {
+interface ISystemOptionDAO {
 
-	public List<SystemOption> getSystemOptions();
+	List<SystemOption> getSystemOptions();
 
-	public SystemOption getSystemOption(String optionId);
+	SystemOption getSystemOption(String optionId);
 
-	public void insertSystemOption(SystemOption systemOption);
+	void insertSystemOption(SystemOption systemOption);
 	
-	public void delSystemOption(String optionId);
+	void delSystemOption(String optionId);
 }
