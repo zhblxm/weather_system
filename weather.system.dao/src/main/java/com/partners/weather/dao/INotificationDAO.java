@@ -5,7 +5,7 @@ import java.util.List;
 import com.partners.entity.Notification;
 import com.partners.view.entity.VNotification;
 
-interface INotificationDAO {
+public interface INotificationDAO {
 
 	List<Notification> getNotifications(VNotification vnotification);
 

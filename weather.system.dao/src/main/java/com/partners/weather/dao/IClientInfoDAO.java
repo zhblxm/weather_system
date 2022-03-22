@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.partners.entity.ClientInfo;
 
-interface IClientInfoDAO {
+public interface IClientInfoDAO {
 
 	List<ClientInfo> getClientInfos();
 

@@ -7,7 +7,7 @@ import com.partners.entity.TerminalParamSettings;
 import com.partners.entity.Terminalparameterscategory;
 import com.partners.view.entity.VTerminalParam;
 
-interface ITeminalParamCategoryDAO {
+public interface ITeminalParamCategoryDAO {
 	ArrayList<Terminalparameterscategory> getAllCategories();
 
 	ArrayList<Terminalparameterscategory> getTerminalparamCategorys(VTerminalParam vTerminalParam);

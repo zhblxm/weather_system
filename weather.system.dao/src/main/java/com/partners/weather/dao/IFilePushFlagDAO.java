@@ -4,6 +4,6 @@ import java.util.List;
 
 import com.partners.entity.FilePushFlag;
 
-interface IFilePushFlagDAO {
+public interface IFilePushFlagDAO {
 	List<FilePushFlag> getAllFilePushFlags();
 }

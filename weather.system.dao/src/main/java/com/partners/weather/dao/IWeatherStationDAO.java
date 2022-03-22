@@ -13,7 +13,7 @@ import com.partners.view.entity.VStatistics;
 import com.partners.view.entity.VWeatherStation;
 import com.partners.view.entity.VWeatherstationcategory;
 
-interface IWeatherStationDAO {
+public interface IWeatherStationDAO {
 	List<Integer> getAllPorts();
 
 	int getWeatherStationTerminalCount();

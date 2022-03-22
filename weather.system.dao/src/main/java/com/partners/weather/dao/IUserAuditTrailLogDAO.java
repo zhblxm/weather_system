@@ -5,7 +5,7 @@ import java.util.List;
 import com.partners.entity.AuditTrailLog;
 import com.partners.view.entity.VAuditTrailLog;
 
-interface IUserAuditTrailLogDAO {
+public interface IUserAuditTrailLogDAO {
 
 	int insertAuditTratilLog(AuditTrailLog auditTrailLog);
 

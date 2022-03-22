@@ -8,7 +8,7 @@ import com.partners.entity.Permission;
 import com.partners.entity.Usergroup;
 import com.partners.view.entity.VUserGroup;
 
-interface IPermissionDAO {	
+public interface IPermissionDAO {
 	ArrayList<Permission> getPermissions();
 	int batchInsertUserPermission(List<Grouppermission> permissions);
 	int insertUserGroup(Usergroup usergroup);

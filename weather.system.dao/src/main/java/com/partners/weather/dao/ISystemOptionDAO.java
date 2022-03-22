@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.partners.entity.SystemOption;
 
-interface ISystemOptionDAO {
+public interface ISystemOptionDAO {
 
 	List<SystemOption> getSystemOptions();
 

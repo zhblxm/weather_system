@@ -5,7 +5,7 @@ import java.util.List;
 import com.partners.entity.Schedulehistory;
 import com.partners.view.entity.VSchedule;
 
-interface IScheduleHistoryDAO {
+public interface IScheduleHistoryDAO {
 	
 	int insertHistory(Schedulehistory schedulehistory);
 	
