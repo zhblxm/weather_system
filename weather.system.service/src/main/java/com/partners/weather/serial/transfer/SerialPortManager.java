@@ -1,5 +1,7 @@
 package com.partners.weather.serial.transfer;
 
+import com.google.common.collect.Lists;
+
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
@@ -24,7 +26,7 @@ public class SerialPortManager {
     @SuppressWarnings("unchecked")
     public static final List<String> findPort() {
         Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
-        List<String> portNameList = new ArrayList<>();
+        List<String> portNameList = Lists.newArrayList();
         while (portList.hasMoreElements()) {
             String portName = portList.nextElement().getName();
             portNameList.add(portName);

@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AggregationServiceImp implements IAggregationService {
     @Autowired
-    IWeatherStationDAO weatherStationDAO;
+   private IWeatherStationDAO weatherStationDAO;
 
     @Override
     public List<AggregationEntity> getAggregationRecords(VAgg vagg, List<WeatherStationTerminal> terminals, Map<String, String> paramMap) {

@@ -1,12 +1,6 @@
 package com.partners.weather.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.google.common.collect.Lists;
 
 import com.partners.entity.MessageNotice;
 import com.partners.view.entity.ResponseMsg;
@@ -15,86 +9,87 @@ import com.partners.weather.dao.IMessageNoticeDAO;
 import com.partners.weather.encrypt.HexUtil;
 import com.partners.weather.service.IMessageNoticeService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MessageNoticeServiceImp implements IMessageNoticeService {
-	private static final Logger logger = LoggerFactory.getLogger(MessageNoticeServiceImp.class);
- 
-	@Autowired
-	private IMessageNoticeDAO messageNoticeDAO;
+    private IMessageNoticeDAO messageNoticeDAO;
 
-	@Override
-	public List<MessageNotice> getMessageNotices(VMessageNotice messageNotice) {
-		List<MessageNotice> messageNotices = null;
-		try {
-			messageNotices = messageNoticeDAO.getMessageNotices(messageNotice);
-		} catch (Exception e) {
-			logger.error("Error in {}", e);
-		}
-		return messageNotices == null ? new ArrayList<MessageNotice>(0) : messageNotices;
-	}
-	
-	@Override
-	public MessageNotice getMessageNotice(int messageNoticeId) {
-		MessageNotice messageNotice = null;
-		try {
-			messageNotice = messageNoticeDAO.getMessageNotice(messageNoticeId);
-		} catch (Exception e) {
-			logger.error("Error in {}", e);
-		}
-		return messageNotice == null ? new MessageNotice() : messageNotice;
-	}
+    @Autowired
+    public MessageNoticeServiceImp(IMessageNoticeDAO messageNoticeDAO) {
+        this.messageNoticeDAO = messageNoticeDAO;
+    }
 
-	@Override
-	public ResponseMsg insertMessageNotice(MessageNotice messageNotice) {
-		ResponseMsg responseMsg = new ResponseMsg();
-		responseMsg.setStatusCode(0);
-		int messageNoticeId = messageNotice.getMessageNoticeId();
+    @Override
+    public List<MessageNotice> getMessageNotices(VMessageNotice messageNotice) {
+        try {
+            return messageNoticeDAO.getMessageNotices(messageNotice);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return Lists.newArrayListWithCapacity(0);
+    }
 
-		if (messageNoticeId > 0) {
-			messageNoticeDAO.updateMessageNotice(messageNotice);
-		} else {
-			messageNoticeDAO.insertMessageNotice(messageNotice);
-		}
-		responseMsg.setMessageObject(HexUtil.IntToHex(messageNotice.getMessageNoticeId()));
-		return responseMsg;
-	}
+    @Override
+    public MessageNotice getMessageNotice(int messageNoticeId) {
+        try {
+            return messageNoticeDAO.getMessageNotice(messageNoticeId);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
+    }
 
-	@Override
-	public ResponseMsg updateMessageNotice(MessageNotice messageNotice) {
-		ResponseMsg responseMsg = new ResponseMsg();
-		responseMsg.setStatusCode(0);
-		try {
-			messageNoticeDAO.updateMessageNotice(messageNotice);
-		} catch (Exception e) {
-			responseMsg.setStatusCode(1);
-			responseMsg.setMessage(e.getMessage());
-			logger.error("Error in {}", e);
-		}
-		return responseMsg;
-	}
-	
-	@Override
-	public boolean delMessageNotice(int messageNoticeId) {
-		boolean blnDelSuccessed = true;
-		try {
-			messageNoticeDAO.delMessageNotice(messageNoticeId);
-		} catch (Exception e) {
-			blnDelSuccessed = false;
-			logger.error("Error in {}", e);
-		}
-		return blnDelSuccessed;
+    @Override
+    public ResponseMsg insertMessageNotice(MessageNotice messageNotice) {
+        ResponseMsg responseMsg = ResponseMsg.builder().statusCode(0).build();
+        int messageNoticeId = messageNotice.getMessageNoticeId();
+        if (messageNoticeId > 0) {
+            messageNoticeDAO.updateMessageNotice(messageNotice);
+        } else {
+            messageNoticeDAO.insertMessageNotice(messageNotice);
+        }
+        responseMsg.setMessageObject(HexUtil.IntToHex(messageNotice.getMessageNoticeId()));
+        return responseMsg;
+    }
 
-	}
+    @Override
+    public ResponseMsg updateMessageNotice(MessageNotice messageNotice) {
+        try {
+            messageNoticeDAO.updateMessageNotice(messageNotice);
+            return  ResponseMsg.builder().statusCode(0).build();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return  ResponseMsg.builder().statusCode(1).message("Update message notice failed").build();
+    }
 
-	@Override
-	public int getMessageNoticeCount(VMessageNotice messageNotice) {
-		int count=0;
-		try {
-			count=messageNoticeDAO.getMessageNoticeCount(messageNotice);
-		} catch (Exception e) {
-			logger.error("Error in {}", e);
-		}
-		return count;
-	}
-	 
+    @Override
+    public boolean delMessageNotice(int messageNoticeId) {
+        try {
+            messageNoticeDAO.delMessageNotice(messageNoticeId);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return Boolean.FALSE;
+
+    }
+
+    @Override
+    public int getMessageNoticeCount(VMessageNotice messageNotice) {
+        try {
+           return messageNoticeDAO.getMessageNoticeCount(messageNotice);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return 0;
+    }
+
 }

@@ -1,90 +1,85 @@
 package com.partners.weather.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.google.common.collect.Lists;
 
 import com.partners.entity.ClientInfo;
 import com.partners.view.entity.ResponseMsg;
 import com.partners.weather.dao.IClientInfoDAO;
 import com.partners.weather.service.IClientInfoService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional
+@Slf4j
 public class ClientInfoServiceImp implements IClientInfoService {
-	private static final Logger logger = LoggerFactory.getLogger(ClientInfoServiceImp.class);
-	@Autowired
-	private IClientInfoDAO clientInfoDAO;
 
-	@Override
-	public ClientInfo getClientInfo(String clientIP) {
-		ClientInfo clientInfo = null;
-		try {
-			clientInfo = clientInfoDAO.getClientInfo(clientIP);
-		} catch (Exception e) {
-			logger.error("Error in {}", e);
-		}
-		return clientInfo;
-	}
-	
-	@Override
-	public ClientInfo getClientInfoByWSNumber(String weatherStationNumber) {
-		ClientInfo clientInfo = null;
-		try {
-			clientInfo = clientInfoDAO.getClientInfoByWSNumber(weatherStationNumber);
-		} catch (Exception e) {
-			logger.error("Error in {}", e);
-		}
-		return clientInfo;
-	}
+    @Autowired
+    private IClientInfoDAO clientInfoDAO;
 
-	@Override
-	public ResponseMsg insertClientInfo(ClientInfo clientInfo) {
-		ResponseMsg responseMsg = new ResponseMsg();
-		responseMsg.setStatusCode(0);
-		try {
-			ClientInfo extClientInfo=this.getClientInfo(clientInfo.getClientIP());
-			if (extClientInfo == null) {
-				clientInfoDAO.insertClientInfo(clientInfo);
-			}else {
-				responseMsg=this.updateClientInfo(clientInfo);
-			}
-		} catch (Exception e) {
-			responseMsg.setStatusCode(1);
-			responseMsg.setMessage(e.getMessage());
-			logger.error("Error in {}", e);
-		}
-		return responseMsg;
-	}
+    @Override
+    public ClientInfo getClientInfo(String clientIP) {
+        try {
+            return clientInfoDAO.getClientInfo(clientIP);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
+    }
 
-	@Override
-	public ResponseMsg updateClientInfo(ClientInfo clientInfo) {
-		ResponseMsg responseMsg = new ResponseMsg();
-		responseMsg.setStatusCode(0);
-		try {
-			clientInfoDAO.updateClientInfo(clientInfo);
-		} catch (Exception e) {
-			responseMsg.setStatusCode(1);
-			responseMsg.setMessage(e.getMessage());
-			logger.error("Error in {}", e);
-		}
-		return responseMsg;
-	}
+    @Override
+    public ClientInfo getClientInfoByWSNumber(String weatherStationNumber) {
+        try {
+            return clientInfoDAO.getClientInfoByWSNumber(weatherStationNumber);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
+    }
 
-	@Override
-	public List<ClientInfo> getClientInfos() {
-		List<ClientInfo>  clientInfos = null;
-		try {
-			clientInfos = clientInfoDAO.getClientInfos();
-		} catch (Exception e) {
-			logger.error("Error in {}", e);
-		}
-		return clientInfos==null?new ArrayList<ClientInfo>(0):clientInfos;
-	}
+    @Override
+    public ResponseMsg insertClientInfo(ClientInfo clientInfo) {
+        ResponseMsg responseMsg = ResponseMsg.builder().statusCode(0).build();
+        try {
+            ClientInfo extClientInfo = this.getClientInfo(clientInfo.getClientIP());
+            if (Objects.isNull(extClientInfo)) {
+                clientInfoDAO.insertClientInfo(clientInfo);
+            } else {
+                responseMsg = this.updateClientInfo(clientInfo);
+            }
+        } catch (Exception e) {
+            responseMsg = ResponseMsg.builder().statusCode(1).message(e.getMessage()).build();
+            log.error(e.getMessage(), e);
+        }
+        return responseMsg;
+    }
+
+    @Override
+    public ResponseMsg updateClientInfo(ClientInfo clientInfo) {
+        try {
+            clientInfoDAO.updateClientInfo(clientInfo);
+            return ResponseMsg.builder().statusCode(0).build();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return ResponseMsg.builder().statusCode(1).message("Update client failed.").build();
+    }
+
+    @Override
+    public List<ClientInfo> getClientInfos() {
+        try {
+            return clientInfoDAO.getClientInfos();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return Lists.newArrayListWithCapacity(0);
+    }
 
 }
